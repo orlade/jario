@@ -14,4 +14,26 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>lib/artemis.jar</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/lib/artemis.jar</locationURI>
+		</link>
+		<link>
+			<name>lib/lwjgl.jar</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/lib/slick/lib/lwjgl.jar</locationURI>
+		</link>
+		<link>
+			<name>lib/natives-windows</name>
+			<type>2</type>
+			<location>D:/Programming/lib/lwjgl-2.7.1/native/windows</location>
+		</link>
+		<link>
+			<name>lib/slick.jar</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/lib/slick/lib/slick.jar</locationURI>
+		</link>
+	</linkedResources>
 </projectDescription>
