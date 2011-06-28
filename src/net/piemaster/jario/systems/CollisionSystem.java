@@ -180,8 +180,13 @@ public class CollisionSystem extends EntitySystem
 		{
 			// Set the Y coordinate to that of the terrain object
 			t1.setY(m2.getY() - m1.getHeight());
-			// Zero any vertical movement if moving towards terrain
-			if (v1.getY() >= 0)
+			
+			if(phys.isBouncyVertical())
+			{
+				// TODO: Make one jump height, not same vel
+				v1.setY(-v1.getY());
+			}
+			else
 			{
 				haltVertical(e1);
 			}
@@ -191,7 +196,13 @@ public class CollisionSystem extends EntitySystem
 		else if (edge == EdgeType.EDGE_BOTTOM)
 		{
 			t1.setY(m2.getY() + m2.getHeight());
-			if (v1.getY() <= 0)
+			
+			if(phys.isBouncyVertical())
+			{
+				// TODO: Make one jump height, not same vel
+				v1.setY(-v1.getY());
+			}
+			else
 			{
 				haltVertical(e1);
 			}

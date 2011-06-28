@@ -7,6 +7,7 @@ import net.piemaster.jario.spatials.Explosion;
 import net.piemaster.jario.spatials.GenericImage;
 import net.piemaster.jario.spatials.Goomba;
 import net.piemaster.jario.spatials.Missile;
+import net.piemaster.jario.spatials.Parakoopa;
 import net.piemaster.jario.spatials.Spatial;
 import net.piemaster.jario.systems.CameraSystem;
 
@@ -92,6 +93,12 @@ public class RenderSystem extends EntityProcessingSystem
 			Goomba goomba = new Goomba(world, e);
 			e.getComponent(CollisionMesh.class).setDimensions(goomba.getWidth(), goomba.getHeight());
 			return goomba;
+		}
+		else if ("Parakoopa".equalsIgnoreCase(spatialFormFile))
+		{
+			Parakoopa pk = new Parakoopa(world, e);
+			e.getComponent(CollisionMesh.class).setDimensions(pk.getWidth(), pk.getHeight());
+			return pk;
 		}
 		else if ("Block".equalsIgnoreCase(spatialFormFile))
 		{

@@ -65,6 +65,24 @@ public class EntityFactory
 		
 		return goomba;
 	}
+
+	public static Entity createParakoopa(World world, float x, float y)
+	{
+		float koopaSpeed = -0.1f;
+		
+		Entity goomba = world.createEntity();
+		goomba.setGroup("ENEMIES");
+		goomba.addComponent(new Transform(x, y));
+		goomba.addComponent(new Velocity(koopaSpeed, 0));
+		goomba.addComponent(new Acceleration());
+		goomba.addComponent(new Physical(true, true));
+		goomba.addComponent(new SpatialForm("Parakoopa"));
+		goomba.addComponent(new CollisionMesh(x, y, 0, 0));
+		goomba.addComponent(new Health(2));
+		goomba.addComponent(new Enemy());
+		
+		return goomba;
+	}
 	
 	public static Entity createMissile(World world)
 	{

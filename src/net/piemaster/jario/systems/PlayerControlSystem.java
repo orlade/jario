@@ -56,7 +56,6 @@ public class PlayerControlSystem extends EntityProcessingSystem implements KeyLi
 		if(health.isAlive())
 		{
 			Velocity velocity = velocityMapper.get(player);
-			Acceleration accel = accelMapper.get(player);
 			Physical physical = physicalMapper.get(player);
 			
 			if (key == Input.KEY_LEFT)
