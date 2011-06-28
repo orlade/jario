@@ -23,12 +23,12 @@
 		<link>
 			<name>lib/lwjgl.jar</name>
 			<type>1</type>
-			<locationURI>PARENT-2-PROJECT_LOC/lib/slick/lib/lwjgl.jar</locationURI>
+			<locationURI>PARENT-2-PROJECT_LOC/lib/lwjgl-2.7.1/jar/lwjgl.jar</locationURI>
 		</link>
 		<link>
 			<name>lib/natives-windows</name>
 			<type>2</type>
-			<location>D:/Programming/lib/lwjgl-2.7.1/native/windows</location>
+			<locationURI>PARENT-2-PROJECT_LOC/lib/lwjgl-2.7.1/native/windows</locationURI>
 		</link>
 		<link>
 			<name>lib/slick.jar</name>

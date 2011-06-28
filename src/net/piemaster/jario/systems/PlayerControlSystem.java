@@ -1,6 +1,8 @@
 package net.piemaster.jario.systems;
 
+import net.piemaster.jario.components.Acceleration;
 import net.piemaster.jario.components.Health;
+import net.piemaster.jario.components.Physical;
 import net.piemaster.jario.components.Player;
 import net.piemaster.jario.components.Velocity;
 
@@ -16,14 +18,17 @@ public class PlayerControlSystem extends EntityProcessingSystem implements KeyLi
 {
 	private GameContainer container;
 	private float speed = 0.3f;
+	private float jumpFactor = 0.1f;
 	
 	private ComponentMapper<Velocity> velocityMapper;
+	private ComponentMapper<Acceleration> accelMapper;
+	private ComponentMapper<Physical> physicalMapper;
 	private ComponentMapper<Health> healthMapper;
 
 	@SuppressWarnings("unchecked")
 	public PlayerControlSystem(GameContainer container)
 	{
-		super(Player.class, Velocity.class);
+		super(Player.class, Velocity.class, Health.class, Acceleration.class, Physical.class);
 		this.container = container;
 	}
 
@@ -31,6 +36,8 @@ public class PlayerControlSystem extends EntityProcessingSystem implements KeyLi
 	public void initialize()
 	{
 		velocityMapper = new ComponentMapper<Velocity>(Velocity.class, world.getEntityManager());
+		accelMapper = new ComponentMapper<Acceleration>(Acceleration.class, world.getEntityManager());
+		physicalMapper = new ComponentMapper<Physical>(Physical.class, world.getEntityManager());
 		healthMapper = new ComponentMapper<Health>(Health.class, world.getEntityManager());
 		container.getInput().addKeyListener(this);
 	}
@@ -49,17 +56,24 @@ public class PlayerControlSystem extends EntityProcessingSystem implements KeyLi
 		if(health.isAlive())
 		{
 			Velocity velocity = velocityMapper.get(player);
+			Acceleration accel = accelMapper.get(player);
+			Physical physical = physicalMapper.get(player);
 			
 			if (key == Input.KEY_LEFT)
 			{
-				velocity.setVelocity(-speed);
+				velocity.setX(-speed);
+				physical.setGrounded(false);
 			}
 			else if (key == Input.KEY_RIGHT)
 			{
-				velocity.setVelocity(speed);
+				velocity.setX(speed);
+				physical.setGrounded(false);
 			}
-			else if (key == Input.KEY_SPACE)
+			else if (key == Input.KEY_SPACE && physical.isGrounded())
 			{
+				accel.setY(-speed * jumpFactor);
+				physical.setJumping(true);
+				physical.setGrounded(false);
 			}
 		}
 	}
@@ -70,13 +84,13 @@ public class PlayerControlSystem extends EntityProcessingSystem implements KeyLi
 		Entity player = world.getTagManager().getEntity("PLAYER");
 		Velocity velocity = velocityMapper.get(player);
 		
-		if (key == Input.KEY_LEFT && velocity.getVelocity() < 0)
+		if (key == Input.KEY_LEFT && velocity.getX() < 0)
 		{
-			velocity.setVelocity(0);
+			velocity.setX(0);
 		}
-		else if (key == Input.KEY_RIGHT && velocity.getVelocity() > 0)
+		else if (key == Input.KEY_RIGHT && velocity.getX() > 0)
 		{
-			velocity.setVelocity(0);
+			velocity.setX(0);
 		}
 		else if (key == Input.KEY_SPACE)
 		{

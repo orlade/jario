@@ -1,8 +1,11 @@
 package net.piemaster.jario;
 
+import net.piemaster.jario.components.Acceleration;
 import net.piemaster.jario.components.Asteroid;
+import net.piemaster.jario.components.CollisionMesh;
 import net.piemaster.jario.components.Expires;
 import net.piemaster.jario.components.Health;
+import net.piemaster.jario.components.Physical;
 import net.piemaster.jario.components.Player;
 import net.piemaster.jario.components.Respawn;
 import net.piemaster.jario.components.Score;
@@ -22,7 +25,26 @@ public class EntityFactory
 		player.setTag("PLAYER");
 		player.addComponent(new Transform());
 		player.addComponent(new Velocity());
+		player.addComponent(new Acceleration());
+		player.addComponent(new Physical());
 		player.addComponent(new SpatialForm("PlayerImage"));
+		player.addComponent(new CollisionMesh(60, 108));
+		player.addComponent(new Health(1));
+		player.addComponent(new Player());
+		player.addComponent(new Score());
+		player.addComponent(new Respawn(2000));
+		
+		return player;
+	}
+
+	public static Entity createBlock(World world)
+	{
+		Entity player = world.createEntity();
+		player.setGroup("TERRAIN");
+		player.addComponent(new Transform());
+		player.addComponent(new Physical());
+		player.addComponent(new SpatialForm("Block"));
+		player.addComponent(new CollisionMesh(200, 50));
 		player.addComponent(new Health(1));
 		player.addComponent(new Player());
 		player.addComponent(new Score());

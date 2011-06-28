@@ -45,7 +45,7 @@ public class PlayerLifeSystem extends EntitySystem
 				Respawn respawn = player.getComponent(Respawn.class);
 				if(!respawn.isActive())
 				{
-					velocityMapper.get(player).setVelocity(0);
+					velocityMapper.get(player).reset();
 					spatialMapper.get(player).setVisible(false);
 					respawn.resetTimer();
 					respawn.setActive(true);

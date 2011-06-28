@@ -43,7 +43,8 @@ public class PlayerImage extends Spatial
 	public void render(Graphics g)
 	{
 		shipImg.setRotation(transform.getRotation());
-		g.drawImage(shipImg, transform.getX()- shipImg.getWidth()/2, transform.getY() - shipImg.getHeight()/2);
+//		g.drawImage(shipImg, transform.getX() - shipImg.getWidth()/2, transform.getY() - shipImg.getHeight()/2);
+		g.drawImage(shipImg, transform.getX(), transform.getY());
 	}
 
 }

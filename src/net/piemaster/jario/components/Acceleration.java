@@ -1,6 +1,6 @@
 package net.piemaster.jario.components;
 
 
-public class Velocity extends Vector2f
+public class Acceleration extends Vector2f
 {
 }

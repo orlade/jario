@@ -34,15 +34,15 @@ public class AsteroidMovementSystem extends EntityProcessingSystem
 	protected void process(Entity e)
 	{
 		Transform transform = transformMapper.get(e);
-		Velocity velocity = velocityMapper.get(e);
+//		Velocity velocity = velocityMapper.get(e);
 
 		if (transform.getX() > container.getWidth() || transform.getX() < 0)
 		{
-			velocity.addAngle(180 - 2*(velocity.getAngle() % 180));
+//			velocity.addAngle(180 - 2*(velocity.getAngle() % 180));
 		}
 		if (transform.getY() > container.getHeight() || transform.getY() < 0)
 		{
-			velocity.setAngle(360 - velocity.getAngle());
+//			velocity.setAngle(360 - velocity.getAngle());
 		}
 	}
 

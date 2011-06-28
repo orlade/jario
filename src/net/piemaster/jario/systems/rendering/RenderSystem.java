@@ -2,6 +2,7 @@ package net.piemaster.jario.systems.rendering;
 
 import net.piemaster.jario.components.SpatialForm;
 import net.piemaster.jario.spatials.AsteroidSpatial;
+import net.piemaster.jario.spatials.Block;
 import net.piemaster.jario.spatials.Explosion;
 import net.piemaster.jario.spatials.Missile;
 import net.piemaster.jario.spatials.PlayerImage;
@@ -89,6 +90,10 @@ public class RenderSystem extends EntityProcessingSystem
 		else if ("PlayerImage".equalsIgnoreCase(spatialFormFile))
 		{
 			return new PlayerImage(world, e);
+		}
+		if ("Block".equalsIgnoreCase(spatialFormFile))
+		{
+			return new Block(world, e);
 		}
 		else if ("Missile".equalsIgnoreCase(spatialFormFile))
 		{
