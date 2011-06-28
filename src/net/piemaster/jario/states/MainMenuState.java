@@ -1,4 +1,4 @@
-package net.piemaster.artemoids.states;
+package net.piemaster.jario.states;
 
 import net.piemaster.jario.Jario;
 
@@ -39,7 +39,7 @@ public class MainMenuState extends BasicGameState
 
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException
 	{
-		backgroundImage = new Image("assets/menu_background.png");
+		backgroundImage = new Image("assets/menu_background.jpg");
 		playImage = new Image("assets/menu_button_play.png");
 		exitImage = new Image("assets/menu_button_exit.png");
 

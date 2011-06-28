@@ -1,8 +1,22 @@
-package net.piemaster.artemoids.states;
+package net.piemaster.jario.states;
 
 import java.util.Random;
 
+import net.piemaster.jario.EntityFactory;
 import net.piemaster.jario.Jario;
+import net.piemaster.jario.components.Respawn;
+import net.piemaster.jario.components.Transform;
+import net.piemaster.jario.components.Velocity;
+import net.piemaster.jario.systems.AsteroidMovementSystem;
+import net.piemaster.jario.systems.CollisionSystem;
+import net.piemaster.jario.systems.ExpirationSystem;
+import net.piemaster.jario.systems.HudRenderSystem;
+import net.piemaster.jario.systems.MovementSystem;
+import net.piemaster.jario.systems.PlayerLifeSystem;
+import net.piemaster.jario.systems.PlayerShipControlSystem;
+import net.piemaster.jario.systems.PlayerShipMovementSystem;
+import net.piemaster.jario.systems.RenderSystem;
+import net.piemaster.jario.systems.RespawnSystem;
 
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.GameContainer;
@@ -11,6 +25,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import com.artemis.Entity;
 import com.artemis.EntitySystem;
 import com.artemis.SystemManager;
 import com.artemis.World;
@@ -53,17 +68,17 @@ public class GameplayState extends BasicGameState
 		world = new World();
 
 		SystemManager systemManager = world.getSystemManager();
-//		controlSystem = systemManager.setSystem(new PlayerShipControlSystem(gc));
-//		movementSystem = systemManager.setSystem(new MovementSystem(gc));
-//		asteroidMovementSystem = systemManager.setSystem(new AsteroidMovementSystem(gc));
-//		playerShipMovementSystem = systemManager.setSystem(new PlayerShipMovementSystem(gc));
-//		collisionSystem = systemManager.setSystem(new CollisionSystem());
-//		expirationSystem = systemManager.setSystem(new ExpirationSystem());
-//		respawnSystem = systemManager.setSystem(new RespawnSystem());
-//		playerLifeSystem = systemManager.setSystem(new PlayerLifeSystem());
-//
-//		renderSystem = systemManager.setSystem(new RenderSystem(gc));
-//		hudRenderSystem = systemManager.setSystem(new HudRenderSystem(gc));
+		controlSystem = systemManager.setSystem(new PlayerShipControlSystem(gc));
+		movementSystem = systemManager.setSystem(new MovementSystem(gc));
+		asteroidMovementSystem = systemManager.setSystem(new AsteroidMovementSystem(gc));
+		playerShipMovementSystem = systemManager.setSystem(new PlayerShipMovementSystem(gc));
+		collisionSystem = systemManager.setSystem(new CollisionSystem());
+		expirationSystem = systemManager.setSystem(new ExpirationSystem());
+		respawnSystem = systemManager.setSystem(new RespawnSystem());
+		playerLifeSystem = systemManager.setSystem(new PlayerLifeSystem());
+
+		renderSystem = systemManager.setSystem(new RenderSystem(gc));
+		hudRenderSystem = systemManager.setSystem(new HudRenderSystem(gc));
 
 		systemManager.initializeAll();
 
@@ -89,25 +104,25 @@ public class GameplayState extends BasicGameState
 			}
 			while (startX > w3 && startX < 2 * w3 && startY > h3 && startY < 2 * h3);
 
-//			Entity e = EntityFactory.createAsteroid(world, startX, startY, 5);
-//
-//			e.getComponent(Velocity.class).setVelocity(0.05f);
-//			e.getComponent(Velocity.class).setAngle(r.nextInt(360));
-//
-//			e.refresh();
+			Entity e = EntityFactory.createAsteroid(world, startX, startY, 5);
+
+			e.getComponent(Velocity.class).setVelocity(0.05f);
+			e.getComponent(Velocity.class).setAngle(r.nextInt(360));
+
+			e.refresh();
 		}
 	}
 
 	private void initPlayerShip()
 	{
-//		Entity player = EntityFactory.createPlayerShip(world);
-//
-//		player.getComponent(Transform.class).setLocation(container.getWidth() / 2,
-//				container.getHeight() / 2);
-//		player.getComponent(Respawn.class).setRespawnLocation(container.getWidth() / 2,
-//				container.getHeight() / 2);
-//
-//		player.refresh();
+		Entity player = EntityFactory.createPlayerShip(world);
+
+		player.getComponent(Transform.class).setLocation(container.getWidth() / 2,
+				container.getHeight() / 2);
+		player.getComponent(Respawn.class).setRespawnLocation(container.getWidth() / 2,
+				container.getHeight() / 2);
+
+		player.refresh();
 	}
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException

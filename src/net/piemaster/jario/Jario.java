@@ -1,7 +1,7 @@
 package net.piemaster.jario;
 
-import net.piemaster.artemoids.states.GameplayState;
-import net.piemaster.artemoids.states.MainMenuState;
+import net.piemaster.jario.states.GameplayState;
+import net.piemaster.jario.states.MainMenuState;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
