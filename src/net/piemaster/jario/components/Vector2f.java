@@ -16,12 +16,6 @@ public abstract class Vector2f extends Component
 		this.x = x;
 		this.y = y;
 	}
-	
-	public Vector2f(float x, float y, boolean onGround)
-	{
-		this.x = x;
-		this.y = y;
-	}
 
 	public float getAngle()
 	{

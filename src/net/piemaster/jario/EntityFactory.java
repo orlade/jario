@@ -50,12 +50,14 @@ public class EntityFactory
 
 	public static Entity createGoomba(World world, float x, float y)
 	{
+		float goombaSpeed = -0.1f;
+		
 		Entity goomba = world.createEntity();
 		goomba.setGroup("ENEMIES");
 		goomba.addComponent(new Transform(x, y));
-		goomba.addComponent(new Velocity());
+		goomba.addComponent(new Velocity(goombaSpeed, 0));
 		goomba.addComponent(new Acceleration());
-		goomba.addComponent(new Physical());
+		goomba.addComponent(new Physical(true, false));
 		goomba.addComponent(new SpatialForm("Goomba"));
 		goomba.addComponent(new CollisionMesh(x, y, 0, 0));
 		goomba.addComponent(new Health(1));

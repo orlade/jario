@@ -89,7 +89,7 @@ public class GameplayState extends BasicGameState
 		playerLifeSystem = systemManager.setSystem(new PlayerLifeSystem());
 		enemyHealthSystem = systemManager.setSystem(new EnemyHealthSystem());
 
-		boundarySystem = systemManager.setSystem(new BoundarySystem(0, 0, 4000, 4000));
+		boundarySystem = systemManager.setSystem(new BoundarySystem(0, 0, 1600, 600));
 		cameraSystem = systemManager.setSystem(new CameraSystem(gc));
 		
 		renderSystem = systemManager.setSystem(new RenderSystem(gc));
@@ -126,14 +126,20 @@ public class GameplayState extends BasicGameState
 
 		block = EntityFactory.createBlock(world,
 				container.getWidth() / 2 + 150,
-				container.getHeight() / 2 + 110,
+				container.getHeight() / 2 + 80,
 				300, 75);
+		block.refresh();
+
+		block = EntityFactory.createBlock(world,
+				container.getWidth() / 2 - 100,
+				container.getHeight() / 2 + 80,
+				20, 30);
 		block.refresh();
 	}
 
 	private void initEnemies()
 	{
-		Entity goomba = EntityFactory.createGoomba(world, 300, 80);
+		Entity goomba = EntityFactory.createGoomba(world, 800, 80);
 		goomba.refresh();
 	}
 

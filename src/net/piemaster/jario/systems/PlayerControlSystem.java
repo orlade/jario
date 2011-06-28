@@ -18,7 +18,7 @@ public class PlayerControlSystem extends EntityProcessingSystem implements KeyLi
 {
 	private GameContainer container;
 	private float speed = 0.5f;
-	private float jumpFactor = 0.3f;
+	private float jumpFactor = 3f;
 	
 	private ComponentMapper<Velocity> velocityMapper;
 	private ComponentMapper<Acceleration> accelMapper;
@@ -71,7 +71,7 @@ public class PlayerControlSystem extends EntityProcessingSystem implements KeyLi
 			}
 			else if (key == Input.KEY_SPACE && physical.isGrounded())
 			{
-				accel.setY(-speed * jumpFactor);
+				velocity.setY(-speed * jumpFactor);
 				physical.setJumping(true);
 				physical.setGrounded(false);
 			}

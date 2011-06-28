@@ -75,7 +75,7 @@ public class CollisionSystem extends EntitySystem
 		}
 
 		// Check player and enemies against terrain
-		if (terrain != null && (terrain != null || player != null))
+		if (terrain != null && (enemies != null || player != null))
 		{
 			for (int i = 0; terrain.size() > i; i++)
 			{
@@ -200,12 +200,26 @@ public class CollisionSystem extends EntitySystem
 		else if (edge == EdgeType.EDGE_LEFT)
 		{
 			t1.setX(m2.getX() - m1.getWidth());
-			haltHorizontal(e1);
+			if(phys.isBouncyHorizontal())
+			{
+				v1.setX(-v1.getX());
+			}
+			else
+			{
+				haltHorizontal(e1);
+			}
 		}
 		else if (edge == EdgeType.EDGE_RIGHT)
 		{
 			t1.setX(m2.getX() + m2.getWidth());
-			haltHorizontal(e1);
+			if(phys.isBouncyHorizontal())
+			{
+				v1.setX(-v1.getX());
+			}
+			else
+			{
+				haltHorizontal(e1);
+			}
 		}
 		// Update the collision mesh
 		m1.setLocation(t1.getX(), t1.getY());
