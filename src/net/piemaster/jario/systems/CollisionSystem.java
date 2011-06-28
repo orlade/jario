@@ -32,7 +32,7 @@ public class CollisionSystem extends EntitySystem
 	{
 		EDGE_NONE, EDGE_TOP, EDGE_BOTTOM, EDGE_LEFT, EDGE_RIGHT
 	};
-	
+
 	@SuppressWarnings("unchecked")
 	public CollisionSystem()
 	{
@@ -55,62 +55,67 @@ public class CollisionSystem extends EntitySystem
 	{
 		Entity player = world.getTagManager().getEntity("PLAYER");
 		ImmutableBag<Entity> terrain = world.getGroupManager().getEntities("TERRAIN");
+		ImmutableBag<Entity> enemies = world.getGroupManager().getEntities("ENEMIES");
 
+		// Check player against enemies
+		if (player != null && enemies != null)
+		{
+			for (int i = 0; enemies.size() > i; i++)
+			{
+				Entity enemy = enemies.get(i);
+
+				if ((physicalMapper.get(player).isMoving() || physicalMapper.get(enemy).isMoving())
+						&& collisionExists(player, enemy))
+				{
+					EdgeType edge = detectCollisionEdge(player, enemy);
+					// Jumped on enemy
+					if(edge == EdgeType.EDGE_BOTTOM)
+					{
+						enemy.getComponent(Health.class).addDamage(1);
+					}
+					// Hit by enemy
+					else
+					{
+						player.getComponent(Health.class).addDamage(1);
+					}
+				}
+			}
+		}
+
+		// Check player and enemies against terrain
 		if (terrain != null && (terrain != null || player != null))
 		{
-			for (int a = 0; terrain.size() > a; a++)
+			for (int i = 0; terrain.size() > i; i++)
 			{
-				Entity rock = terrain.get(a);
+				Entity block = terrain.get(i);
 
-				// if (bullets != null)
-				// {
-				// for (int b = 0; bullets.size() > b; b++)
-				// {
-				// Entity bullet = bullets.get(b);
-				//
-				// if (collisionExists(bullet, rock))
-				// {
-				// Transform tb = transformMapper.get(bullet);
-				// EntityFactory.createBulletExplosion(world, tb.getX(),
-				// tb.getY())
-				// .refresh();
-				//
-				// world.deleteEntity(bullet);
-				// world.getGroupManager().remove(bullet);
-				// bullets = world.getGroupManager().getEntities("BULLETS");
-				//
-				// Health health = healthMapper.get(rock);
-				// health.addDamage(1);
-				//
-				// if (!health.isAlive())
-				// {
-				// handleAsteroidCollision(rock);
-				// player.getComponent(Score.class).incrementScore();
-				//
-				// continue rockLoop;
-				// }
-				// }
-				// }
-				// }
+				if (enemies != null)
+				{
+					for (int j = 0; enemies.size() > j; j++)
+					{
+						Entity enemy = enemies.get(j);
+
+						if (enemy.getComponent(Physical.class).isMoving()
+								&& collisionExists(enemy, block))
+						{
+							EdgeType edge = detectCollisionEdge(enemy, block);
+							placeEntityOnTerrain(enemy, block, reverseEdge(edge));
+						}
+					}
+				}
 
 				if (player != null)
 				{
-					if (healthMapper.get(player).isAlive()
-							&& player.getComponent(Physical.class).isMoving()
-							&& collisionExists(player, rock))
+					if (player.getComponent(Physical.class).isMoving()
+							&& collisionExists(player, block))
 					{
-						
-						EdgeType edge = detectCollisionEdge(player, rock);
-
-						System.out.println("Player colliding with block, on edge "+edge);
-						
-						placeEntityOnTerrain(player, rock, reverseEdge(edge));
+						EdgeType edge = detectCollisionEdge(player, block);
+						placeEntityOnTerrain(player, block, reverseEdge(edge));
 					}
 				}
 			}
 		}
 	}
-
 
 	private boolean collisionExists(Entity e1, Entity e2)
 	{
@@ -153,21 +158,20 @@ public class CollisionSystem extends EntitySystem
 		EdgeType collEdge = EdgeType.EDGE_NONE;
 		if (Math.abs(xColl) < Math.abs(yColl))
 		{
-			if(xColl > 0)
+			if (xColl > 0)
 				collEdge = EdgeType.EDGE_RIGHT;
-			else if(xColl < 0)
+			else if (xColl < 0)
 				collEdge = EdgeType.EDGE_LEFT;
 		}
 		else
 		{
-			if(yColl > 0)
+			if (yColl > 0)
 				collEdge = EdgeType.EDGE_BOTTOM;
-			else if(yColl < 0)
+			else if (yColl < 0)
 				collEdge = EdgeType.EDGE_TOP;
 		}
 		return collEdge;
 	}
-	
 
 	/**
 	 * Set position and stop relevant movement.
@@ -179,34 +183,34 @@ public class CollisionSystem extends EntitySystem
 		Transform t1 = transformMapper.get(e1);
 		Velocity v1 = velocityMapper.get(e1);
 		Physical phys = physicalMapper.get(e1);
-		
-		if(edge == EdgeType.EDGE_TOP)
+
+		if (edge == EdgeType.EDGE_TOP)
 		{
 			// Set the Y coordinate to that of the terrain object
 			t1.setY(m2.getY() - m1.getHeight());
 			// Zero any vertical movement if moving towards terrain
-			if(v1.getY() >= 0)
+			if (v1.getY() >= 0)
 			{
 				haltVertical(e1);
 			}
 			// Record that the actor is on the ground to avoid gravity
 			phys.setGrounded(true);
 		}
-		else if(edge == EdgeType.EDGE_BOTTOM)
+		else if (edge == EdgeType.EDGE_BOTTOM)
 		{
 			t1.setY(m2.getY() + m2.getHeight());
-			if(v1.getY() <= 0)
+			if (v1.getY() <= 0)
 			{
 				haltVertical(e1);
 			}
 			phys.setGrounded(false);
 		}
-		else if(edge == EdgeType.EDGE_LEFT)
+		else if (edge == EdgeType.EDGE_LEFT)
 		{
 			t1.setX(m2.getX() - m1.getWidth());
 			haltHorizontal(e1);
 		}
-		else if(edge == EdgeType.EDGE_RIGHT)
+		else if (edge == EdgeType.EDGE_RIGHT)
 		{
 			t1.setX(m2.getX() + m2.getWidth());
 			haltHorizontal(e1);
@@ -214,7 +218,7 @@ public class CollisionSystem extends EntitySystem
 		// Update the collision mesh
 		m1.setLocation(t1.getX(), t1.getY());
 	}
-	
+
 	private void haltVertical(Entity ent)
 	{
 		ent.getComponent(Acceleration.class).setY(0);
@@ -229,7 +233,7 @@ public class CollisionSystem extends EntitySystem
 
 	private EdgeType reverseEdge(EdgeType edge)
 	{
-		switch(edge)
+		switch (edge)
 		{
 		case EDGE_LEFT:
 			return EdgeType.EDGE_RIGHT;
@@ -243,7 +247,7 @@ public class CollisionSystem extends EntitySystem
 			return EdgeType.EDGE_NONE;
 		}
 	}
-	
+
 	@Override
 	protected boolean checkProcessing()
 	{

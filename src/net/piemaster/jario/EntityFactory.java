@@ -1,8 +1,8 @@
 package net.piemaster.jario;
 
 import net.piemaster.jario.components.Acceleration;
-import net.piemaster.jario.components.Asteroid;
 import net.piemaster.jario.components.CollisionMesh;
+import net.piemaster.jario.components.Enemy;
 import net.piemaster.jario.components.Expires;
 import net.piemaster.jario.components.Health;
 import net.piemaster.jario.components.Physical;
@@ -42,9 +42,26 @@ public class EntityFactory
 		Entity block = world.createEntity();
 		block.setGroup("TERRAIN");
 		block.addComponent(new Transform(x, y));
-		block.addComponent(new SpatialForm("Block"));
-		block.addComponent(new CollisionMesh(x, y, 200, 50));
+		block.addComponent(new SpatialForm("Block", width, height));
+		block.addComponent(new CollisionMesh(x, y, width, height));
+		
 		return block;
+	}
+
+	public static Entity createGoomba(World world, float x, float y)
+	{
+		Entity goomba = world.createEntity();
+		goomba.setGroup("ENEMIES");
+		goomba.addComponent(new Transform(x, y));
+		goomba.addComponent(new Velocity());
+		goomba.addComponent(new Acceleration());
+		goomba.addComponent(new Physical());
+		goomba.addComponent(new SpatialForm("Goomba"));
+		goomba.addComponent(new CollisionMesh(x, y, 0, 0));
+		goomba.addComponent(new Health(1));
+		goomba.addComponent(new Enemy());
+		
+		return goomba;
 	}
 	
 	public static Entity createMissile(World world)
@@ -70,20 +87,6 @@ public class EntityFactory
 		missile.addComponent(new Expires(2000));
 
 		return missile;
-	}
-
-	public static Entity createAsteroid(World world, float x, float y, int size)
-	{
-		Entity e = world.createEntity();
-		e.setGroup("ASTEROIDS");
-
-		e.addComponent(new Transform(x, y));
-		e.addComponent(new SpatialForm("Asteroid"));
-		e.addComponent(new Health(1));
-		e.addComponent(new Asteroid(size));
-		e.addComponent(new Velocity());
-
-		return e;
 	}
 
 	public static Entity createBulletExplosion(World world, float x, float y)

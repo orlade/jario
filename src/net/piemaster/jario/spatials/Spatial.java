@@ -20,4 +20,6 @@ public abstract class Spatial
 
 	public abstract void render(Graphics g);
 
+	public abstract float getWidth();
+	public abstract float getHeight();
 }

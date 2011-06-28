@@ -1,11 +1,12 @@
 package net.piemaster.jario.systems.rendering;
 
+import net.piemaster.jario.components.CollisionMesh;
 import net.piemaster.jario.components.SpatialForm;
 import net.piemaster.jario.spatials.Block;
 import net.piemaster.jario.spatials.Explosion;
+import net.piemaster.jario.spatials.GenericImage;
+import net.piemaster.jario.spatials.Goomba;
 import net.piemaster.jario.spatials.Missile;
-import net.piemaster.jario.spatials.PlayerImage;
-import net.piemaster.jario.spatials.PlayerShip;
 import net.piemaster.jario.spatials.Spatial;
 import net.piemaster.jario.systems.CameraSystem;
 
@@ -82,17 +83,21 @@ public class RenderSystem extends EntityProcessingSystem
 		SpatialForm spatialForm = spatialFormMapper.get(e);
 		String spatialFormFile = spatialForm.getSpatialFormFile();
 
-		if ("PlayerShip".equalsIgnoreCase(spatialFormFile))
+		if ("PlayerImage".equalsIgnoreCase(spatialFormFile))
 		{
-			return new PlayerShip(world, e);
+			return new GenericImage(world, e, "assets/jar.png");
 		}
-		else if ("PlayerImage".equalsIgnoreCase(spatialFormFile))
+		else if ("Goomba".equalsIgnoreCase(spatialFormFile))
 		{
-			return new PlayerImage(world, e);
+			Goomba goomba = new Goomba(world, e);
+			e.getComponent(CollisionMesh.class).setDimensions(goomba.getWidth(), goomba.getHeight());
+			return goomba;
 		}
-		if ("Block".equalsIgnoreCase(spatialFormFile))
+		else if ("Block".equalsIgnoreCase(spatialFormFile))
 		{
-			return new Block(world, e);
+			int width = e.getComponent(SpatialForm.class).getWidth();
+			int height = e.getComponent(SpatialForm.class).getHeight();
+			return new Block(world, e, width, height);
 		}
 		else if ("Missile".equalsIgnoreCase(spatialFormFile))
 		{

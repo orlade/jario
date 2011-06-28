@@ -8,6 +8,11 @@ public class CollisionMesh extends Component
 {
 	Polygon poly;
 	
+	public CollisionMesh()
+	{
+		poly = new Polygon();
+	}
+	
 	public CollisionMesh(float x, float y, int width, int height)
 	{
 		this(width, height);
@@ -16,13 +21,7 @@ public class CollisionMesh extends Component
 	
 	public CollisionMesh(int width, int height)
 	{
-		poly = new Polygon();
-		
-		poly.addPoint(0, 0);
-		poly.addPoint(width, 0);
-		poly.addPoint(width, height);
-		poly.addPoint(0, height);
-		poly.setClosed(true);
+		setPoly(createBoxPoly(width, height));
 	}
 
 	public CollisionMesh(Polygon poly)
@@ -43,6 +42,22 @@ public class CollisionMesh extends Component
 	public void setLocation(float x, float y)
 	{
 		poly.setLocation(x, y);
+	}
+
+	public void setDimensions(float width, float height)
+	{
+		setPoly(createBoxPoly(width, height));
+	}
+	
+	protected Polygon createBoxPoly(float width, float height)
+	{
+		Polygon p = new Polygon();
+		p.addPoint(0, 0);
+		p.addPoint(width, 0);
+		p.addPoint(width, height);
+		p.addPoint(0, height);
+		p.setClosed(true);
+		return p;
 	}
 	
 	public float getX()

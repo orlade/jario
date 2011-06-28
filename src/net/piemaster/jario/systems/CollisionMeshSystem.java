@@ -28,7 +28,11 @@ public class CollisionMeshSystem extends EntityProcessingSystem
 	@Override
 	protected void process(Entity e)
 	{
-		Transform t = transformMapper.get(e);
-		meshMapper.get(e).setLocation(t.getX(), t.getY());
+		CollisionMesh mesh = meshMapper.get(e);
+		if(mesh != null)
+		{
+			Transform t = transformMapper.get(e);
+			meshMapper.get(e).setLocation(t.getX(), t.getY());
+		}
 	}
 }

@@ -8,6 +8,7 @@ import net.piemaster.jario.systems.BoundarySystem;
 import net.piemaster.jario.systems.CameraSystem;
 import net.piemaster.jario.systems.CollisionMeshSystem;
 import net.piemaster.jario.systems.CollisionSystem;
+import net.piemaster.jario.systems.EnemyHealthSystem;
 import net.piemaster.jario.systems.ExpirationSystem;
 import net.piemaster.jario.systems.MovementSystem;
 import net.piemaster.jario.systems.PlayerControlSystem;
@@ -46,6 +47,7 @@ public class GameplayState extends BasicGameState
 	private EntitySystem expirationSystem;
 	private EntitySystem respawnSystem;
 	private EntitySystem playerLifeSystem;
+	private EntitySystem enemyHealthSystem;
 
 	private EntitySystem renderSystem;
 	private EntitySystem hudRenderSystem;
@@ -85,6 +87,7 @@ public class GameplayState extends BasicGameState
 		expirationSystem = systemManager.setSystem(new ExpirationSystem());
 		respawnSystem = systemManager.setSystem(new RespawnSystem());
 		playerLifeSystem = systemManager.setSystem(new PlayerLifeSystem());
+		enemyHealthSystem = systemManager.setSystem(new EnemyHealthSystem());
 
 		boundarySystem = systemManager.setSystem(new BoundarySystem(0, 0, 4000, 4000));
 		cameraSystem = systemManager.setSystem(new CameraSystem(gc));
@@ -97,36 +100,9 @@ public class GameplayState extends BasicGameState
 		systemManager.initializeAll();
 
 		initPlayer();
-		// initAsteroids();
 		initBlocks();
+		initEnemies();
 	}
-
-	// private void initAsteroids()
-	// {
-	// Random r = new Random();
-	// int w3 = container.getWidth() / 3;
-	// int h3 = container.getHeight() / 3;
-	// int startX, startY;
-	//
-	// for (int i = 0; 10 > i; i++)
-	// {
-	// // Start somewhere not in the middle third of both axes
-	// // TODO Handle this more efficiently
-	// do
-	// {
-	// startX = r.nextInt(container.getWidth());
-	// startY = r.nextInt(container.getHeight());
-	// }
-	// while (startX > w3 && startX < 2 * w3 && startY > h3 && startY < 2 * h3);
-	//
-	// Entity e = EntityFactory.createAsteroid(world, startX, startY, 5);
-	//
-	// e.getComponent(Velocity.class).setVelocity(0.05f);
-	// e.getComponent(Velocity.class).setAngle(r.nextInt(360));
-	//
-	// e.refresh();
-	// }
-	// }
 
 	private void initPlayer()
 	{
@@ -155,6 +131,12 @@ public class GameplayState extends BasicGameState
 		block.refresh();
 	}
 
+	private void initEnemies()
+	{
+		Entity goomba = EntityFactory.createGoomba(world, 300, 80);
+		goomba.refresh();
+	}
+
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException
 	{
 		world.loopStart();
@@ -171,6 +153,7 @@ public class GameplayState extends BasicGameState
 		collisionSystem.process();
 		expirationSystem.process();
 		playerLifeSystem.process();
+		enemyHealthSystem.process();
 		respawnSystem.process();
 
 		// Maintain limits

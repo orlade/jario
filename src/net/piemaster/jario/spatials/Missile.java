@@ -55,4 +55,16 @@ public class Missile extends Spatial
 //		g.fillRect(transform.getX() - 1, transform.getY() - 3, 2, 6);
 	}
 
+	@Override
+	public float getWidth()
+	{
+		return missile.getWidth();
+	}
+
+	@Override
+	public float getHeight()
+	{
+		return missile.getHeight();
+	}
+
 }

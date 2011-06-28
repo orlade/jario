@@ -6,15 +6,30 @@ public class SpatialForm extends Component
 {
 	private String spatialFormFile;
 	private boolean visible;
+	private int width;
+	private int height;
 
 	public SpatialForm(String spatialFormFile)
 	{
 		this(spatialFormFile, true);
 	}
+
+	public SpatialForm(String spatialFormFile, int width, int height)
+	{
+		this(spatialFormFile, true);
+		this.width = width;
+		this.height = height;
+	}
 	
 	public SpatialForm(String spatialFormFile, boolean visible)
 	{
 		this.spatialFormFile = spatialFormFile;
+		this.visible = visible;
+	}
+
+	public SpatialForm(String spatialFormFile, int width, int height, boolean visible)
+	{
+		this(spatialFormFile, width, height);
 		this.visible = visible;
 	}
 
@@ -36,5 +51,15 @@ public class SpatialForm extends Component
 	public void toggleVisible()
 	{
 		this.visible = !visible;
+	}
+
+	public int getWidth()
+	{
+		return width;
+	}
+
+	public int getHeight()
+	{
+		return height;
 	}
 }

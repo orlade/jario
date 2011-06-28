@@ -50,4 +50,16 @@ public class Explosion extends Spatial
 		g.fillOval(transform.getX() - radius, transform.getY() - radius, radius * 2, radius * 2);
 	}
 
+	@Override
+	public float getWidth()
+	{
+		return radius * 2;
+	}
+
+	@Override
+	public float getHeight()
+	{
+		return radius * 2;
+	}
+
 }
