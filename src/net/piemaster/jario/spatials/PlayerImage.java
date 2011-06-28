@@ -10,12 +10,12 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.World;
 
-public class PlayerImageShip extends Spatial
+public class PlayerImage extends Spatial
 {
 	private Transform transform;
 	private Image shipImg;
 
-	public PlayerImageShip(World world, Entity owner)
+	public PlayerImage(World world, Entity owner)
 	{
 		super(world, owner);
 	}
@@ -29,7 +29,7 @@ public class PlayerImageShip extends Spatial
 		
 		try
 		{
-			shipImg = new Image("assets/ship.png");
+			shipImg = new Image("assets/jar.png");
 			shipImg.setCenterOfRotation(shipImg.getWidth()/2, shipImg.getHeight()/2);
 		}
 		catch (SlickException e)

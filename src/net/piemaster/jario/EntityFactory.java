@@ -15,14 +15,14 @@ import com.artemis.World;
 
 public class EntityFactory
 {
-	public static Entity createPlayerShip(World world)
+	public static Entity createPlayer(World world)
 	{
 		Entity player = world.createEntity();
 		player.setGroup("SHIPS");
 		player.setTag("PLAYER");
 		player.addComponent(new Transform());
 		player.addComponent(new Velocity());
-		player.addComponent(new SpatialForm("PlayerImageShip"));
+		player.addComponent(new SpatialForm("PlayerImage"));
 		player.addComponent(new Health(1));
 		player.addComponent(new Player());
 		player.addComponent(new Score());

@@ -1,4 +1,4 @@
-package net.piemaster.jario.systems;
+package net.piemaster.jario.systems.rendering;
 
 import net.piemaster.jario.components.Player;
 import net.piemaster.jario.components.Score;

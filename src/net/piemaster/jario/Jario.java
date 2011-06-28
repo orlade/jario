@@ -31,10 +31,11 @@ public class Jario extends StateBasedGame
 	}
 
 	@Override
-	public void initStatesList(GameContainer gameContainer) throws SlickException
+	public void initStatesList(GameContainer gc) throws SlickException
 	{
-
-		this.getState(MAINMENUSTATE).init(gameContainer, this);
-		this.getState(GAMEPLAYSTATE).init(gameContainer, this);
+		gc.setTargetFrameRate(100);
+		
+//		this.getState(MAINMENUSTATE).init(gameContainer, this);
+//		this.getState(GAMEPLAYSTATE).init(gameContainer, this);
 	}
 }

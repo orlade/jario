@@ -1,13 +1,13 @@
-package net.piemaster.jario.systems;
+package net.piemaster.jario.systems.rendering;
 
 import net.piemaster.jario.components.SpatialForm;
-import net.piemaster.jario.components.Transform;
 import net.piemaster.jario.spatials.AsteroidSpatial;
 import net.piemaster.jario.spatials.Explosion;
 import net.piemaster.jario.spatials.Missile;
-import net.piemaster.jario.spatials.PlayerImageShip;
+import net.piemaster.jario.spatials.PlayerImage;
 import net.piemaster.jario.spatials.PlayerShip;
 import net.piemaster.jario.spatials.Spatial;
+import net.piemaster.jario.systems.CameraSystem;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -22,40 +22,42 @@ public class RenderSystem extends EntityProcessingSystem
 	private Graphics graphics;
 	private Bag<Spatial> spatials;
 	private ComponentMapper<SpatialForm> spatialFormMapper;
-	private ComponentMapper<Transform> transformMapper;
-	private GameContainer container;
+	private CameraSystem cameraSystem;
 
-	@SuppressWarnings("unchecked")
 	public RenderSystem(GameContainer container)
 	{
-		super(Transform.class, SpatialForm.class);
-		this.container = container;
+		super(SpatialForm.class);
 		this.graphics = container.getGraphics();
-
-		spatials = new Bag<Spatial>();
 	}
 
 	@Override
 	public void initialize()
 	{
-		spatialFormMapper = new ComponentMapper<SpatialForm>(SpatialForm.class,
-				world.getEntityManager());
-		transformMapper = new ComponentMapper<Transform>(Transform.class, world.getEntityManager());
+		spatialFormMapper = new ComponentMapper<SpatialForm>(SpatialForm.class, world.getEntityManager());
+
+		cameraSystem = world.getSystemManager().getSystem(CameraSystem.class);
+
+		spatials = new Bag<Spatial>();
+	}
+
+	@Override
+	protected void begin()
+	{
+		graphics.scale(cameraSystem.getZoom(), cameraSystem.getZoom());
+		graphics.translate(-cameraSystem.getStartX(), -cameraSystem.getStartY());
 	}
 
 	@Override
 	protected void process(Entity e)
 	{
 		Spatial spatial = spatials.get(e.getId());
-		Transform transform = transformMapper.get(e);
+		spatial.render(graphics);
+	}
 
-		if (transform.getX() >= 0 && transform.getY() >= 0
-				&& transform.getX() < container.getWidth()
-				&& transform.getY() < container.getHeight() && spatial != null
-				&& spatialFormMapper.get(e).isVisible())
-		{
-			spatial.render(graphics);
-		}
+	@Override
+	protected void end()
+	{
+		graphics.resetTransform();
 	}
 
 	@Override
@@ -84,9 +86,9 @@ public class RenderSystem extends EntityProcessingSystem
 		{
 			return new PlayerShip(world, e);
 		}
-		else if ("PlayerImageShip".equalsIgnoreCase(spatialFormFile))
+		else if ("PlayerImage".equalsIgnoreCase(spatialFormFile))
 		{
-			return new PlayerImageShip(world, e);
+			return new PlayerImage(world, e);
 		}
 		else if ("Missile".equalsIgnoreCase(spatialFormFile))
 		{
@@ -107,5 +109,4 @@ public class RenderSystem extends EntityProcessingSystem
 
 		return null;
 	}
-
 }

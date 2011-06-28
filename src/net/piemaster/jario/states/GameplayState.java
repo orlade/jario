@@ -8,15 +8,17 @@ import net.piemaster.jario.components.Respawn;
 import net.piemaster.jario.components.Transform;
 import net.piemaster.jario.components.Velocity;
 import net.piemaster.jario.systems.AsteroidMovementSystem;
+import net.piemaster.jario.systems.BoundarySystem;
+import net.piemaster.jario.systems.CameraSystem;
 import net.piemaster.jario.systems.CollisionSystem;
 import net.piemaster.jario.systems.ExpirationSystem;
-import net.piemaster.jario.systems.HudRenderSystem;
 import net.piemaster.jario.systems.MovementSystem;
 import net.piemaster.jario.systems.PlayerLifeSystem;
-import net.piemaster.jario.systems.PlayerShipControlSystem;
-import net.piemaster.jario.systems.PlayerShipMovementSystem;
-import net.piemaster.jario.systems.RenderSystem;
+import net.piemaster.jario.systems.PlayerControlSystem;
 import net.piemaster.jario.systems.RespawnSystem;
+import net.piemaster.jario.systems.rendering.HudRenderSystem;
+import net.piemaster.jario.systems.rendering.RenderSystem;
+import net.piemaster.jario.systems.rendering.TerrainRenderSystem;
 
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.GameContainer;
@@ -38,16 +40,20 @@ public class GameplayState extends BasicGameState
 	private GameContainer container;
 	private StateBasedGame sbg;
 
-	private EntitySystem renderSystem;
-	private EntitySystem hudRenderSystem;
 	private EntitySystem controlSystem;
 	private EntitySystem movementSystem;
 	private EntitySystem asteroidMovementSystem;
-	private EntitySystem playerShipMovementSystem;
 	private EntitySystem collisionSystem;
 	private EntitySystem expirationSystem;
 	private EntitySystem respawnSystem;
 	private EntitySystem playerLifeSystem;
+
+	private EntitySystem renderSystem;
+	private EntitySystem hudRenderSystem;
+	private EntitySystem terrainRenderSystem;
+	
+	private EntitySystem boundarySystem;
+	private EntitySystem cameraSystem;
 
 	public GameplayState(int stateID)
 	{
@@ -68,10 +74,9 @@ public class GameplayState extends BasicGameState
 		world = new World();
 
 		SystemManager systemManager = world.getSystemManager();
-		controlSystem = systemManager.setSystem(new PlayerShipControlSystem(gc));
+		controlSystem = systemManager.setSystem(new PlayerControlSystem(gc));
 		movementSystem = systemManager.setSystem(new MovementSystem(gc));
 		asteroidMovementSystem = systemManager.setSystem(new AsteroidMovementSystem(gc));
-		playerShipMovementSystem = systemManager.setSystem(new PlayerShipMovementSystem(gc));
 		collisionSystem = systemManager.setSystem(new CollisionSystem());
 		expirationSystem = systemManager.setSystem(new ExpirationSystem());
 		respawnSystem = systemManager.setSystem(new RespawnSystem());
@@ -79,43 +84,47 @@ public class GameplayState extends BasicGameState
 
 		renderSystem = systemManager.setSystem(new RenderSystem(gc));
 		hudRenderSystem = systemManager.setSystem(new HudRenderSystem(gc));
+		terrainRenderSystem = systemManager.setSystem(new TerrainRenderSystem(gc));
 
+		boundarySystem = systemManager.setSystem(new BoundarySystem(0, 0, 4000, 4000));
+		cameraSystem = systemManager.setSystem(new CameraSystem(gc));
+		
 		systemManager.initializeAll();
 
 		initPlayerShip();
-		initAsteroids();
+//		initAsteroids();
 	}
 
-	private void initAsteroids()
-	{
-		Random r = new Random();
-		int w3 = container.getWidth() / 3;
-		int h3 = container.getHeight() / 3;
-		int startX, startY;
-
-		for (int i = 0; 10 > i; i++)
-		{
-			// Start somewhere not in the middle third of both axes
-			// TODO Handle this more efficiently
-			do
-			{
-				startX = r.nextInt(container.getWidth());
-				startY = r.nextInt(container.getHeight());
-			}
-			while (startX > w3 && startX < 2 * w3 && startY > h3 && startY < 2 * h3);
-
-			Entity e = EntityFactory.createAsteroid(world, startX, startY, 5);
-
-			e.getComponent(Velocity.class).setVelocity(0.05f);
-			e.getComponent(Velocity.class).setAngle(r.nextInt(360));
-
-			e.refresh();
-		}
-	}
+//	private void initAsteroids()
+//	{
+//		Random r = new Random();
+//		int w3 = container.getWidth() / 3;
+//		int h3 = container.getHeight() / 3;
+//		int startX, startY;
+//
+//		for (int i = 0; 10 > i; i++)
+//		{
+//			// Start somewhere not in the middle third of both axes
+//			// TODO Handle this more efficiently
+//			do
+//			{
+//				startX = r.nextInt(container.getWidth());
+//				startY = r.nextInt(container.getHeight());
+//			}
+//			while (startX > w3 && startX < 2 * w3 && startY > h3 && startY < 2 * h3);
+//
+//			Entity e = EntityFactory.createAsteroid(world, startX, startY, 5);
+//
+//			e.getComponent(Velocity.class).setVelocity(0.05f);
+//			e.getComponent(Velocity.class).setAngle(r.nextInt(360));
+//
+//			e.refresh();
+//		}
+//	}
 
 	private void initPlayerShip()
 	{
-		Entity player = EntityFactory.createPlayerShip(world);
+		Entity player = EntityFactory.createPlayer(world);
 
 		player.getComponent(Transform.class).setLocation(container.getWidth() / 2,
 				container.getHeight() / 2);
@@ -134,17 +143,37 @@ public class GameplayState extends BasicGameState
 		controlSystem.process();
 		movementSystem.process();
 		asteroidMovementSystem.process();
-		playerShipMovementSystem.process();
 		collisionSystem.process();
 		expirationSystem.process();
 		playerLifeSystem.process();
 		respawnSystem.process();
+		
+		boundarySystem.process();
+		cameraSystem.process();
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException
 	{
+		terrainRenderSystem.process();
 		renderSystem.process();
 		hudRenderSystem.process();
+	}
+
+	
+	@Override
+	public void enter(GameContainer container, StateBasedGame game) throws SlickException
+	{
+		super.enter(container, game);
+
+		container.getInput().addMouseListener(this);
+	}
+	
+	@Override
+	public void leave(GameContainer container, StateBasedGame game) throws SlickException
+	{
+		super.leave(container, game);
+
+		container.getInput().removeMouseListener(this);
 	}
 
 	@Override
