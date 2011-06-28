@@ -18,7 +18,7 @@ public class MovementSystem extends EntityProcessingSystem
 	private ComponentMapper<Transform> transformMapper;
 	private ComponentMapper<Physical> physicalMapper;
 	
-	private final float GRAVITY_ACCEL = 0.0005f;
+	private final float GRAVITY_ACCEL = 0.005f;
 
 	@SuppressWarnings("unchecked")
 	public MovementSystem(GameContainer container)

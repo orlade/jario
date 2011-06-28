@@ -17,8 +17,8 @@ import com.artemis.EntityProcessingSystem;
 public class PlayerControlSystem extends EntityProcessingSystem implements KeyListener
 {
 	private GameContainer container;
-	private float speed = 0.3f;
-	private float jumpFactor = 0.1f;
+	private float speed = 0.5f;
+	private float jumpFactor = 0.3f;
 	
 	private ComponentMapper<Velocity> velocityMapper;
 	private ComponentMapper<Acceleration> accelMapper;

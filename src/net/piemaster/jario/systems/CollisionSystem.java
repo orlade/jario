@@ -150,14 +150,20 @@ public class CollisionSystem extends EntitySystem
 
 		// The collision is from the direction with the smaller value
 		// If the collision value is positive, it's top/left
-		EdgeType collEdge;
+		EdgeType collEdge = EdgeType.EDGE_NONE;
 		if (Math.abs(xColl) < Math.abs(yColl))
 		{
-			collEdge = (xColl > 0) ? EdgeType.EDGE_RIGHT : EdgeType.EDGE_LEFT;
+			if(xColl > 0)
+				collEdge = EdgeType.EDGE_RIGHT;
+			else if(xColl < 0)
+				collEdge = EdgeType.EDGE_LEFT;
 		}
 		else
 		{
-			collEdge = (yColl > 0) ? EdgeType.EDGE_BOTTOM : EdgeType.EDGE_TOP;
+			if(yColl > 0)
+				collEdge = EdgeType.EDGE_BOTTOM;
+			else if(yColl < 0)
+				collEdge = EdgeType.EDGE_TOP;
 		}
 		return collEdge;
 	}

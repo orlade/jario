@@ -144,11 +144,15 @@ public class GameplayState extends BasicGameState
 	private void initBlocks()
 	{
 		Entity block = EntityFactory.createBlock(world);
-
 		Transform t = block.getComponent(Transform.class);
 		t.setLocation(container.getWidth() / 2 - 100, container.getHeight() / 2 + 110);
 		block.getComponent(CollisionMesh.class).setLocation(t.getX(), t.getY());
+		block.refresh();
 
+		block = EntityFactory.createBlock(world);
+		t = block.getComponent(Transform.class);
+		t.setLocation(container.getWidth() / 2 + 150, container.getHeight() / 2 + 110);
+		block.getComponent(CollisionMesh.class).setLocation(t.getX(), t.getY());
 		block.refresh();
 	}
 
