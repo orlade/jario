@@ -2,7 +2,6 @@ package net.piemaster.jario.states;
 
 import net.piemaster.jario.EntityFactory;
 import net.piemaster.jario.Jario;
-import net.piemaster.jario.components.CollisionMesh;
 import net.piemaster.jario.components.Respawn;
 import net.piemaster.jario.components.Transform;
 import net.piemaster.jario.systems.BoundarySystem;
@@ -143,16 +142,16 @@ public class GameplayState extends BasicGameState
 
 	private void initBlocks()
 	{
-		Entity block = EntityFactory.createBlock(world);
-		Transform t = block.getComponent(Transform.class);
-		t.setLocation(container.getWidth() / 2 - 100, container.getHeight() / 2 + 110);
-		block.getComponent(CollisionMesh.class).setLocation(t.getX(), t.getY());
+		Entity block = EntityFactory.createBlock(world,
+				container.getWidth() / 2 - 100,
+				container.getHeight() / 2 + 110,
+				200, 50);
 		block.refresh();
 
-		block = EntityFactory.createBlock(world);
-		t = block.getComponent(Transform.class);
-		t.setLocation(container.getWidth() / 2 + 150, container.getHeight() / 2 + 110);
-		block.getComponent(CollisionMesh.class).setLocation(t.getX(), t.getY());
+		block = EntityFactory.createBlock(world,
+				container.getWidth() / 2 + 150,
+				container.getHeight() / 2 + 110,
+				300, 75);
 		block.refresh();
 	}
 

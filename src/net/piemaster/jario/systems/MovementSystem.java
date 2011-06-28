@@ -43,25 +43,9 @@ public class MovementSystem extends EntityProcessingSystem
 		Physical physical = physicalMapper.get(e);
 		Transform transform = transformMapper.get(e);
 		
-//		float a = accel.getAcceleration();
-//		float ar = accel.getAngleAsRadians();
-//		float v = vel.getVelocity();
-//		float r = vel.getAngleAsRadians();
-//		
-//		float ax = a * TrigLUT.cos(ar);
-//		float ay = a * TrigLUT.sin(ar);
-//
-//		if(!accel.isOnGround())
-//		{
-//			ay -= 9.8;
-//		}
-//		
-//		float nx = world.getDelta() * (v * TrigLUT.cos(r) + ax);
-//		float ny = world.getDelta() * (v * TrigLUT.sin(r) + ay);
-		
 		// If the entity is moving
 		physical.setMoving(!vel.isZero() || !accel.isZero());
-		if(physical.isMoving() || physical.isJumping())
+		if(physical.isMoving() || !physical.isGrounded())
 		{
 			// Update acceleration with gravity
 			accel.addY(GRAVITY_ACCEL);
@@ -80,5 +64,4 @@ public class MovementSystem extends EntityProcessingSystem
 			accel.reset();
 		}
 	}
-
 }

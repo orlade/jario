@@ -131,22 +131,22 @@ public class CollisionSystem extends EntitySystem
 	 */
 	private EdgeType detectCollisionEdge(Entity e1, Entity e2)
 	{
-		Polygon p1 = meshMapper.get(e1).getPoly();
-		Polygon p2 = meshMapper.get(e2).getPoly();
+		CollisionMesh m1 = meshMapper.get(e1);
+		CollisionMesh m2 = meshMapper.get(e2);
 
 		// Get the X collision value
 		float xColl;
-		if (p1.getX() < p2.getX())
-			xColl = (p1.getX() + p1.getWidth()) - p2.getX();
+		if (m1.getX() < m2.getX())
+			xColl = (m1.getX() + m1.getWidth()) - m2.getX();
 		else
-			xColl = -((p2.getX() + p2.getWidth()) - p1.getX());
+			xColl = -((m2.getX() + m2.getWidth()) - m1.getX());
 
 		// Get the Y collision value
 		float yColl;
-		if (p1.getY() < p2.getY())
-			yColl = (p1.getY() + p1.getHeight()) - p2.getY();
+		if (m1.getY() < m2.getY())
+			yColl = (m1.getY() + m1.getHeight()) - m2.getY();
 		else
-			yColl = -((p2.getY() + p2.getHeight()) - p1.getY());
+			yColl = -((m2.getY() + m2.getHeight()) - m1.getY());
 
 		// The collision is from the direction with the smaller value
 		// If the collision value is positive, it's top/left
@@ -174,8 +174,8 @@ public class CollisionSystem extends EntitySystem
 	 */
 	void placeEntityOnTerrain(Entity e1, Entity e2, EdgeType edge)
 	{
-		Polygon p1 = meshMapper.get(e1).getPoly();
-		Polygon p2 = meshMapper.get(e2).getPoly();
+		CollisionMesh m1 = meshMapper.get(e1);
+		CollisionMesh m2 = meshMapper.get(e2);
 		Transform t1 = transformMapper.get(e1);
 		Velocity v1 = velocityMapper.get(e1);
 		Physical phys = physicalMapper.get(e1);
@@ -183,7 +183,7 @@ public class CollisionSystem extends EntitySystem
 		if(edge == EdgeType.EDGE_TOP)
 		{
 			// Set the Y coordinate to that of the terrain object
-			t1.setY(p2.getY() - p1.getHeight());
+			t1.setY(m2.getY() - m1.getHeight());
 			// Zero any vertical movement if moving towards terrain
 			if(v1.getY() >= 0)
 			{
@@ -194,7 +194,7 @@ public class CollisionSystem extends EntitySystem
 		}
 		else if(edge == EdgeType.EDGE_BOTTOM)
 		{
-			t1.setY(p2.getY() + p2.getHeight());
+			t1.setY(m2.getY() + m2.getHeight());
 			if(v1.getY() <= 0)
 			{
 				haltVertical(e1);
@@ -203,16 +203,16 @@ public class CollisionSystem extends EntitySystem
 		}
 		else if(edge == EdgeType.EDGE_LEFT)
 		{
-			t1.setX(p2.getX() - p1.getWidth());
+			t1.setX(m2.getX() - m1.getWidth());
 			haltHorizontal(e1);
 		}
 		else if(edge == EdgeType.EDGE_RIGHT)
 		{
-			t1.setX(p2.getX() + p2.getWidth());
+			t1.setX(m2.getX() + m2.getWidth());
 			haltHorizontal(e1);
 		}
 		// Update the collision mesh
-		p1.setLocation(t1.getX(), t1.getY());
+		m1.setLocation(t1.getX(), t1.getY());
 	}
 	
 	private void haltVertical(Entity ent)

@@ -37,20 +37,14 @@ public class EntityFactory
 		return player;
 	}
 
-	public static Entity createBlock(World world)
+	public static Entity createBlock(World world, float x, float y, int width, int height)
 	{
-		Entity player = world.createEntity();
-		player.setGroup("TERRAIN");
-		player.addComponent(new Transform());
-		player.addComponent(new Physical());
-		player.addComponent(new SpatialForm("Block"));
-		player.addComponent(new CollisionMesh(200, 50));
-		player.addComponent(new Health(1));
-		player.addComponent(new Player());
-		player.addComponent(new Score());
-		player.addComponent(new Respawn(2000));
-		
-		return player;
+		Entity block = world.createEntity();
+		block.setGroup("TERRAIN");
+		block.addComponent(new Transform(x, y));
+		block.addComponent(new SpatialForm("Block"));
+		block.addComponent(new CollisionMesh(x, y, 200, 50));
+		return block;
 	}
 	
 	public static Entity createMissile(World world)
