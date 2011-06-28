@@ -19,14 +19,7 @@ public class CollisionSystem extends EntitySystem
 	private ComponentMapper<Transform> transformMapper;
 	private ComponentMapper<Velocity> velocityMapper;
 	private ComponentMapper<Physical> physicalMapper;
-	private ComponentMapper<Health> healthMapper;
 	private ComponentMapper<CollisionMesh> meshMapper;
-
-	// public static final int EDGE_NONE = 0;
-	// public static final int EDGE_TOP = 1;
-	// public static final int EDGE_BOTTOM = 2;
-	// public static final int EDGE_LEFT = 4;
-	// public static final int EDGE_RIGHT = 8;
 
 	public static enum EdgeType
 	{
@@ -45,7 +38,6 @@ public class CollisionSystem extends EntitySystem
 		transformMapper = new ComponentMapper<Transform>(Transform.class, world.getEntityManager());
 		velocityMapper = new ComponentMapper<Velocity>(Velocity.class, world.getEntityManager());
 		physicalMapper = new ComponentMapper<Physical>(Physical.class, world.getEntityManager());
-		healthMapper = new ComponentMapper<Health>(Health.class, world.getEntityManager());
 		meshMapper = new ComponentMapper<CollisionMesh>(CollisionMesh.class,
 				world.getEntityManager());
 	}
@@ -69,7 +61,7 @@ public class CollisionSystem extends EntitySystem
 				{
 					EdgeType edge = detectCollisionEdge(player, enemy);
 					// Jumped on enemy
-					if(edge == EdgeType.EDGE_BOTTOM)
+					if (edge == EdgeType.EDGE_BOTTOM)
 					{
 						enemy.getComponent(Health.class).addDamage(1);
 					}
@@ -253,5 +245,4 @@ public class CollisionSystem extends EntitySystem
 	{
 		return true;
 	}
-
 }

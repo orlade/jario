@@ -4,7 +4,6 @@ import net.piemaster.jario.components.CollisionMesh;
 import net.piemaster.jario.components.Enemy;
 import net.piemaster.jario.components.Health;
 import net.piemaster.jario.components.Physical;
-import net.piemaster.jario.components.SpatialForm;
 import net.piemaster.jario.components.Transform;
 import net.piemaster.jario.components.Velocity;
 
