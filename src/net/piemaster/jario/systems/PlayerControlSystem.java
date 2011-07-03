@@ -1,7 +1,6 @@
 package net.piemaster.jario.systems;
 
 import net.piemaster.jario.components.Acceleration;
-import net.piemaster.jario.components.Globals;
 import net.piemaster.jario.components.Health;
 import net.piemaster.jario.components.Jumping;
 import net.piemaster.jario.components.Physical;

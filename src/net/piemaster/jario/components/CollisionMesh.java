@@ -6,7 +6,8 @@ import com.artemis.Component;
 
 public class CollisionMesh extends Component
 {
-	Polygon poly;
+	private Polygon poly;
+	private boolean active = true;
 	
 	public CollisionMesh()
 	{
@@ -78,5 +79,15 @@ public class CollisionMesh extends Component
 	public float getHeight()
 	{
 		return poly.getHeight();
+	}
+
+	public boolean isActive()
+	{
+		return active;
+	}
+
+	public void setActive(boolean active)
+	{
+		this.active = active;
 	}
 }

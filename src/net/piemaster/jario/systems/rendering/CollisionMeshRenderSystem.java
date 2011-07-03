@@ -18,7 +18,8 @@ public class CollisionMeshRenderSystem extends EntityProcessingSystem
 	private ComponentMapper<CollisionMesh> meshMapper;
 	private CameraSystem cameraSystem;
 	
-	private final Color fillColor = new Color(255, 0, 0, 0.3f);
+	private final Color ACTIVE_FILL = new Color(255, 0, 0, 0.3f);
+	private final Color INACTIVE_FILL = new Color(0, 0, 255, 0.3f);
 
 	public CollisionMeshRenderSystem(GameContainer container)
 	{
@@ -47,7 +48,7 @@ public class CollisionMeshRenderSystem extends EntityProcessingSystem
 		if(mesh != null)
 		{
 			Polygon poly = meshMapper.get(e).getPoly();
-			graphics.setColor(fillColor);
+			graphics.setColor(mesh.isActive() ? ACTIVE_FILL : INACTIVE_FILL);
 			graphics.setAntiAlias(true);
 			graphics.fill(poly);
 		}

@@ -1,5 +1,6 @@
 package net.piemaster.jario.systems;
 
+import net.piemaster.jario.components.Player;
 import net.piemaster.jario.components.Transform;
 
 import com.artemis.ComponentMapper;
@@ -14,9 +15,10 @@ public class BoundarySystem extends EntityProcessingSystem
 	private int boundsEndX;
 	private int boundsEndY;
 
+	@SuppressWarnings("unchecked")
 	public BoundarySystem(int boundsStartX, int boundsStartY, int boundsEndX, int boundsEndY)
 	{
-		super(Transform.class);
+		super(Transform.class, Player.class);
 
 		this.boundsStartX = boundsStartX;
 		this.boundsStartY = boundsStartY;

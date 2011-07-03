@@ -4,8 +4,6 @@ import net.piemaster.jario.components.CollisionMesh;
 import net.piemaster.jario.components.Enemy;
 import net.piemaster.jario.components.Health;
 import net.piemaster.jario.components.Physical;
-import net.piemaster.jario.components.Transform;
-import net.piemaster.jario.components.Velocity;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
@@ -18,7 +16,7 @@ public class EnemyHealthSystem extends EntityProcessingSystem
 	@SuppressWarnings("unchecked")
 	public EnemyHealthSystem()
 	{
-		super(Health.class, Enemy.class, Transform.class, Velocity.class, CollisionMesh.class);
+		super(Health.class, Enemy.class, CollisionMesh.class);
 	}
 
 	@Override
@@ -34,7 +32,7 @@ public class EnemyHealthSystem extends EntityProcessingSystem
 		if(!health.isAlive())
 		{
 			e.getComponent(Physical.class).setGrounded(false);
-			e.removeComponent(e.getComponent(CollisionMesh.class));
+			e.getComponent(CollisionMesh.class).setActive(false);
 			world.getGroupManager().remove(e);
 			e.refresh();
 		}

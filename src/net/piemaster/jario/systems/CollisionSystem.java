@@ -68,7 +68,12 @@ public class CollisionSystem extends EntitySystem
 					// Jumped on enemy
 					if (edge == EdgeType.EDGE_BOTTOM)
 					{
-						enemy.getComponent(Health.class).addDamage(1);
+						Health hp = enemy.getComponent(Health.class);
+						hp.addDamage(1);
+						if(hp.isAlive())
+						{
+							placeEntityOnOther(enemy, player, EdgeType.EDGE_BOTTOM);
+						}
 						player.getComponent(Velocity.class).setY(-BUMP_FACTOR);
 						player.getComponent(Physical.class).setGrounded(false);
 					}
@@ -76,9 +81,8 @@ public class CollisionSystem extends EntitySystem
 					else
 					{
 						player.getComponent(Health.class).addDamage(1);
-						enemy.getComponent(Velocity.class).setY(-BUMP_FACTOR);
-						enemy.getComponent(Physical.class).setGrounded(false);
 					}
+					System.out.println("Collision between player and "+enemy.toString());
 				}
 			}
 		}
@@ -100,7 +104,7 @@ public class CollisionSystem extends EntitySystem
 								&& collisionExists(enemy, block))
 						{
 							EdgeType edge = detectCollisionEdge(enemy, block);
-							placeEntityOnTerrain(enemy, block, reverseEdge(edge));
+							placeEntityOnOther(enemy, block, reverseEdge(edge));
 						}
 					}
 				}
@@ -111,7 +115,7 @@ public class CollisionSystem extends EntitySystem
 							&& collisionExists(player, block))
 					{
 						EdgeType edge = detectCollisionEdge(player, block);
-						placeEntityOnTerrain(player, block, reverseEdge(edge));
+						placeEntityOnOther(player, block, reverseEdge(edge));
 					}
 				}
 			}
@@ -177,7 +181,7 @@ public class CollisionSystem extends EntitySystem
 	/**
 	 * Set position and stop relevant movement.
 	 */
-	void placeEntityOnTerrain(Entity e1, Entity e2, EdgeType edge)
+	void placeEntityOnOther(Entity e1, Entity e2, EdgeType edge)
 	{
 		CollisionMesh m1 = meshMapper.get(e1);
 		CollisionMesh m2 = meshMapper.get(e2);
@@ -206,14 +210,7 @@ public class CollisionSystem extends EntitySystem
 		{
 			t1.setY(m2.getY() + m2.getHeight());
 
-			if (phys.isBouncyVertical())
-			{
-				v1.setY(-jump.getJumpFactor());
-			}
-			else
-			{
-				haltVertical(e1);
-			}
+			haltVertical(e1);
 			phys.setGrounded(false);
 		}
 		else if (edge == EdgeType.EDGE_LEFT)

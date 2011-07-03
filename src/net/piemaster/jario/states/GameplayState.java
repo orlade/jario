@@ -8,6 +8,7 @@ import net.piemaster.jario.systems.BoundarySystem;
 import net.piemaster.jario.systems.CameraSystem;
 import net.piemaster.jario.systems.CollisionMeshSystem;
 import net.piemaster.jario.systems.CollisionSystem;
+import net.piemaster.jario.systems.CullingSystem;
 import net.piemaster.jario.systems.EnemyHealthSystem;
 import net.piemaster.jario.systems.ExpirationSystem;
 import net.piemaster.jario.systems.MovementSystem;
@@ -49,6 +50,7 @@ public class GameplayState extends BasicGameState
 	private EntitySystem playerLifeSystem;
 	private EntitySystem enemyHealthSystem;
 
+	private EntitySystem cullingSystem;
 	private EntitySystem renderSystem;
 	private EntitySystem hudRenderSystem;
 	private EntitySystem terrainRenderSystem;
@@ -92,6 +94,7 @@ public class GameplayState extends BasicGameState
 		boundarySystem = systemManager.setSystem(new BoundarySystem(0, 0, 1600, 600));
 		cameraSystem = systemManager.setSystem(new CameraSystem(gc));
 		
+		cullingSystem = systemManager.setSystem(new CullingSystem());
 		renderSystem = systemManager.setSystem(new RenderSystem(gc));
 		hudRenderSystem = systemManager.setSystem(new HudRenderSystem(gc));
 		terrainRenderSystem = systemManager.setSystem(new TerrainRenderSystem(gc));
@@ -167,6 +170,9 @@ public class GameplayState extends BasicGameState
 		// Maintain limits
 		boundarySystem.process();
 		cameraSystem.process();
+		
+		// Cull dead and off-screen characters
+		cullingSystem.process();
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException
