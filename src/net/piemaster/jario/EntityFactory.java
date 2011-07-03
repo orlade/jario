@@ -35,7 +35,7 @@ public class EntityFactory
 		player.addComponent(new Player());
 		player.addComponent(new Score());
 		player.addComponent(new Globals());
-		player.addComponent(new Jumping());
+		player.addComponent(new Jumping(0.75f));
 		player.addComponent(new Respawn(2000, x, y));
 		
 		return player;
@@ -85,7 +85,7 @@ public class EntityFactory
 		para.addComponent(new CollisionMesh(x, y, 0, 0));
 		para.addComponent(new Health(2));
 		para.addComponent(new Globals());
-		para.addComponent(new Jumping());
+		para.addComponent(new Jumping(0.5f));
 		para.addComponent(new Enemy());
 		
 		return para;

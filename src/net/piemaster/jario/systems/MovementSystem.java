@@ -57,6 +57,7 @@ public class MovementSystem extends EntityProcessingSystem
 			vel.addY(accel.getY() * world.getDelta());
 			
 			physical.setMoving(!vel.isZero());
+			physical.setGrounded(false);
 			
 			// Calculate position from velocity
 			transform.addX(vel.getX() * world.getDelta());

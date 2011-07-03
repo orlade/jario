@@ -203,7 +203,10 @@ public class CollisionSystem extends EntitySystem
 			}
 			else
 			{
-				haltVertical(e1);
+				if(v1.getY() > 0)
+				{
+					haltVertical(e1);
+				}
 			}
 			// Record that the actor is on the ground to avoid gravity
 			phys.setGrounded(true);
@@ -212,7 +215,10 @@ public class CollisionSystem extends EntitySystem
 		{
 			t1.setY(m2.getY() + m2.getHeight());
 
-			haltVertical(e1);
+			if(v1.getY() < 0)
+			{
+				haltVertical(e1);
+			}
 			phys.setGrounded(false);
 		}
 		else if (edge == EdgeType.EDGE_LEFT)
@@ -224,7 +230,7 @@ public class CollisionSystem extends EntitySystem
 			}
 			else
 			{
-				haltHorizontal(e1);
+//				haltHorizontal(e1);
 			}
 		}
 		else if (edge == EdgeType.EDGE_RIGHT)
@@ -236,7 +242,7 @@ public class CollisionSystem extends EntitySystem
 			}
 			else
 			{
-				haltHorizontal(e1);
+//				haltHorizontal(e1);
 			}
 		}
 		// Update the collision mesh
@@ -249,6 +255,7 @@ public class CollisionSystem extends EntitySystem
 		ent.getComponent(Velocity.class).setY(0);
 	}
 
+	@SuppressWarnings("unused")
 	private void haltHorizontal(Entity ent)
 	{
 		ent.getComponent(Acceleration.class).setX(0);

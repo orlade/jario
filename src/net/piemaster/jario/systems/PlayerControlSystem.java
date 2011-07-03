@@ -46,6 +46,8 @@ public class PlayerControlSystem extends EntityProcessingSystem implements KeyLi
 	protected void process(Entity e)
 	{
 	}
+	
+	
 
 	@Override
 	public void keyPressed(int key, char c)

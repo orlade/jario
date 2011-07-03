@@ -35,7 +35,7 @@ public class GameplayState extends BasicGameState
 {
 	int stateID = -1;
 
-//	private GameContainer container;
+	private GameContainer container;
 	private StateBasedGame sbg;
 	private World world;
 
@@ -73,7 +73,7 @@ public class GameplayState extends BasicGameState
 
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException
 	{
-//		this.container = gc;
+		this.container = gc;
 		this.sbg = sbg;
 
 		// Create the world container
@@ -92,7 +92,7 @@ public class GameplayState extends BasicGameState
 		playerLifeSystem = systemManager.setSystem(new PlayerLifeSystem());
 		enemyHealthSystem = systemManager.setSystem(new EnemyHealthSystem());
 
-		boundarySystem = systemManager.setSystem(new BoundarySystem(0, 0, 1600, 600));
+		boundarySystem = systemManager.setSystem(new BoundarySystem(0, 0, 3384, 600));
 		cameraSystem = systemManager.setSystem(new CameraSystem(gc));
 		
 		cullingSystem = systemManager.setSystem(new CullingSystem());
@@ -179,6 +179,18 @@ public class GameplayState extends BasicGameState
 		if (key == Keyboard.KEY_ESCAPE)
 		{
 			sbg.enterState(Jario.MAINMENUSTATE);
+		}
+		// DEBUG - reset the state
+		else if(key == Keyboard.KEY_R)
+		{
+			try
+			{
+				init(container, sbg);
+			}
+			catch (SlickException e)
+			{
+				e.printStackTrace();
+			}
 		}
 	}
 }

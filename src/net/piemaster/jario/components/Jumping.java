@@ -5,7 +5,7 @@ import com.artemis.Component;
 
 public class Jumping extends Component
 {
-	private float jumpFactor = 1;
+	private float jumpFactor = 0.75f;
 	private boolean jumping;
 	
 	public Jumping()
