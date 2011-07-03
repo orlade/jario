@@ -82,7 +82,6 @@ public class CollisionSystem extends EntitySystem
 					{
 						player.getComponent(Health.class).addDamage(1);
 					}
-					System.out.println("Collision between player and "+enemy.toString());
 				}
 			}
 		}
