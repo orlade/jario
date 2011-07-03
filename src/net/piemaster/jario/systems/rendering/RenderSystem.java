@@ -4,10 +4,10 @@ import net.piemaster.jario.components.CollisionMesh;
 import net.piemaster.jario.components.SpatialForm;
 import net.piemaster.jario.spatials.Block;
 import net.piemaster.jario.spatials.Explosion;
-import net.piemaster.jario.spatials.GenericImage;
 import net.piemaster.jario.spatials.Goomba;
 import net.piemaster.jario.spatials.Missile;
 import net.piemaster.jario.spatials.Parakoopa;
+import net.piemaster.jario.spatials.Player;
 import net.piemaster.jario.spatials.Spatial;
 import net.piemaster.jario.systems.CameraSystem;
 
@@ -86,7 +86,9 @@ public class RenderSystem extends EntityProcessingSystem
 
 		if ("PlayerImage".equalsIgnoreCase(spatialFormFile))
 		{
-			return new GenericImage(world, e, "assets/jar.png");
+			Player player = new Player(world, e);
+			e.getComponent(CollisionMesh.class).setDimensions(player.getWidth(), player.getHeight());
+			return player;
 		}
 		else if ("Goomba".equalsIgnoreCase(spatialFormFile))
 		{

@@ -1,9 +1,9 @@
 package net.piemaster.jario.states;
 
-import net.piemaster.jario.EntityFactory;
+import java.io.FileNotFoundException;
+
 import net.piemaster.jario.Jario;
-import net.piemaster.jario.components.Respawn;
-import net.piemaster.jario.components.Transform;
+import net.piemaster.jario.loader.MapLoader;
 import net.piemaster.jario.systems.BoundarySystem;
 import net.piemaster.jario.systems.CameraSystem;
 import net.piemaster.jario.systems.CollisionMeshSystem;
@@ -27,7 +27,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import com.artemis.Entity;
 import com.artemis.EntitySystem;
 import com.artemis.SystemManager;
 import com.artemis.World;
@@ -36,9 +35,9 @@ public class GameplayState extends BasicGameState
 {
 	int stateID = -1;
 
-	private World world;
-	private GameContainer container;
+//	private GameContainer container;
 	private StateBasedGame sbg;
+	private World world;
 
 	private EntitySystem controlSystem;
 	private EntitySystem movementSystem;
@@ -74,11 +73,13 @@ public class GameplayState extends BasicGameState
 
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException
 	{
-		this.container = gc;
+//		this.container = gc;
 		this.sbg = sbg;
 
+		// Create the world container
 		world = new World();
 
+		// Create the systems
 		SystemManager systemManager = world.getSystemManager();
 		controlSystem = systemManager.setSystem(new PlayerControlSystem(gc));
 
@@ -102,50 +103,16 @@ public class GameplayState extends BasicGameState
 
 		systemManager.initializeAll();
 
-		initPlayer();
-		initBlocks();
-		initEnemies();
-	}
-
-	private void initPlayer()
-	{
-		Entity player = EntityFactory.createPlayer(world);
-
-		player.getComponent(Transform.class).setLocation(container.getWidth() / 2,
-				container.getHeight() / 2);
-		player.getComponent(Respawn.class).setRespawnLocation(container.getWidth() / 2,
-				container.getHeight() / 2);
-
-		player.refresh();
-	}
-
-	private void initBlocks()
-	{
-		Entity block = EntityFactory.createBlock(world,
-				container.getWidth() / 2 - 100,
-				container.getHeight() / 2 + 110,
-				200, 50);
-		block.refresh();
-
-		block = EntityFactory.createBlock(world,
-				container.getWidth() / 2 + 150,
-				container.getHeight() / 2 + 80,
-				300, 75);
-		block.refresh();
-
-		block = EntityFactory.createBlock(world,
-				container.getWidth() / 2 - 100,
-				container.getHeight() / 2 + 80,
-				20, 30);
-		block.refresh();
-	}
-
-	private void initEnemies()
-	{
-		Entity goomba = EntityFactory.createGoomba(world, 800, 80);
-		goomba.refresh();
-		Entity pkoopa = EntityFactory.createParakoopa(world, 820, 80);
-		pkoopa.refresh();
+		// Load the map
+		MapLoader loader = new MapLoader(world);
+		try
+		{
+			loader.buildMap("assets/levels/level_1.map");
+		}
+		catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException

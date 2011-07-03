@@ -27,7 +27,7 @@ public class TerrainRenderSystem extends EntitySystem
 	{
 		try
 		{
-			tile = new Image("assets/tile.png");
+			tile = new Image("assets/images/tile.png");
 		}
 		catch (SlickException e)
 		{

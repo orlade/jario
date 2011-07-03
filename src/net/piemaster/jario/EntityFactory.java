@@ -20,23 +20,23 @@ import com.artemis.World;
 
 public class EntityFactory
 {
-	public static Entity createPlayer(World world)
+	public static Entity createPlayer(World world, float x, float y)
 	{
 		Entity player = world.createEntity();
 		player.setGroup("SHIPS");
 		player.setTag("PLAYER");
-		player.addComponent(new Transform());
+		player.addComponent(new Transform(x, y));
 		player.addComponent(new Velocity());
 		player.addComponent(new Acceleration());
 		player.addComponent(new Physical());
 		player.addComponent(new SpatialForm("PlayerImage"));
-		player.addComponent(new CollisionMesh(60, 108));
+		player.addComponent(new CollisionMesh(x, y, 0, 0));
 		player.addComponent(new Health(1));
 		player.addComponent(new Player());
 		player.addComponent(new Score());
 		player.addComponent(new Globals());
 		player.addComponent(new Jumping());
-		player.addComponent(new Respawn(2000));
+		player.addComponent(new Respawn(2000, x, y));
 		
 		return player;
 	}

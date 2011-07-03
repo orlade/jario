@@ -13,18 +13,12 @@ public class GenericImage extends Spatial
 {
 	private Transform transform;
 	private Image image;
-	private String filename;
+//	private String filename;
 
 	public GenericImage(World world, Entity owner, String filename)
 	{
 		super(world, owner);
-		this.filename = filename;
-	}
-
-	@Override
-	public void initalize()
-	{
-		transform = owner.getComponent(Transform.class);
+//		this.filename = filename;
 		
 		try
 		{
@@ -35,6 +29,12 @@ public class GenericImage extends Spatial
 		{
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void initalize()
+	{
+		transform = owner.getComponent(Transform.class);
 	}
 
 	@Override
