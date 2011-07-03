@@ -36,6 +36,10 @@ public class CullingSystem extends EntityProcessingSystem
 	@Override
 	protected void process(Entity e)
 	{
+		// Don't cull the player
+		if(e == world.getTagManager().getEntity("PLAYER"))
+			return;
+		
 		Health health = healthMapper.get(e);
 		Transform t = transMapper.get(e);
 		SpatialForm spatial = spatialMapper.get(e);

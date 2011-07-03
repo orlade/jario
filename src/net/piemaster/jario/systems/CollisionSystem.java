@@ -55,11 +55,14 @@ public class CollisionSystem extends EntitySystem
 		ImmutableBag<Entity> enemies = world.getGroupManager().getEntities("ENEMIES");
 
 		// Check player against enemies
-		if (player != null && enemies != null)
+		if (player != null && enemies != null && meshMapper.get(player).isActive())
 		{
 			for (int i = 0; enemies.size() > i; i++)
 			{
 				Entity enemy = enemies.get(i);
+				// Ignore inactive collision meshes
+				if(!meshMapper.get(enemy).isActive())
+					continue;
 
 				if ((physicalMapper.get(player).isMoving() || physicalMapper.get(enemy).isMoving())
 						&& collisionExists(player, enemy))

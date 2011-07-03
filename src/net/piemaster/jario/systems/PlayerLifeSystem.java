@@ -1,6 +1,5 @@
 package net.piemaster.jario.systems;
 
-import net.piemaster.jario.EntityFactory;
 import net.piemaster.jario.components.Health;
 import net.piemaster.jario.components.Player;
 import net.piemaster.jario.components.Respawn;
@@ -17,7 +16,6 @@ public class PlayerLifeSystem extends EntitySystem
 {
 	private ComponentMapper<Health> healthMapper;
 	private ComponentMapper<Velocity> velocityMapper;
-	private ComponentMapper<SpatialForm> spatialMapper;
 
 	@SuppressWarnings("unchecked")
 	public PlayerLifeSystem()
@@ -30,7 +28,6 @@ public class PlayerLifeSystem extends EntitySystem
 	{
 		healthMapper = new ComponentMapper<Health>(Health.class, world.getEntityManager());
 		velocityMapper = new ComponentMapper<Velocity>(Velocity.class, world.getEntityManager());
-		spatialMapper = new ComponentMapper<SpatialForm>(SpatialForm.class, world.getEntityManager());
 	}
 
 	@Override
@@ -46,12 +43,8 @@ public class PlayerLifeSystem extends EntitySystem
 				if(!respawn.isActive())
 				{
 					velocityMapper.get(player).reset();
-					spatialMapper.get(player).setVisible(false);
 					respawn.resetTimer();
 					respawn.setActive(true);
-					
-					Transform tp = player.getComponent(Transform.class);
-					EntityFactory.createShipExplosion(world, tp.getX(), tp.getY()).refresh();
 				}
 			}
 		}

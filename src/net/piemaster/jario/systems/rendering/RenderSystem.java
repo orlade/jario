@@ -4,6 +4,7 @@ import net.piemaster.jario.components.CollisionMesh;
 import net.piemaster.jario.components.SpatialForm;
 import net.piemaster.jario.spatials.Block;
 import net.piemaster.jario.spatials.Explosion;
+import net.piemaster.jario.spatials.GenericImage;
 import net.piemaster.jario.spatials.Goomba;
 import net.piemaster.jario.spatials.Missile;
 import net.piemaster.jario.spatials.Parakoopa;
@@ -52,8 +53,11 @@ public class RenderSystem extends EntityProcessingSystem
 	@Override
 	protected void process(Entity e)
 	{
-		Spatial spatial = spatials.get(e.getId());
-		spatial.render(graphics);
+		if(spatialFormMapper.get(e).isVisible())
+		{
+			Spatial spatial = spatials.get(e.getId());
+			spatial.render(graphics);
+		}
 	}
 
 	@Override
@@ -78,7 +82,7 @@ public class RenderSystem extends EntityProcessingSystem
 	{
 		spatials.set(e.getId(), null);
 	}
-
+	
 	private Spatial createSpatial(Entity e)
 	{
 		SpatialForm spatialForm = spatialFormMapper.get(e);
@@ -86,26 +90,20 @@ public class RenderSystem extends EntityProcessingSystem
 
 		if ("PlayerImage".equalsIgnoreCase(spatialFormFile))
 		{
-			Player player = new Player(world, e);
-			e.getComponent(CollisionMesh.class).setDimensions(player.getWidth(), player.getHeight());
-			return player;
+			return setupGenericImageEntity(e, new Player(world, e));
 		}
 		else if ("Goomba".equalsIgnoreCase(spatialFormFile))
 		{
-			Goomba goomba = new Goomba(world, e);
-			e.getComponent(CollisionMesh.class).setDimensions(goomba.getWidth(), goomba.getHeight());
-			return goomba;
+			return setupGenericImageEntity(e, new Goomba(world, e));
 		}
 		else if ("Parakoopa".equalsIgnoreCase(spatialFormFile))
 		{
-			Parakoopa pk = new Parakoopa(world, e);
-			e.getComponent(CollisionMesh.class).setDimensions(pk.getWidth(), pk.getHeight());
-			return pk;
+			return setupGenericImageEntity(e, new Parakoopa(world, e));
 		}
 		else if ("Block".equalsIgnoreCase(spatialFormFile))
 		{
-			int width = e.getComponent(SpatialForm.class).getWidth();
-			int height = e.getComponent(SpatialForm.class).getHeight();
+			int width = (int)e.getComponent(SpatialForm.class).getWidth();
+			int height = (int)e.getComponent(SpatialForm.class).getHeight();
 			return new Block(world, e, width, height);
 		}
 		else if ("Missile".equalsIgnoreCase(spatialFormFile))
@@ -122,5 +120,16 @@ public class RenderSystem extends EntityProcessingSystem
 		}
 
 		return null;
+	}
+	
+	/**
+	 * For the given entity, set the dimensions of the collision mesh and spaital components.
+	 */
+	private Spatial setupGenericImageEntity(Entity e, GenericImage spatial)
+	{
+		e.getComponent(CollisionMesh.class).setDimensions(spatial.getWidth(), spatial.getHeight());
+		e.getComponent(SpatialForm.class).setWidth(spatial.getWidth());
+		e.getComponent(SpatialForm.class).setHeight(spatial.getHeight());
+		return spatial;
 	}
 }

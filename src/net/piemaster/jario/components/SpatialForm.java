@@ -6,15 +6,15 @@ public class SpatialForm extends Component
 {
 	private String spatialFormFile;
 	private boolean visible;
-	private int width;
-	private int height;
+	private float width;
+	private float height;
 
 	public SpatialForm(String spatialFormFile)
 	{
 		this(spatialFormFile, true);
 	}
 
-	public SpatialForm(String spatialFormFile, int width, int height)
+	public SpatialForm(String spatialFormFile, float width, float height)
 	{
 		this(spatialFormFile, true);
 		this.width = width;
@@ -27,7 +27,7 @@ public class SpatialForm extends Component
 		this.visible = visible;
 	}
 
-	public SpatialForm(String spatialFormFile, int width, int height, boolean visible)
+	public SpatialForm(String spatialFormFile, float width, float height, boolean visible)
 	{
 		this(spatialFormFile, width, height);
 		this.visible = visible;
@@ -53,13 +53,23 @@ public class SpatialForm extends Component
 		this.visible = !visible;
 	}
 
-	public int getWidth()
+	public float getWidth()
 	{
 		return width;
 	}
 
-	public int getHeight()
+	public float getHeight()
 	{
 		return height;
+	}
+
+	public void setWidth(float width)
+	{
+		this.width = width;
+	}
+
+	public void setHeight(float height)
+	{
+		this.height = height;
 	}
 }

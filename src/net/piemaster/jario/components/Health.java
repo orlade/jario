@@ -39,6 +39,11 @@ public class Health extends Component
 		health = maximumHealth;
 	}
 
+	public void setHealth(int health)
+	{
+		this.health = health;
+	}
+
 	public boolean isAlive()
 	{
 		return health > 0;

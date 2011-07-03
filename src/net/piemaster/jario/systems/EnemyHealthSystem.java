@@ -1,7 +1,6 @@
 package net.piemaster.jario.systems;
 
 import net.piemaster.jario.components.CollisionMesh;
-import net.piemaster.jario.components.Enemy;
 import net.piemaster.jario.components.Health;
 import net.piemaster.jario.components.Physical;
 
@@ -16,7 +15,7 @@ public class EnemyHealthSystem extends EntityProcessingSystem
 	@SuppressWarnings("unchecked")
 	public EnemyHealthSystem()
 	{
-		super(Health.class, Enemy.class, CollisionMesh.class);
+		super(Health.class, CollisionMesh.class);
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package net.piemaster.jario.systems;
 
+import net.piemaster.jario.components.CollisionMesh;
 import net.piemaster.jario.components.Health;
 import net.piemaster.jario.components.Respawn;
 import net.piemaster.jario.components.SpatialForm;
@@ -45,6 +46,13 @@ public class RespawnSystem extends EntityProcessingSystem
 				transformMapper.get(e).setRotation(0);
 				healthMapper.get(e).resetHealth();
 				spatialMapper.get(e).setVisible(true);
+				
+				CollisionMesh collMesh = e.getComponent(CollisionMesh.class);
+				if(collMesh != null)
+				{
+					collMesh.setActive(true);
+				}
+				
 				respawn.setActive(false);
 				respawn.resetTimer();
 			}
