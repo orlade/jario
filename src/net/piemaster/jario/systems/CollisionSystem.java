@@ -3,6 +3,7 @@ package net.piemaster.jario.systems;
 import net.piemaster.jario.components.Acceleration;
 import net.piemaster.jario.components.CollisionMesh;
 import net.piemaster.jario.components.Health;
+import net.piemaster.jario.components.Jumping;
 import net.piemaster.jario.components.Physical;
 import net.piemaster.jario.components.Transform;
 import net.piemaster.jario.components.Velocity;
@@ -20,6 +21,9 @@ public class CollisionSystem extends EntitySystem
 	private ComponentMapper<Velocity> velocityMapper;
 	private ComponentMapper<Physical> physicalMapper;
 	private ComponentMapper<CollisionMesh> meshMapper;
+	private ComponentMapper<Jumping> jumpMapper;
+	
+	private static final float BUMP_FACTOR = 0.3f;
 
 	public static enum EdgeType
 	{
@@ -40,6 +44,7 @@ public class CollisionSystem extends EntitySystem
 		physicalMapper = new ComponentMapper<Physical>(Physical.class, world.getEntityManager());
 		meshMapper = new ComponentMapper<CollisionMesh>(CollisionMesh.class,
 				world.getEntityManager());
+		jumpMapper = new ComponentMapper<Jumping>(Jumping.class, world.getEntityManager());
 	}
 
 	@Override
@@ -64,11 +69,15 @@ public class CollisionSystem extends EntitySystem
 					if (edge == EdgeType.EDGE_BOTTOM)
 					{
 						enemy.getComponent(Health.class).addDamage(1);
+						player.getComponent(Velocity.class).setY(-BUMP_FACTOR);
+						player.getComponent(Physical.class).setGrounded(false);
 					}
 					// Hit by enemy
 					else
 					{
 						player.getComponent(Health.class).addDamage(1);
+						enemy.getComponent(Velocity.class).setY(-BUMP_FACTOR);
+						enemy.getComponent(Physical.class).setGrounded(false);
 					}
 				}
 			}
@@ -175,16 +184,16 @@ public class CollisionSystem extends EntitySystem
 		Transform t1 = transformMapper.get(e1);
 		Velocity v1 = velocityMapper.get(e1);
 		Physical phys = physicalMapper.get(e1);
+		Jumping jump = jumpMapper.get(e1);
 
 		if (edge == EdgeType.EDGE_TOP)
 		{
 			// Set the Y coordinate to that of the terrain object
 			t1.setY(m2.getY() - m1.getHeight());
-			
-			if(phys.isBouncyVertical())
+
+			if (phys.isBouncyVertical() && jump != null)
 			{
-				// TODO: Make one jump height, not same vel
-				v1.setY(-v1.getY());
+				v1.setY(-jump.getJumpFactor());
 			}
 			else
 			{
@@ -196,11 +205,10 @@ public class CollisionSystem extends EntitySystem
 		else if (edge == EdgeType.EDGE_BOTTOM)
 		{
 			t1.setY(m2.getY() + m2.getHeight());
-			
-			if(phys.isBouncyVertical())
+
+			if (phys.isBouncyVertical())
 			{
-				// TODO: Make one jump height, not same vel
-				v1.setY(-v1.getY());
+				v1.setY(-jump.getJumpFactor());
 			}
 			else
 			{
@@ -211,7 +219,7 @@ public class CollisionSystem extends EntitySystem
 		else if (edge == EdgeType.EDGE_LEFT)
 		{
 			t1.setX(m2.getX() - m1.getWidth());
-			if(phys.isBouncyHorizontal())
+			if (phys.isBouncyHorizontal())
 			{
 				v1.setX(-v1.getX());
 			}
@@ -223,7 +231,7 @@ public class CollisionSystem extends EntitySystem
 		else if (edge == EdgeType.EDGE_RIGHT)
 		{
 			t1.setX(m2.getX() + m2.getWidth());
-			if(phys.isBouncyHorizontal())
+			if (phys.isBouncyHorizontal())
 			{
 				v1.setX(-v1.getX());
 			}

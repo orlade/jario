@@ -141,7 +141,7 @@ public class GameplayState extends BasicGameState
 	{
 		Entity goomba = EntityFactory.createGoomba(world, 800, 80);
 		goomba.refresh();
-		Entity pkoopa = EntityFactory.createParakoopa(world, 800, 80);
+		Entity pkoopa = EntityFactory.createParakoopa(world, 820, 80);
 		pkoopa.refresh();
 	}
 

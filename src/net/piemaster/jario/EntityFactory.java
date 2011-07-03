@@ -4,7 +4,9 @@ import net.piemaster.jario.components.Acceleration;
 import net.piemaster.jario.components.CollisionMesh;
 import net.piemaster.jario.components.Enemy;
 import net.piemaster.jario.components.Expires;
+import net.piemaster.jario.components.Globals;
 import net.piemaster.jario.components.Health;
+import net.piemaster.jario.components.Jumping;
 import net.piemaster.jario.components.Physical;
 import net.piemaster.jario.components.Player;
 import net.piemaster.jario.components.Respawn;
@@ -32,6 +34,8 @@ public class EntityFactory
 		player.addComponent(new Health(1));
 		player.addComponent(new Player());
 		player.addComponent(new Score());
+		player.addComponent(new Globals());
+		player.addComponent(new Jumping());
 		player.addComponent(new Respawn(2000));
 		
 		return player;
@@ -61,6 +65,7 @@ public class EntityFactory
 		goomba.addComponent(new SpatialForm("Goomba"));
 		goomba.addComponent(new CollisionMesh(x, y, 0, 0));
 		goomba.addComponent(new Health(1));
+		goomba.addComponent(new Globals());
 		goomba.addComponent(new Enemy());
 		
 		return goomba;
@@ -70,18 +75,20 @@ public class EntityFactory
 	{
 		float koopaSpeed = -0.1f;
 		
-		Entity goomba = world.createEntity();
-		goomba.setGroup("ENEMIES");
-		goomba.addComponent(new Transform(x, y));
-		goomba.addComponent(new Velocity(koopaSpeed, 0));
-		goomba.addComponent(new Acceleration());
-		goomba.addComponent(new Physical(true, true));
-		goomba.addComponent(new SpatialForm("Parakoopa"));
-		goomba.addComponent(new CollisionMesh(x, y, 0, 0));
-		goomba.addComponent(new Health(2));
-		goomba.addComponent(new Enemy());
+		Entity para = world.createEntity();
+		para.setGroup("ENEMIES");
+		para.addComponent(new Transform(x, y));
+		para.addComponent(new Velocity(koopaSpeed, 0));
+		para.addComponent(new Acceleration());
+		para.addComponent(new Physical(true, true));
+		para.addComponent(new SpatialForm("Parakoopa"));
+		para.addComponent(new CollisionMesh(x, y, 0, 0));
+		para.addComponent(new Health(2));
+		para.addComponent(new Globals());
+		para.addComponent(new Jumping());
+		para.addComponent(new Enemy());
 		
-		return goomba;
+		return para;
 	}
 	
 	public static Entity createMissile(World world)
