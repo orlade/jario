@@ -3,10 +3,8 @@ package net.piemaster.jario.components;
 
 public class Respawn extends Expires
 {
-	private int initTime;
 	private float respawnX;
 	private float respawnY;
-	private boolean active;
 	
 	public Respawn(int initTime)
 	{
@@ -17,7 +15,6 @@ public class Respawn extends Expires
 	{
 		super(initTime);
 		
-		this.initTime = initTime;
 		this.respawnX = respawnX;
 		this.respawnY = respawnY;
 	}
@@ -46,20 +43,5 @@ public class Respawn extends Expires
 	{
 		this.respawnX = x;
 		this.respawnY = y;
-	}
-	
-	public void resetTimer()
-	{
-		this.setLifeTime(initTime);
-	}
-
-	public boolean isActive()
-	{
-		return active;
-	}
-
-	public void setActive(boolean active)
-	{
-		this.active = active;
 	}
 }

@@ -7,6 +7,7 @@ public class Physical extends Component
 	private boolean moving;
 	private boolean jumping;
 	private boolean grounded;
+	private boolean hasGravity = true;
 
 	private boolean bouncyHorizontal;
 	private boolean bouncyVertical;
@@ -28,12 +29,27 @@ public class Physical extends Component
 		this.grounded = grounded;
 	}
 
+	public Physical(boolean moving, boolean jumping, boolean grounded, boolean hasGravity)
+	{
+		this.moving = moving;
+		this.jumping = jumping;
+		this.grounded = grounded;
+		this.hasGravity = hasGravity;
+	}
+
 	public Physical(boolean moving, boolean jumping, boolean grounded, boolean bouncyHorizontal,
 			boolean bouncyVertical)
 	{
 		this(moving, jumping, grounded);
 		this.bouncyHorizontal = bouncyHorizontal;
 		this.bouncyVertical = bouncyVertical;
+	}
+
+	public Physical(boolean moving, boolean jumping, boolean grounded, boolean bouncyHorizontal,
+			boolean bouncyVertical, boolean hasGravity)
+	{
+		this(moving, jumping, grounded, bouncyHorizontal, bouncyVertical);
+		this.hasGravity = hasGravity;
 	}
 
 	public boolean isMoving()
@@ -92,5 +108,15 @@ public class Physical extends Component
 	public void setBouncyHorizontal(boolean bouncyHorizontal)
 	{
 		this.bouncyHorizontal = bouncyHorizontal;
+	}
+
+	public boolean isHasGravity()
+	{
+		return hasGravity;
+	}
+
+	public void setHasGravity(boolean hasGravity)
+	{
+		this.hasGravity = hasGravity;
 	}
 }

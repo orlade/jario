@@ -4,9 +4,10 @@ import net.piemaster.jario.components.CollisionMesh;
 import net.piemaster.jario.components.SpatialForm;
 import net.piemaster.jario.spatials.Block;
 import net.piemaster.jario.spatials.Explosion;
-import net.piemaster.jario.spatials.GenericImage;
 import net.piemaster.jario.spatials.Goomba;
+import net.piemaster.jario.spatials.ItemBox;
 import net.piemaster.jario.spatials.Missile;
+import net.piemaster.jario.spatials.Mushroom;
 import net.piemaster.jario.spatials.Parakoopa;
 import net.piemaster.jario.spatials.Player;
 import net.piemaster.jario.spatials.Spatial;
@@ -90,15 +91,28 @@ public class RenderSystem extends EntityProcessingSystem
 
 		if ("PlayerImage".equalsIgnoreCase(spatialFormFile))
 		{
-			return setupGenericImageEntity(e, new Player(world, e));
+			return setupGenericSpatialEntity(e, new Player(world, e));
 		}
 		else if ("Goomba".equalsIgnoreCase(spatialFormFile))
 		{
-			return setupGenericImageEntity(e, new Goomba(world, e));
+			return setupGenericSpatialEntity(e, new Goomba(world, e));
 		}
 		else if ("Parakoopa".equalsIgnoreCase(spatialFormFile))
 		{
-			return setupGenericImageEntity(e, new Parakoopa(world, e));
+			return setupGenericSpatialEntity(e, new Parakoopa(world, e));
+		}
+		else if ("Parakoopa".equalsIgnoreCase(spatialFormFile))
+		{
+//			return setupGenericSpatialEntity(e, new Parakoopa(world, e));
+			return setupGenericSpatialEntity(e, new Parakoopa(world, e));
+		}
+		else if ("ItemBox".equalsIgnoreCase(spatialFormFile))
+		{
+			return setupGenericSpatialEntity(e, new ItemBox(world, e));
+		}
+		else if ("Mushroom".equalsIgnoreCase(spatialFormFile))
+		{
+			return setupGenericSpatialEntity(e, new Mushroom(world, e));
 		}
 		else if ("Block".equalsIgnoreCase(spatialFormFile))
 		{
@@ -125,7 +139,7 @@ public class RenderSystem extends EntityProcessingSystem
 	/**
 	 * For the given entity, set the dimensions of the collision mesh and spaital components.
 	 */
-	private Spatial setupGenericImageEntity(Entity e, GenericImage spatial)
+	private Spatial setupGenericSpatialEntity(Entity e, Spatial spatial)
 	{
 		e.getComponent(CollisionMesh.class).setDimensions(spatial.getWidth(), spatial.getHeight());
 		e.getComponent(SpatialForm.class).setWidth(spatial.getWidth());

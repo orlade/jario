@@ -26,12 +26,11 @@ public class ExpirationSystem extends EntityProcessingSystem
 	protected void process(Entity e)
 	{
 		Expires expires = expiresMapper.get(e);
-		expires.reduceLifeTime(world.getDelta());
+		expires.reduceLife(world.getDelta());
 
 		if (expires.isExpired())
 		{
 			world.deleteEntity(e);
 		}
-
 	}
 }

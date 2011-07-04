@@ -34,7 +34,7 @@ public class Explosion extends Spatial
 		ComponentMapper<Expires> expiresMapper = new ComponentMapper<Expires>(Expires.class,
 				world.getEntityManager());
 		expires = expiresMapper.get(owner);
-		initialLifeTime = expires.getLifeTime();
+		initialLifeTime = expires.getLifetime();
 
 		color = new Color(Color.yellow);
 	}
@@ -43,7 +43,7 @@ public class Explosion extends Spatial
 	public void render(Graphics g)
 	{
 
-		color.a = (float) expires.getLifeTime() / (float) initialLifeTime;
+		color.a = (float) expires.getLifetime() / (float) initialLifeTime;
 
 		g.setColor(color);
 		g.setAntiAlias(true);

@@ -9,13 +9,11 @@ import net.piemaster.jario.components.Velocity;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-import com.artemis.EntitySystem;
-import com.artemis.utils.ImmutableBag;
+import com.artemis.EntityProcessingSystem;
 
-public class PlayerLifeSystem extends EntitySystem
+public class PlayerLifeSystem extends EntityProcessingSystem
 {
 	private ComponentMapper<Health> healthMapper;
-	private ComponentMapper<Velocity> velocityMapper;
 
 	@SuppressWarnings("unchecked")
 	public PlayerLifeSystem()
@@ -27,25 +25,19 @@ public class PlayerLifeSystem extends EntitySystem
 	public void initialize()
 	{
 		healthMapper = new ComponentMapper<Health>(Health.class, world.getEntityManager());
-		velocityMapper = new ComponentMapper<Velocity>(Velocity.class, world.getEntityManager());
 	}
 
 	@Override
-	protected void processEntities(ImmutableBag<Entity> entities)
+	protected void process(Entity e)
 	{
-		for (int i = 0; entities.size() > i; i++)
+		Health health = healthMapper.get(e);
+		if(!health.isAlive())
 		{
-			Entity player = entities.get(i);
-			Health health = healthMapper.get(player);
-			if(!health.isAlive())
+			Respawn respawn = e.getComponent(Respawn.class);
+			if(!respawn.isActive())
 			{
-				Respawn respawn = player.getComponent(Respawn.class);
-				if(!respawn.isActive())
-				{
-					velocityMapper.get(player).reset();
-					respawn.resetTimer();
-					respawn.setActive(true);
-				}
+				respawn.resetTimer();
+				respawn.setActive(true);
 			}
 		}
 	}

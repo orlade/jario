@@ -91,6 +91,10 @@ public class MapLoader
 		{
 			EntityFactory.createParakoopa(world, x, y).refresh();
 		}
+		else if(type.equals("itembox"))
+		{
+			EntityFactory.createItemBox(world, x, y).refresh();
+		}
 		else if(type.equals("player"))
 		{
 			EntityFactory.createPlayer(world, x, y).refresh();

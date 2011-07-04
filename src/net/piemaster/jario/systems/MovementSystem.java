@@ -46,11 +46,13 @@ public class MovementSystem extends EntityProcessingSystem
 		Globals globals = globalsMapper.get(e);
 		
 		// If the entity is moving
-		physical.setMoving(!vel.isZero() || !accel.isZero());
-		if(physical.isMoving() || !physical.isGrounded())
+		if(!physical.isGrounded() || (!vel.isZero() || !accel.isZero()))
 		{
 			// Update acceleration with gravity
-			accel.addY(globals.getGravity());
+			if(physical.isHasGravity())
+			{
+				accel.addY(globals.getGravity());
+			}
 			
 			// Update velocity with acceleration
 			vel.addX(accel.getX() * world.getDelta());

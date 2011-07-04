@@ -9,6 +9,7 @@ import net.piemaster.jario.systems.CameraSystem;
 import net.piemaster.jario.systems.CollisionMeshSystem;
 import net.piemaster.jario.systems.CollisionSystem;
 import net.piemaster.jario.systems.CullingSystem;
+import net.piemaster.jario.systems.DispensingSystem;
 import net.piemaster.jario.systems.EnemyHealthSystem;
 import net.piemaster.jario.systems.ExpirationSystem;
 import net.piemaster.jario.systems.MovementSystem;
@@ -46,6 +47,8 @@ public class GameplayState extends BasicGameState
 	private EntitySystem collisionSystem;
 	private EntitySystem expirationSystem;
 	private EntitySystem respawnSystem;
+	private EntitySystem dispensingSystem;
+	
 	private EntitySystem playerLifeSystem;
 	private EntitySystem enemyHealthSystem;
 
@@ -89,6 +92,8 @@ public class GameplayState extends BasicGameState
 		collisionSystem = systemManager.setSystem(new CollisionSystem());
 		expirationSystem = systemManager.setSystem(new ExpirationSystem());
 		respawnSystem = systemManager.setSystem(new RespawnSystem());
+		dispensingSystem = systemManager.setSystem(new DispensingSystem());
+		
 		playerLifeSystem = systemManager.setSystem(new PlayerLifeSystem());
 		enemyHealthSystem = systemManager.setSystem(new EnemyHealthSystem());
 
@@ -130,9 +135,11 @@ public class GameplayState extends BasicGameState
 
 		collisionSystem.process();
 		expirationSystem.process();
+		dispensingSystem.process();
+		respawnSystem.process();
+		
 		playerLifeSystem.process();
 		enemyHealthSystem.process();
-		respawnSystem.process();
 
 		// Maintain limits
 		boundarySystem.process();

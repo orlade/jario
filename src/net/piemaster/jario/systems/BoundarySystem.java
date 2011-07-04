@@ -1,9 +1,9 @@
 package net.piemaster.jario.systems;
 
 import net.piemaster.jario.components.Health;
-import net.piemaster.jario.components.Player;
 import net.piemaster.jario.components.SpatialForm;
 import net.piemaster.jario.components.Transform;
+import net.piemaster.jario.components.Velocity;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
@@ -23,7 +23,7 @@ public class BoundarySystem extends EntityProcessingSystem
 	@SuppressWarnings("unchecked")
 	public BoundarySystem(int boundsStartX, int boundsStartY, int boundsEndX, int boundsEndY)
 	{
-		super(Transform.class, Player.class);
+		super(Transform.class, SpatialForm.class);
 
 		this.boundsStartX = boundsStartX;
 		this.boundsStartY = boundsStartY;
@@ -53,7 +53,19 @@ public class BoundarySystem extends EntityProcessingSystem
 		if (transform.getY() < boundsStartY)
 			transform.setLocation(transform.getX(), boundsStartY);
 		else if (transform.getY() > boundsEndY)
-			healthMapper.get(e).setHealth(0);
+		{
+			Health health = healthMapper.get(e);
+			if(health != null)
+			{
+				health.setHealth(0);
+			}
+			
+			Velocity vel = e.getComponent(Velocity.class);
+			if(vel != null)
+			{
+				vel.reset();
+			}
+		}
 	}
 
 	public int getBoundsEndX()

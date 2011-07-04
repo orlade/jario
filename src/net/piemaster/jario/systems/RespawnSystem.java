@@ -39,7 +39,7 @@ public class RespawnSystem extends EntityProcessingSystem
 		
 		if (respawn.isActive())
 		{
-			respawn.reduceLifeTime(world.getDelta());
+			respawn.reduceLife(world.getDelta());
 			if(respawn.isExpired())
 			{
 				transformMapper.get(e).setLocation(respawn.getRespawnX(), respawn.getRespawnY());
@@ -57,6 +57,5 @@ public class RespawnSystem extends EntityProcessingSystem
 				respawn.resetTimer();
 			}
 		}
-
 	}
 }

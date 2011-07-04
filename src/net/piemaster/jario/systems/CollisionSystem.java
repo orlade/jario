@@ -1,14 +1,21 @@
 package net.piemaster.jario.systems;
 
+import net.piemaster.jario.EntityFactory;
 import net.piemaster.jario.components.Acceleration;
 import net.piemaster.jario.components.CollisionMesh;
 import net.piemaster.jario.components.Health;
+import net.piemaster.jario.components.Item.ItemType;
+import net.piemaster.jario.components.Item;
+import net.piemaster.jario.components.ItemDispenser;
 import net.piemaster.jario.components.Jumping;
 import net.piemaster.jario.components.Physical;
+import net.piemaster.jario.components.SpatialForm;
 import net.piemaster.jario.components.Transform;
 import net.piemaster.jario.components.Velocity;
+import net.piemaster.jario.systems.rendering.TerrainRenderSystem;
 
 import org.newdawn.slick.geom.Polygon;
+import org.newdawn.slick.util.Log;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
@@ -22,7 +29,7 @@ public class CollisionSystem extends EntitySystem
 	private ComponentMapper<Physical> physicalMapper;
 	private ComponentMapper<CollisionMesh> meshMapper;
 	private ComponentMapper<Jumping> jumpMapper;
-	
+
 	private static final float BUMP_FACTOR = 0.3f;
 
 	public static enum EdgeType
@@ -47,82 +54,345 @@ public class CollisionSystem extends EntitySystem
 		jumpMapper = new ComponentMapper<Jumping>(Jumping.class, world.getEntityManager());
 	}
 
-	@Override
-	protected void processEntities(ImmutableBag<Entity> entities)
+	// ---------------------------------------------------------------------------------------------
+
+	private void processCollisions(ImmutableBag<Entity> source, ImmutableBag<Entity> against)
 	{
-		Entity player = world.getTagManager().getEntity("PLAYER");
-		ImmutableBag<Entity> terrain = world.getGroupManager().getEntities("TERRAIN");
-		ImmutableBag<Entity> enemies = world.getGroupManager().getEntities("ENEMIES");
-
-		// Check player against enemies
-		if (player != null && enemies != null && meshMapper.get(player).isActive())
+		if (source != null && against != null)
 		{
-			for (int i = 0; enemies.size() > i; i++)
+			for (int i = 0; source.size() > i; i++)
 			{
-				Entity enemy = enemies.get(i);
-				// Ignore inactive collision meshes
-				if(!meshMapper.get(enemy).isActive())
-					continue;
+				Entity a = source.get(i);
 
-				if ((physicalMapper.get(player).isMoving() || physicalMapper.get(enemy).isMoving())
-						&& collisionExists(player, enemy))
+				for (int j = 0; against.size() > j; j++)
 				{
-					EdgeType edge = detectCollisionEdge(player, enemy);
-					// Jumped on enemy
-					if (edge == EdgeType.EDGE_BOTTOM)
-					{
-						Health hp = enemy.getComponent(Health.class);
-						hp.addDamage(1);
-						if(hp.isAlive())
-						{
-							placeEntityOnOther(enemy, player, EdgeType.EDGE_BOTTOM);
-						}
-						player.getComponent(Velocity.class).setY(-BUMP_FACTOR);
-						player.getComponent(Physical.class).setGrounded(false);
-					}
-					// Hit by enemy
-					else
-					{
-						player.getComponent(Health.class).addDamage(1);
-					}
-				}
-			}
-		}
+					Entity b = against.get(j);
+					
+					// Ensure they're not the same
+					if(a == b)
+						break;
 
-		// Check player and enemies against terrain
-		if (terrain != null && (enemies != null || player != null))
-		{
-			for (int i = 0; terrain.size() > i; i++)
-			{
-				Entity block = terrain.get(i);
-
-				if (enemies != null)
-				{
-					for (int j = 0; enemies.size() > j; j++)
+					if (collisionExists(a, b))
 					{
-						Entity enemy = enemies.get(j);
-
-						if (enemy.getComponent(Physical.class).isMoving()
-								&& collisionExists(enemy, block))
-						{
-							EdgeType edge = detectCollisionEdge(enemy, block);
-							placeEntityOnOther(enemy, block, reverseEdge(edge));
-						}
-					}
-				}
-
-				if (player != null)
-				{
-					if (player.getComponent(Physical.class).isMoving()
-							&& collisionExists(player, block))
-					{
-						EdgeType edge = detectCollisionEdge(player, block);
-						placeEntityOnOther(player, block, reverseEdge(edge));
+						EdgeType edge = detectCollisionEdge(a, b);
+						handleCollision(a, b, edge);
 					}
 				}
 			}
 		}
 	}
+	
+	private void handleCollision(Entity a, Entity b, EdgeType edge)
+	{
+		String aGroup = world.getGroupManager().getGroupOf(a);
+		String bGroup = world.getGroupManager().getGroupOf(b);
+
+		// Determine types
+		if(aGroup.equals("PLAYERS"))
+		{
+			if(bGroup.equals("TERRAIN"))
+			{
+				handlePlayerTerrainCollision(a, b, edge);
+			}
+			else if(bGroup.equals("ITEMBOXES"))
+			{
+				handlePlayerBoxCollision(a, b, edge);
+				handleBoxPlayerCollision(b, a, reverseEdge(edge));
+			}
+			else if(bGroup.equals("ENEMIES"))
+			{
+				handlePlayerEnemyCollision(a, b, edge);
+				handleEnemyPlayerCollision(b, a, reverseEdge(edge));
+			}
+			else if(bGroup.equals("ITEMS"))
+			{
+				handlePlayerItemCollision(a, b, edge);
+				handleItemPlayerCollision(b, a, reverseEdge(edge));
+			}
+		}
+		else if(aGroup.equals("ENEMIES"))
+		{
+			if(bGroup.equals("TERRAIN") || bGroup.equals("ITEMBOXES"))
+			{
+				handleEnemyTerrainCollision(a, b, edge);
+			}
+			else if(bGroup.equals("PLAYERS"))
+			{
+				handleEnemyPlayerCollision(a, b, edge);
+				handlePlayerEnemyCollision(b, a, reverseEdge(edge));
+			}
+		}
+		else if(aGroup.equals("ITEMBOXES"))
+		{
+			if(bGroup.equals("PLAYERS"))
+			{
+				handleBoxPlayerCollision(a, b, edge);
+				handlePlayerBoxCollision(b, a, reverseEdge(edge));
+			}
+			if(bGroup.equals("ENEMIES"))
+			{
+//				handleBoxEnemyCollision(a, b, edge);
+//				handleEnemyBoxCollision(b, a, reverseEdge(edge));
+			}
+		}
+		else if(aGroup.equals("ITEMS"))
+		{
+			if(bGroup.equals("PLAYERS"))
+			{
+				handleItemPlayerCollision(a, b, edge);
+				handlePlayerItemCollision(b, a, reverseEdge(edge));
+			}
+			if(bGroup.equals("TERRAIN") || bGroup.equals("ITEMBOXES"))
+			{
+				handleItemTerrainCollision(a, b, edge);
+			}
+		}
+	}
+	
+	@Override
+	protected void processEntities(ImmutableBag<Entity> entities)
+	{
+		Entity player = world.getTagManager().getEntity("PLAYER");
+		ImmutableBag<Entity> players = world.getGroupManager().getEntities("PLAYERS");
+		ImmutableBag<Entity> terrain = world.getGroupManager().getEntities("TERRAIN");
+		ImmutableBag<Entity> boxes = world.getGroupManager().getEntities("ITEMBOXES");
+		ImmutableBag<Entity> items = world.getGroupManager().getEntities("ITEMS");
+		ImmutableBag<Entity> enemies = world.getGroupManager().getEntities("ENEMIES");
+		
+		processCollisions(players, terrain);
+		processCollisions(enemies, terrain);
+		processCollisions(items, terrain);
+		processCollisions(items, boxes);
+		processCollisions(players, enemies);
+		
+		processCollisions(players, boxes);
+		processCollisions(enemies, boxes);
+		processCollisions(players, items);
+
+//		// Check player against enemies
+//		if (player != null && enemies != null && meshMapper.get(player).isActive())
+//		{
+//			boolean playerMoving = physicalMapper.get(player).isMoving();
+//			for (int i = 0; enemies.size() > i; i++)
+//			{
+//				Entity enemy = enemies.get(i);
+//				// Ignore inactive collision meshes
+//				if (!meshMapper.get(enemy).isActive())
+//					continue;
+//
+//				if ((playerMoving || physicalMapper.get(enemy).isMoving())
+//						&& collisionExists(player, enemy))
+//				{
+//					EdgeType edge = detectCollisionEdge(player, enemy);
+//					handlePlayerEnemyCollision(player, enemy, edge);
+//					handleEnemyPlayerCollision(enemy, player, reverseEdge(edge));
+//				}
+//			}
+//		}
+//
+//		// Check player against item boxes
+//		if (player != null && boxes != null && meshMapper.get(player).isActive())
+//		{
+//			boolean playerMoving = physicalMapper.get(player).isMoving();
+//			for (int i = 0; boxes.size() > i; i++)
+//			{
+//				Entity box = boxes.get(i);
+//				// Ignore inactive collision meshes
+//				if (!meshMapper.get(box).isActive())
+//					continue;
+//
+//				if (playerMoving && collisionExists(player, box))
+//				{
+//					EdgeType edge = detectCollisionEdge(player, box);
+//					handlePlayerBoxCollision(player, box, edge);
+//					handleBoxPlayerCollision(box, player, reverseEdge(edge));
+//				}
+//			}
+//		}
+//
+//		// Check player and enemies against terrain
+//		if (terrain != null && (enemies != null || player != null))
+//		{
+//			// Loop terrain inside enemies to allow storage of enemy properties
+//			// per terrain
+//			for (int i = 0; terrain.size() > i; i++)
+//			{
+//				Entity block = terrain.get(i);
+//
+//				if (enemies != null)
+//				{
+//					for (int j = 0; enemies.size() > j; j++)
+//					{
+//						Entity enemy = enemies.get(j);
+//
+//						if (enemy.getComponent(Physical.class).isMoving()
+//								&& collisionExists(enemy, block))
+//						{
+//							EdgeType edge = detectCollisionEdge(enemy, block);
+//							handleEnemyTerrainCollision(enemy, block, edge);
+//							handleTerrainEnemyCollision(block, enemy, edge);
+//						}
+//					}
+//				}
+//
+//				// Items
+//				if (items != null)
+//				{
+//					for (int j = 0; items.size() > j; j++)
+//					{
+//						Entity item = items.get(j);
+//
+//						if (item.getComponent(Physical.class).isMoving()
+//								&& collisionExists(item, block))
+//						{
+//							EdgeType edge = detectCollisionEdge(item, block);
+//							handleItemTerrainCollision(item, block, edge);
+//							handleTerrainItemCollision(block, item, edge);
+//						}
+//					}
+//				}
+//
+//				if (player != null && meshMapper.get(player).isActive())
+//				{
+//					if (player.getComponent(Physical.class).isMoving()
+//							&& collisionExists(player, block))
+//					{
+//						EdgeType edge = detectCollisionEdge(player, block);
+//						handlePlayerTerrainCollision(player, block, edge);
+//						handleTerrainPlayerCollision(block, player, edge);
+//					}
+//				}
+//			}
+//		}
+	}
+
+	// ---------------------------------------------------------------------------------------------
+
+	private void handlePlayerEnemyCollision(Entity player, Entity enemy, EdgeType edge)
+	{
+		// Jumped on enemy
+		if (edge == EdgeType.EDGE_BOTTOM)
+		{
+			player.getComponent(Velocity.class).setY(-BUMP_FACTOR);
+			player.getComponent(Physical.class).setGrounded(false);
+		}
+		// Hit by enemy
+		else if (edge != EdgeType.EDGE_NONE)
+		{
+			Health health = player.getComponent(Health.class);
+			health.addDamage(1);
+			if (!health.isAlive())
+			{
+				velocityMapper.get(player).setY(-0.5f);
+				velocityMapper.get(player).setX(0.1f * (edge == EdgeType.EDGE_LEFT ? 1 : -1));
+				player.getComponent(Physical.class).setGrounded(false);
+			}
+		}
+	}
+
+	private void handleEnemyPlayerCollision(Entity enemy, Entity player, EdgeType edge)
+	{
+		// Jumped on by the player
+		if (edge == EdgeType.EDGE_TOP)
+		{
+			Health health = enemy.getComponent(Health.class);
+			health.addDamage(1);
+			if (health.isAlive())
+			{
+				placeEntityOnOther(enemy, player, EdgeType.EDGE_BOTTOM);
+			}
+		}
+	}
+
+	private void handlePlayerTerrainCollision(Entity player, Entity terrain, EdgeType edge)
+	{
+		placeEntityOnOther(player, terrain, reverseEdge(edge));
+	}
+
+	private void handleTerrainPlayerCollision(Entity terrain, Entity player, EdgeType edge)
+	{
+	}
+
+	private void handleEnemyTerrainCollision(Entity enemy, Entity terrain, EdgeType edge)
+	{
+		placeEntityOnOther(enemy, terrain, reverseEdge(edge));
+	}
+
+	private void handleTerrainEnemyCollision(Entity terrain, Entity enemy, EdgeType edge)
+	{
+	}
+
+	private void handleItemTerrainCollision(Entity item, Entity terrain, EdgeType edge)
+	{
+		placeEntityOnOther(item, terrain, reverseEdge(edge));
+	}
+
+	private void handleTerrainItemCollision(Entity terrain, Entity item, EdgeType edge)
+	{
+	}
+
+	private void handlePlayerBoxCollision(Entity player, Entity box, EdgeType edge)
+	{
+		placeEntityOnOther(player, box, reverseEdge(edge));
+	}
+
+	private void handleBoxPlayerCollision(Entity box, Entity player, EdgeType edge)
+	{
+		if (edge == EdgeType.EDGE_BOTTOM)
+		{
+			ItemDispenser holder = box.getComponent(ItemDispenser.class);
+			if (!holder.isEmpty())
+			{
+				Entity item;
+				Transform t = transformMapper.get(box);
+
+				switch (holder.getType())
+				{
+				case MUSHROOM:
+					item = EntityFactory.createMushroom(world, t.getX(), t.getY());
+					break;
+
+				case COIN:
+				case FLOWER:
+				case STAR:
+				default:
+					Log.warn("Unknown item type: " + holder.getType());
+					return;
+				}
+				item.getComponent(Transform.class).addY(
+						-item.getComponent(SpatialForm.class).getHeight());
+				System.out.println("item height = "
+						+ item.getComponent(SpatialForm.class).getHeight());
+				item.refresh();
+
+				holder.setItemId(item.getId());
+				holder.setDispensing(true);
+				holder.decrementNumber();
+			}
+		}
+	}
+
+	private void handlePlayerItemCollision(Entity player, Entity item, EdgeType edge)
+	{
+		ItemType type = item.getComponent(Item.class).getType();
+		
+		switch(type)
+		{
+		case MUSHROOM:
+			player.getComponent(Health.class).addDamage(-1);
+			break;
+		default:
+			Log.warn("Unknown item type: "+type);
+			break;
+		}
+	}
+	
+	private void handleItemPlayerCollision(Entity item, Entity player, EdgeType edge)
+	{
+		world.deleteEntity(item);
+	}
+
+	// ------------------------------------------------------------------------------------------
 
 	private boolean collisionExists(Entity e1, Entity e2)
 	{
@@ -145,6 +415,8 @@ public class CollisionSystem extends EntitySystem
 	{
 		CollisionMesh m1 = meshMapper.get(e1);
 		CollisionMesh m2 = meshMapper.get(e2);
+		// Velocity v1 = velocityMapper.get(e1);
+		// Velocity v2 = velocityMapper.get(e2);
 
 		// Get the X collision value
 		float xColl;
@@ -163,7 +435,10 @@ public class CollisionSystem extends EntitySystem
 		// The collision is from the direction with the smaller value
 		// If the collision value is positive, it's top/left
 		EdgeType collEdge = EdgeType.EDGE_NONE;
+
 		if (Math.abs(xColl) < Math.abs(yColl))
+		// && (Math.signum(xColl) == Math.signum(v1.getX()) || v1.getX() == 0 ||
+		// xColl == 0))
 		{
 			if (xColl > 0)
 				collEdge = EdgeType.EDGE_RIGHT;
@@ -171,12 +446,16 @@ public class CollisionSystem extends EntitySystem
 				collEdge = EdgeType.EDGE_LEFT;
 		}
 		else
+		// else if(Math.signum(yColl) == Math.signum(v1.getY()) || yColl == 0)
 		{
 			if (yColl > 0)
 				collEdge = EdgeType.EDGE_BOTTOM;
 			else if (yColl < 0)
 				collEdge = EdgeType.EDGE_TOP;
 		}
+		// System.out.println("xcoll = " + xColl + ", vel x = " + v1.getX() +
+		// ", yColl = " + yColl
+		// + ", vel y = " + v1.getY() + ", edge = " + collEdge);
 		return collEdge;
 	}
 
@@ -203,7 +482,7 @@ public class CollisionSystem extends EntitySystem
 			}
 			else
 			{
-				if(v1.getY() > 0)
+				if (v1.getY() > 0)
 				{
 					haltVertical(e1);
 				}
@@ -215,7 +494,7 @@ public class CollisionSystem extends EntitySystem
 		{
 			t1.setY(m2.getY() + m2.getHeight());
 
-			if(v1.getY() < 0)
+			if (v1.getY() < 0)
 			{
 				haltVertical(e1);
 			}
@@ -230,7 +509,7 @@ public class CollisionSystem extends EntitySystem
 			}
 			else
 			{
-//				haltHorizontal(e1);
+				// haltHorizontal(e1);
 			}
 		}
 		else if (edge == EdgeType.EDGE_RIGHT)
@@ -242,7 +521,7 @@ public class CollisionSystem extends EntitySystem
 			}
 			else
 			{
-//				haltHorizontal(e1);
+				// haltHorizontal(e1);
 			}
 		}
 		// Update the collision mesh

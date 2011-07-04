@@ -61,14 +61,25 @@ public class PlayerControlSystem extends EntityProcessingSystem implements KeyLi
 			Velocity velocity = velocityMapper.get(player);
 			Physical physical = physicalMapper.get(player);
 			
+			float multi = 1;
+
+			if(container.getInput().isKeyDown(Input.KEY_LSHIFT))
+			{
+				multi = 2;
+			}
+			else if(container.getInput().isKeyDown(Input.KEY_LCONTROL))
+			{
+				multi = 0.1f;
+			}
+			
 			if (key == Input.KEY_LEFT)
 			{
-				velocity.setX(-speed);
+				velocity.setX(-speed * multi);
 				physical.setGrounded(false);
 			}
 			else if (key == Input.KEY_RIGHT)
 			{
-				velocity.setX(speed);
+				velocity.setX(speed * multi);
 				physical.setGrounded(false);
 			}
 			else if (key == Input.KEY_SPACE && physical.isGrounded() && jump != null)

@@ -6,6 +6,9 @@ import net.piemaster.jario.components.Enemy;
 import net.piemaster.jario.components.Expires;
 import net.piemaster.jario.components.Globals;
 import net.piemaster.jario.components.Health;
+import net.piemaster.jario.components.Item;
+import net.piemaster.jario.components.Item.ItemType;
+import net.piemaster.jario.components.ItemDispenser;
 import net.piemaster.jario.components.Jumping;
 import net.piemaster.jario.components.Physical;
 import net.piemaster.jario.components.Player;
@@ -23,7 +26,7 @@ public class EntityFactory
 	public static Entity createPlayer(World world, float x, float y)
 	{
 		Entity player = world.createEntity();
-		player.setGroup("SHIPS");
+		player.setGroup("PLAYERS");
 		player.setTag("PLAYER");
 		player.addComponent(new Transform(x, y));
 		player.addComponent(new Velocity());
@@ -52,6 +55,18 @@ public class EntityFactory
 		return block;
 	}
 
+	public static Entity createItemBox(World world, float x, float y)
+	{
+		Entity block = world.createEntity();
+		block.setGroup("ITEMBOXES");
+		block.addComponent(new Transform(x, y));
+		block.addComponent(new SpatialForm("ItemBox"));
+		block.addComponent(new CollisionMesh(x, y, 0, 0));
+		block.addComponent(new ItemDispenser(ItemType.MUSHROOM));
+		
+		return block;
+	}
+	
 	public static Entity createGoomba(World world, float x, float y)
 	{
 		float goombaSpeed = -0.1f;
@@ -91,42 +106,20 @@ public class EntityFactory
 		return para;
 	}
 	
-	public static Entity createMissile(World world)
+	public static Entity createMushroom(World world, float x, float y)
 	{
-		Entity missile = world.createEntity();
-		missile.setGroup("BULLETS");
-
-		missile.addComponent(new Transform());
-		missile.addComponent(new SpatialForm("Missile"));
-		missile.addComponent(new Velocity());
-		missile.addComponent(new Expires(2000));
-
-		return missile;
-	}
-	public static Entity createMissile(World world, Transform parent)
-	{
-		Entity missile = world.createEntity();
-		missile.setGroup("BULLETS");
-
-		missile.addComponent(new Transform(parent.getX(), parent.getY(), parent.getRotation()));
-		missile.addComponent(new SpatialForm("Missile"));
-		missile.addComponent(new Velocity());
-		missile.addComponent(new Expires(2000));
-
-		return missile;
-	}
-
-	public static Entity createBulletExplosion(World world, float x, float y)
-	{
-		Entity e = world.createEntity();
-
-		e.setGroup("EFFECTS");
-
-		e.addComponent(new Transform(x, y));
-		e.addComponent(new SpatialForm("BulletExplosion"));
-		e.addComponent(new Expires(1000));
-
-		return e;
+		Entity shroom = world.createEntity();
+		shroom.setGroup("ITEMS");
+		shroom.addComponent(new Transform(x, y));
+		shroom.addComponent(new Velocity());
+		shroom.addComponent(new Acceleration());
+		shroom.addComponent(new Physical(false, false, false, true, false, false));
+		shroom.addComponent(new SpatialForm("Mushroom"));
+		shroom.addComponent(new CollisionMesh(x, y, 0, 0));
+		shroom.addComponent(new Globals());
+		shroom.addComponent(new Item(ItemType.MUSHROOM));
+		
+		return shroom;
 	}
 
 	public static Entity createShipExplosion(World world, float x, float y)
