@@ -16,6 +16,8 @@ import net.piemaster.jario.systems.MovementSystem;
 import net.piemaster.jario.systems.PlayerControlSystem;
 import net.piemaster.jario.systems.PlayerLifeSystem;
 import net.piemaster.jario.systems.RespawnSystem;
+import net.piemaster.jario.systems.handling.EnemyHandlingSystem;
+import net.piemaster.jario.systems.handling.PlayerHandlingSystem;
 import net.piemaster.jario.systems.rendering.CollisionMeshRenderSystem;
 import net.piemaster.jario.systems.rendering.HudRenderSystem;
 import net.piemaster.jario.systems.rendering.RenderSystem;
@@ -51,6 +53,12 @@ public class GameplayState extends BasicGameState
 	
 	private EntitySystem playerLifeSystem;
 	private EntitySystem enemyHealthSystem;
+
+	private EntitySystem playerHandlingSystem;
+	private EntitySystem enemyHandlingSystem;
+//	private EntitySystem terrainHandlingSystem;
+//	private EntitySystem itemHandlingSystem;
+//	private EntitySystem boxHandlingSystem;
 
 	private EntitySystem cullingSystem;
 	private EntitySystem renderSystem;
@@ -97,6 +105,12 @@ public class GameplayState extends BasicGameState
 		playerLifeSystem = systemManager.setSystem(new PlayerLifeSystem());
 		enemyHealthSystem = systemManager.setSystem(new EnemyHealthSystem());
 
+		playerHandlingSystem = systemManager.setSystem(new PlayerHandlingSystem());
+		enemyHandlingSystem = systemManager.setSystem(new EnemyHandlingSystem());
+//		terrainHandlingSystem = systemManager.setSystem(new TerrainHandlingSystem());
+//		itemHandlingSystem = systemManager.setSystem(new ItemHandlingSystem());
+//		boxHandlingSystem = systemManager.setSystem(new ItemBoxHandlingSystem());
+
 		boundarySystem = systemManager.setSystem(new BoundarySystem(0, 0, 3384, 600));
 		cameraSystem = systemManager.setSystem(new CameraSystem(gc));
 		
@@ -141,6 +155,12 @@ public class GameplayState extends BasicGameState
 		playerLifeSystem.process();
 		enemyHealthSystem.process();
 
+		playerHandlingSystem.process();
+		enemyHandlingSystem.process();
+//		terrainHandlingSystem.process();
+//		itemHandlingSystem.process();
+//		boxHandlingSystem.process();
+		
 		// Maintain limits
 		boundarySystem.process();
 		cameraSystem.process();

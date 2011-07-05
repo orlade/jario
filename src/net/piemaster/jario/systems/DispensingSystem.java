@@ -13,7 +13,6 @@ import com.artemis.EntityProcessingSystem;
 
 public class DispensingSystem extends EntityProcessingSystem
 {
-	private ComponentMapper<Transform> transMapper;
 	private ComponentMapper<ItemDispenser> holderMapper;
 
 	@SuppressWarnings("unchecked")
@@ -25,7 +24,6 @@ public class DispensingSystem extends EntityProcessingSystem
 	@Override
 	public void initialize()
 	{
-		transMapper = new ComponentMapper<Transform>(Transform.class, world.getEntityManager());
 		holderMapper = new ComponentMapper<ItemDispenser>(ItemDispenser.class, world.getEntityManager());
 	}
 
