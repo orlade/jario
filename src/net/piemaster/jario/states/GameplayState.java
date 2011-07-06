@@ -55,7 +55,7 @@ public class GameplayState extends BasicGameState
 	private EntitySystem dispensingSystem;
 	private EntitySystem dispenserSystem;
 	
-	private EntitySystem enemyHealthSystem;
+	private EntitySystem healthSystem;
 
 	private EntitySystem playerHandlingSystem;
 	private EntitySystem enemyHandlingSystem;
@@ -107,7 +107,7 @@ public class GameplayState extends BasicGameState
 		dispensingSystem = systemManager.setSystem(new DispensingSystem());
 		dispenserSystem = systemManager.setSystem(new DispenserSystem());
 		
-		enemyHealthSystem = systemManager.setSystem(new HealthSystem());
+		healthSystem = systemManager.setSystem(new HealthSystem());
 
 		playerHandlingSystem = systemManager.setSystem(new PlayerHandlingSystem());
 		enemyHandlingSystem = systemManager.setSystem(new EnemyHandlingSystem());
@@ -152,15 +152,17 @@ public class GameplayState extends BasicGameState
 		movementSystem.process();
 		meshSystem.process();
 
+		// Handle collisions
 		collisionSystem.process();
 		playerHandlingSystem.process();
-		enemyHandlingSystem.process();
-		parakoopaHandlingSystem.process();
 //		terrainHandlingSystem.process();
 		itemHandlingSystem.process();
 		boxHandlingSystem.process();
+		parakoopaHandlingSystem.process();
+		enemyHandlingSystem.process();
 		
-		enemyHealthSystem.process();
+		// Handle operational systems
+		healthSystem.process();
 		expirationSystem.process();
 		respawnSystem.process();
 		dispensingSystem.process();
