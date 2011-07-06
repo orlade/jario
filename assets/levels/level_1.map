@@ -10,9 +10,9 @@ block 2480 500 904 100
 itembox 155 350 32 32
 
 block 255 350 32 32
-itembox 287 350 32 32
+itembox 287 350 32 32 MUSHROOM
 block 319 350 32 32
-itembox 351 350 32 32
+itembox 351 350 32 32 FLOWER
 block 383 350 32 32
 
 itembox 319 200 32 32

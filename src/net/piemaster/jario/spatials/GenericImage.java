@@ -11,21 +11,27 @@ import com.artemis.World;
 
 public class GenericImage extends Spatial
 {
-	private Transform transform;
-	private Image image;
-	private Image flippedImage;
-//	private String filename;
+	protected Transform transform;
+	protected Image baseImage;
+	protected Image flippedImage;
+	
+	protected Image currentImage;
 
+	public GenericImage(World world, Entity owner)
+	{
+		super(world, owner);
+	}
+	
 	public GenericImage(World world, Entity owner, String filename)
 	{
 		super(world, owner);
-//		this.filename = filename;
 		
 		try
 		{
-			image = new Image(filename);
-			image.setCenterOfRotation(image.getWidth()/2, image.getHeight()/2);
-			flippedImage = image.getFlippedCopy(true, false);
+			baseImage = new Image(filename);
+			baseImage.setCenterOfRotation(baseImage.getWidth()/2, baseImage.getHeight()/2);
+			flippedImage = baseImage.getFlippedCopy(true, false);
+			currentImage = baseImage;
 		}
 		catch (SlickException e)
 		{
@@ -42,24 +48,16 @@ public class GenericImage extends Spatial
 	@Override
 	public void render(Graphics g)
 	{
-		if(transform.isFacingRight())
-		{
-			image.setRotation(transform.getRotation());
-			g.drawImage(image, transform.getX(), transform.getY());
-		}
-		else
-		{
-			flippedImage.setRotation(transform.getRotation());
-			g.drawImage(flippedImage, transform.getX(), transform.getY());
-		}
+		currentImage.setRotation(transform.getRotation());
+		g.drawImage(currentImage, transform.getX(), transform.getY());
 	}
 
 	@Override
 	public float getWidth()
 	{
-		if(image != null)
+		if(currentImage != null)
 		{
-			return image.getWidth();
+			return currentImage.getWidth();
 		}
 		return 0;
 	}
@@ -67,9 +65,9 @@ public class GenericImage extends Spatial
 	@Override
 	public float getHeight()
 	{
-		if(image != null)
+		if(currentImage != null)
 		{
-			return image.getHeight();
+			return currentImage.getHeight();
 		}
 		return 0;
 	}

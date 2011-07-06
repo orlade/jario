@@ -2,6 +2,7 @@ package net.piemaster.jario.systems;
 
 import net.piemaster.jario.EntityFactory;
 import net.piemaster.jario.components.Acceleration;
+import net.piemaster.jario.components.FireballShooter;
 import net.piemaster.jario.components.Health;
 import net.piemaster.jario.components.Jumping;
 import net.piemaster.jario.components.Physical;
@@ -95,14 +96,17 @@ public class PlayerControlSystem extends EntityProcessingSystem implements KeyLi
 			}
 			else if (key == Input.KEY_F)
 			{
-				Transform t = player.getComponent(Transform.class);
-				Entity fireball = EntityFactory.createFireball(world, t.getX(), t.getY());
-				if (!transform.isFacingRight())
+				if(player.getComponent(FireballShooter.class) != null)
 				{
-					Velocity v = fireball.getComponent(Velocity.class);
-					v.setX(-v.getX());
+					Transform t = player.getComponent(Transform.class);
+					Entity fireball = EntityFactory.createFireball(world, t.getX(), t.getY());
+					if (!transform.isFacingRight())
+					{
+						Velocity v = fireball.getComponent(Velocity.class);
+						v.setX(-v.getX());
+					}
+					fireball.refresh();
 				}
-				fireball.refresh();
 			}
 		}
 	}

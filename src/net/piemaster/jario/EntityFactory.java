@@ -63,13 +63,18 @@ public class EntityFactory
 
 	public static Entity createItemBox(World world, float x, float y)
 	{
+		return createItemBox(world, x, y, ItemType.COIN, 1, 0);
+	}
+	
+	public static Entity createItemBox(World world, float x, float y, ItemType type, int number, int duration)
+	{
 		Entity block = world.createEntity();
 		block.setGroup(EntityType.ITEMBOX.toString());
 		block.addComponent(new Transform(x, y));
 		block.addComponent(new SpatialForm("ItemBox"));
 		block.addComponent(new CollisionMesh(x, y, 0, 0));
 		block.addComponent(new Collisions());
-		block.addComponent(new ItemDispenser(ItemType.COIN, 5, 0));
+		block.addComponent(new ItemDispenser(type, number, duration));
 		
 		return block;
 	}

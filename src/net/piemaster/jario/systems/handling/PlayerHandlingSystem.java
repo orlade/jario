@@ -1,6 +1,8 @@
 package net.piemaster.jario.systems.handling;
 
+import net.piemaster.jario.components.CollisionMesh;
 import net.piemaster.jario.components.Collisions;
+import net.piemaster.jario.components.FireballShooter;
 import net.piemaster.jario.components.Health;
 import net.piemaster.jario.components.Item;
 import net.piemaster.jario.components.Score;
@@ -100,6 +102,16 @@ public class PlayerHandlingSystem extends EntityHandlingSystem
 		else if (edge != EdgeType.EDGE_NONE)
 		{
 			Health health = healthMapper.get(player);
+			if(health.getHealth() > 1)
+			{
+				CollisionMesh mesh = meshMapper.get(player);
+				mesh.setHeight(mesh.getHeight()/2);
+				transformMapper.get(player).addY(mesh.getHeight());
+				
+				FireballShooter shooter = player.getComponent(FireballShooter.class);
+				if(shooter != null)
+					player.removeComponent(shooter);
+			}
 			health.addDamage(1);
 			if (!health.isAlive())
 			{
@@ -126,12 +138,22 @@ public class PlayerHandlingSystem extends EntityHandlingSystem
 
 		switch (type)
 		{
-		case MUSHROOM:
-			healthMapper.get(player).addDamage(-1);
-			break;
-			
 		case FLOWER:
-//			healthMapper.get(player).addDamage(-1);
+			if(player.getComponent(FireballShooter.class) == null)
+			{
+				player.addComponent(new FireballShooter());
+			}
+			// No break
+			
+		case MUSHROOM:
+			Health health = healthMapper.get(player);
+			if(health.getHealth() == 1)
+			{
+				health.addDamage(-1);
+				CollisionMesh mesh = meshMapper.get(player);
+				transformMapper.get(player).addY(-mesh.getHeight());
+				mesh.setHeight(mesh.getHeight()*2);
+			}
 			break;
 			
 		case COIN:

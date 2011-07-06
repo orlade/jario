@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 import net.piemaster.jario.EntityFactory;
+import net.piemaster.jario.components.Item.ItemType;
 
 import com.artemis.World;
 
@@ -92,7 +93,16 @@ public class MapLoader
 		}
 		else if(type.equals("itembox"))
 		{
-			EntityFactory.createItemBox(world, x, y).refresh();
+			if(scanner.hasNext())
+			{
+				ItemType itemType = ItemType.valueOf(ItemType.class, scanner.next());
+				EntityFactory.createItemBox(world, x, y, itemType, 1, 1000).refresh();
+			}
+			else
+			{
+				EntityFactory.createItemBox(world, x, y).refresh();
+			}
+			
 		}
 		else if(type.equals("player"))
 		{

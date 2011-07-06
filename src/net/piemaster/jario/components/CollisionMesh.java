@@ -49,6 +49,16 @@ public class CollisionMesh extends Component
 	{
 		setPoly(createBoxPoly(width, height));
 	}
+
+	public void setWidth(float width)
+	{
+		setPoly(createBoxPoly(width, poly.getHeight()));
+	}
+
+	public void setHeight(float height)
+	{
+		setPoly(createBoxPoly(poly.getWidth(), height));
+	}
 	
 	protected Polygon createBoxPoly(float width, float height)
 	{
