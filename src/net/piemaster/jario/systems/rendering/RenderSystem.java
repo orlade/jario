@@ -2,8 +2,11 @@ package net.piemaster.jario.systems.rendering;
 
 import net.piemaster.jario.components.CollisionMesh;
 import net.piemaster.jario.components.SpatialForm;
+import net.piemaster.jario.components.Item.ItemType;
 import net.piemaster.jario.spatials.Block;
+import net.piemaster.jario.spatials.Coin;
 import net.piemaster.jario.spatials.Explosion;
+import net.piemaster.jario.spatials.Flower;
 import net.piemaster.jario.spatials.Goomba;
 import net.piemaster.jario.spatials.ItemBox;
 import net.piemaster.jario.spatials.Missile;
@@ -15,6 +18,7 @@ import net.piemaster.jario.systems.CameraSystem;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.util.Log;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
@@ -117,9 +121,17 @@ public class RenderSystem extends EntityProcessingSystem
 		{
 			return setupGenericSpatialEntity(e, new ItemBox(world, e));
 		}
-		else if ("Mushroom".equalsIgnoreCase(spatialFormFile))
+		else if (ItemType.MUSHROOM.toString().equalsIgnoreCase(spatialFormFile))
 		{
 			return setupGenericSpatialEntity(e, new Mushroom(world, e));
+		}
+		else if (ItemType.FLOWER.toString().equalsIgnoreCase(spatialFormFile))
+		{
+			return setupGenericSpatialEntity(e, new Flower(world, e));
+		}
+		else if (ItemType.COIN.toString().equalsIgnoreCase(spatialFormFile))
+		{
+			return setupGenericSpatialEntity(e, new Coin(world, e));
 		}
 		else if ("Block".equalsIgnoreCase(spatialFormFile))
 		{
@@ -139,8 +151,11 @@ public class RenderSystem extends EntityProcessingSystem
 		{
 			return new Explosion(world, e, 30);
 		}
-
-		return null;
+		else
+		{
+			Log.warn("Unknown spatial form: "+spatialFormFile);			
+			return null;
+		}
 	}
 	
 	/**

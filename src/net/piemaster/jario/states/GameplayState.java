@@ -15,7 +15,6 @@ import net.piemaster.jario.systems.EnemyHealthSystem;
 import net.piemaster.jario.systems.ExpirationSystem;
 import net.piemaster.jario.systems.MovementSystem;
 import net.piemaster.jario.systems.PlayerControlSystem;
-import net.piemaster.jario.systems.PlayerLifeSystem;
 import net.piemaster.jario.systems.RespawnSystem;
 import net.piemaster.jario.systems.handling.BoxHandlingSystem;
 import net.piemaster.jario.systems.handling.EnemyHandlingSystem;
@@ -55,8 +54,6 @@ public class GameplayState extends BasicGameState
 	private EntitySystem dispensingSystem;
 	private EntitySystem dispenserSystem;
 	
-	
-	private EntitySystem playerLifeSystem;
 	private EntitySystem enemyHealthSystem;
 
 	private EntitySystem playerHandlingSystem;
@@ -74,7 +71,7 @@ public class GameplayState extends BasicGameState
 	private EntitySystem boundarySystem;
 	private EntitySystem cameraSystem;
 	
-	private boolean debug = true;
+	private boolean debug = false;
 
 	public GameplayState(int stateID)
 	{
@@ -108,7 +105,6 @@ public class GameplayState extends BasicGameState
 		dispensingSystem = systemManager.setSystem(new DispensingSystem());
 		dispenserSystem = systemManager.setSystem(new DispenserSystem());
 		
-		playerLifeSystem = systemManager.setSystem(new PlayerLifeSystem());
 		enemyHealthSystem = systemManager.setSystem(new EnemyHealthSystem());
 
 		playerHandlingSystem = systemManager.setSystem(new PlayerHandlingSystem());
@@ -160,7 +156,6 @@ public class GameplayState extends BasicGameState
 		itemHandlingSystem.process();
 		boxHandlingSystem.process();
 		
-		playerLifeSystem.process();
 		enemyHealthSystem.process();
 		expirationSystem.process();
 		respawnSystem.process();
@@ -224,6 +219,11 @@ public class GameplayState extends BasicGameState
 			{
 				e.printStackTrace();
 			}
+		}
+		// DEBUG - toggle debug mode
+		else if(key == Keyboard.KEY_F1)
+		{
+			debug = !debug;
 		}
 	}
 }

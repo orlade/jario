@@ -44,7 +44,7 @@ public class Block extends Spatial
 	@Override
 	public void render(Graphics g)
 	{
-		g.setColor(Color.white);
+		g.setColor(Color.green);
 		g.setAntiAlias(true);
 		polygon.setLocation(transform.getX(), transform.getY());
 		g.fill(polygon);

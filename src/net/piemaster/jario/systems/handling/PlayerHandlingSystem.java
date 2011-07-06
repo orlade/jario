@@ -70,24 +70,24 @@ public class PlayerHandlingSystem extends EntityHandlingSystem
 
 			if (group.equals(EntityType.TERRAIN.toString()))
 			{
-				handlePlayerTerrainCollision(e, target, edge);
+				handleTerrainCollision(e, target, edge);
 			}
 			else if (group.equals(EntityType.ITEMBOX.toString()))
 			{
-				handlePlayerBoxCollision(e, target, edge);
+				handleBoxCollision(e, target, edge);
 			}
 			else if (group.equals(EntityType.ENEMY.toString()))
 			{
-				handlePlayerEnemyCollision(e, target, edge);
+				handleEnemyCollision(e, target, edge);
 			}
 			else if (group.equals(EntityType.ITEM.toString()))
 			{
-				handlePlayerItemCollision(e, target, edge);
+				handleItemCollision(e, target, edge);
 			}
 		}
 	}
 
-	private void handlePlayerEnemyCollision(Entity player, Entity enemy, EdgeType edge)
+	private void handleEnemyCollision(Entity player, Entity enemy, EdgeType edge)
 	{
 		// Jumped on enemy
 		if (edge == EdgeType.EDGE_BOTTOM)
@@ -109,17 +109,17 @@ public class PlayerHandlingSystem extends EntityHandlingSystem
 		}
 	}
 
-	private void handlePlayerTerrainCollision(Entity player, Entity terrain, EdgeType edge)
+	private void handleTerrainCollision(Entity player, Entity terrain, EdgeType edge)
 	{
 		placeEntityOnOther(player, terrain, reverseEdge(edge));
 	}
 
-	private void handlePlayerBoxCollision(Entity player, Entity box, EdgeType edge)
+	private void handleBoxCollision(Entity player, Entity box, EdgeType edge)
 	{
 		placeEntityOnOther(player, box, reverseEdge(edge));
 	}
 
-	private void handlePlayerItemCollision(Entity player, Entity item, EdgeType edge)
+	private void handleItemCollision(Entity player, Entity item, EdgeType edge)
 	{
 		ItemType type = itemMapper.get(item).getType();
 

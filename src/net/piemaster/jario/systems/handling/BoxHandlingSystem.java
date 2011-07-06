@@ -17,7 +17,6 @@ import com.artemis.Entity;
 
 public class BoxHandlingSystem extends EntityHandlingSystem
 {
-	protected ComponentMapper<SpatialForm> spatialMapper;
 	protected ComponentMapper<Item> itemMapper;
 
 	@SuppressWarnings("unchecked")
@@ -77,7 +76,6 @@ public class BoxHandlingSystem extends EntityHandlingSystem
 				case COIN:
 					item = EntityFactory.createCoin(world, t.getX(), t.getY());
 					d.setLifetime(0);
-					d.resetTimer();
 					d.setOutVelocityY(-0.5f);
 					break;
 
@@ -110,6 +108,11 @@ public class BoxHandlingSystem extends EntityHandlingSystem
 				holder.setDispensing(true);
 				holder.setActive(true);
 				holder.decrementNumber();
+				
+//				if(holder.isEmpty())
+//				{
+//					spatialMapper.get(box);
+//				}
 			}
 		}
 	}

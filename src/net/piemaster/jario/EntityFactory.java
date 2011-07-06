@@ -136,7 +136,7 @@ public class EntityFactory
 		shroom.addComponent(new Velocity());
 		shroom.addComponent(new Acceleration());
 		shroom.addComponent(new Physical(false, false, false, true, false, false));
-		shroom.addComponent(new SpatialForm("Mushroom"));
+		shroom.addComponent(new SpatialForm("Flower"));
 		shroom.addComponent(new CollisionMesh(x, y, 0, 0));
 		shroom.addComponent(new Collisions());
 		shroom.addComponent(new Globals());
@@ -153,7 +153,7 @@ public class EntityFactory
 		shroom.addComponent(new Velocity());
 		shroom.addComponent(new Acceleration());
 		shroom.addComponent(new Physical(false, false, false, true, false, false));
-		shroom.addComponent(new SpatialForm("Mushroom"));
+		shroom.addComponent(new SpatialForm("Coin"));
 		shroom.addComponent(new CollisionMesh(x, y, 0, 0));
 		shroom.addComponent(new Collisions());
 		shroom.addComponent(new Globals());

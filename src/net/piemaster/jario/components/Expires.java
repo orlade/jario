@@ -21,6 +21,8 @@ public class Expires extends Component
 	public void setLifetime(int lifetime)
 	{
 		this.lifetime = lifetime;
+		if(!active)
+			remaining = lifetime;
 	}
 
 	public void reduceLife(int lifetime)

@@ -29,32 +29,44 @@ public class RespawnSystem extends EntityProcessingSystem
 		respawnMapper = new ComponentMapper<Respawn>(Respawn.class, world.getEntityManager());
 		transformMapper = new ComponentMapper<Transform>(Transform.class, world.getEntityManager());
 		healthMapper = new ComponentMapper<Health>(Health.class, world.getEntityManager());
-		spatialMapper = new ComponentMapper<SpatialForm>(SpatialForm.class, world.getEntityManager());
+		spatialMapper = new ComponentMapper<SpatialForm>(SpatialForm.class,
+				world.getEntityManager());
 	}
 
 	@Override
 	protected void process(Entity e)
 	{
 		Respawn respawn = respawnMapper.get(e);
-		
+
+		// If already respawning
 		if (respawn.isActive())
 		{
 			respawn.reduceLife(world.getDelta());
-			if(respawn.isExpired())
+			if (respawn.isExpired())
 			{
 				transformMapper.get(e).setLocation(respawn.getRespawnX(), respawn.getRespawnY());
 				transformMapper.get(e).setRotation(0);
 				healthMapper.get(e).resetHealth();
 				spatialMapper.get(e).setVisible(true);
-				
+
 				CollisionMesh collMesh = e.getComponent(CollisionMesh.class);
-				if(collMesh != null)
+				if (collMesh != null)
 				{
 					collMesh.setActive(true);
 				}
-				
+
 				respawn.setActive(false);
 				respawn.resetTimer();
+			}
+		}
+		// Not respawning yet
+		else
+		{
+			Health health = healthMapper.get(e);
+			if (!health.isAlive())
+			{
+				respawn.resetTimer();
+				respawn.setActive(true);
 			}
 		}
 	}
