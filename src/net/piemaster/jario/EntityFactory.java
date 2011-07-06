@@ -65,7 +65,7 @@ public class EntityFactory
 		block.addComponent(new SpatialForm("ItemBox"));
 		block.addComponent(new CollisionMesh(x, y, 0, 0));
 		block.addComponent(new Collisions());
-		block.addComponent(new ItemDispenser(ItemType.MUSHROOM));
+		block.addComponent(new ItemDispenser(ItemType.COIN, 5, 0));
 		
 		return block;
 	}
@@ -124,6 +124,40 @@ public class EntityFactory
 		shroom.addComponent(new Collisions());
 		shroom.addComponent(new Globals());
 		shroom.addComponent(new Item(ItemType.MUSHROOM));
+		
+		return shroom;
+	}
+	
+	public static Entity createFlower(World world, float x, float y)
+	{
+		Entity shroom = world.createEntity();
+		shroom.setGroup(EntityType.ITEM.toString());
+		shroom.addComponent(new Transform(x, y));
+		shroom.addComponent(new Velocity());
+		shroom.addComponent(new Acceleration());
+		shroom.addComponent(new Physical(false, false, false, true, false, false));
+		shroom.addComponent(new SpatialForm("Mushroom"));
+		shroom.addComponent(new CollisionMesh(x, y, 0, 0));
+		shroom.addComponent(new Collisions());
+		shroom.addComponent(new Globals());
+		shroom.addComponent(new Item(ItemType.FLOWER));
+		
+		return shroom;
+	}
+	
+	public static Entity createCoin(World world, float x, float y)
+	{
+		Entity shroom = world.createEntity();
+		shroom.setGroup(EntityType.ITEM.toString());
+		shroom.addComponent(new Transform(x, y));
+		shroom.addComponent(new Velocity());
+		shroom.addComponent(new Acceleration());
+		shroom.addComponent(new Physical(false, false, false, true, false, false));
+		shroom.addComponent(new SpatialForm("Mushroom"));
+		shroom.addComponent(new CollisionMesh(x, y, 0, 0));
+		shroom.addComponent(new Collisions());
+		shroom.addComponent(new Globals());
+		shroom.addComponent(new Item(ItemType.COIN));
 		
 		return shroom;
 	}

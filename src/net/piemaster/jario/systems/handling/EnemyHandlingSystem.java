@@ -7,6 +7,7 @@ import net.piemaster.jario.components.Item;
 import net.piemaster.jario.entities.EntityType;
 import net.piemaster.jario.systems.CollisionSystem.EdgeType;
 
+import com.artemis.Component;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 
@@ -19,6 +20,12 @@ public class EnemyHandlingSystem extends EntityHandlingSystem
 	public EnemyHandlingSystem()
 	{
 		super(Enemy.class, Collisions.class);
+	}
+	
+	public EnemyHandlingSystem(Class<? extends Component> requiredType,
+			Class<? extends Component>... otherTypes)
+	{
+		super(requiredType, otherTypes);
 	}
 
 	@Override
@@ -37,24 +44,22 @@ public class EnemyHandlingSystem extends EntityHandlingSystem
 
 		for (int i = coll.getSize() - 1; i >= 0; --i)
 		{
-			System.out.println("Handling enemy collision #" + i);
-			
 			Entity target = world.getEntity(coll.getTargetIds().remove(i));
 			EdgeType edge = coll.getEdges().remove(i);
 			String group = world.getGroupManager().getGroupOf(target);
 
 			if (group.equals(EntityType.TERRAIN.toString()) || group.equals(EntityType.ITEMBOX.toString()))
 			{
-				handleEnemyTerrainCollision(e, target, edge);
+				handleTerrainCollision(e, target, edge);
 			}
 			else if (group.equals(EntityType.PLAYER.toString()))
 			{
-				handleEnemyPlayerCollision(e, target, edge);
+				handlePlayerCollision(e, target, edge);
 			}
 		}
 	}
 
-	private void handleEnemyPlayerCollision(Entity enemy, Entity player, EdgeType edge)
+	protected void handlePlayerCollision(Entity enemy, Entity player, EdgeType edge)
 	{
 		// Jumped on by the player
 		if (edge == EdgeType.EDGE_TOP)
@@ -68,7 +73,7 @@ public class EnemyHandlingSystem extends EntityHandlingSystem
 		}
 	}
 
-	private void handleEnemyTerrainCollision(Entity enemy, Entity terrain, EdgeType edge)
+	protected void handleTerrainCollision(Entity enemy, Entity terrain, EdgeType edge)
 	{
 		placeEntityOnOther(enemy, terrain, reverseEdge(edge));
 	}

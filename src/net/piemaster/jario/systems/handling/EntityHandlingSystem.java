@@ -4,6 +4,7 @@ import net.piemaster.jario.components.Acceleration;
 import net.piemaster.jario.components.CollisionMesh;
 import net.piemaster.jario.components.Jumping;
 import net.piemaster.jario.components.Physical;
+import net.piemaster.jario.components.SpatialForm;
 import net.piemaster.jario.components.Transform;
 import net.piemaster.jario.components.Velocity;
 import net.piemaster.jario.systems.CollisionSystem.EdgeType;
@@ -18,20 +19,20 @@ public abstract class EntityHandlingSystem extends EntityProcessingSystem
 	protected ComponentMapper<Transform> transformMapper;
 	protected ComponentMapper<Velocity> velocityMapper;
 	protected ComponentMapper<Physical> physicalMapper;
+	protected ComponentMapper<SpatialForm> spatialMapper;
 	protected ComponentMapper<CollisionMesh> meshMapper;
 	protected ComponentMapper<Jumping> jumpMapper;
-	
+
 	public EntityHandlingSystem(Class<? extends Component> requiredType,
 			Class<? extends Component>... otherTypes)
 	{
 		super(requiredType, otherTypes);
 	}
 
-//	private Bag<CollisionInfo> colls;
-//	private Bag<EntityHandling> handles;
-	
-//	private ComponentMapper<SpatialForm> spatialFormMapper;
+	// private Bag<CollisionInfo> colls;
+	// private Bag<EntityHandling> handles;
 
+	// private ComponentMapper<SpatialForm> spatialFormMapper;
 
 	@Override
 	public void initialize()
@@ -39,270 +40,287 @@ public abstract class EntityHandlingSystem extends EntityProcessingSystem
 		transformMapper = new ComponentMapper<Transform>(Transform.class, world.getEntityManager());
 		velocityMapper = new ComponentMapper<Velocity>(Velocity.class, world.getEntityManager());
 		physicalMapper = new ComponentMapper<Physical>(Physical.class, world.getEntityManager());
+		spatialMapper = new ComponentMapper<SpatialForm>(SpatialForm.class,
+				world.getEntityManager());
 		meshMapper = new ComponentMapper<CollisionMesh>(CollisionMesh.class,
 				world.getEntityManager());
 		jumpMapper = new ComponentMapper<Jumping>(Jumping.class, world.getEntityManager());
-		
-//		spatialFormMapper = new ComponentMapper<SpatialForm>(SpatialForm.class,
-//				world.getEntityManager());
 
-//		colls = new Bag<CollisionInfo>();
-//		handles = new Bag<EntityHandling>();
+		// spatialFormMapper = new
+		// ComponentMapper<SpatialForm>(SpatialForm.class,
+		// world.getEntityManager());
+
+		// colls = new Bag<CollisionInfo>();
+		// handles = new Bag<EntityHandling>();
 	}
 
-//	@Override
-//	protected void begin()
-//	{
-//	}
-//
-//	@Override
-//	protected void processEntities(ImmutableBag<Entity> entities)
-//	{
-//		for (int i = 0; colls.size() > i; i++)
-//		{
-//			CollisionInfo coll = colls.get(i);
-//			handleCollision(coll.getA(), coll.getB(), coll.getEdge());
-//		}
-//	}
-//
-//	@Override
-//	protected void end()
-//	{
-//	}
-//
-//	@Override
-//	protected void added(Entity e)
-//	{
-//		EntityHandling handle = createHandler(e);
-//		if (handle != null)
-//		{
-//			handle.initialise();
-//			handles.set(e.getId(), handle);
-//		}
-//	}
-//
-//	@Override
-//	protected void removed(Entity e)
-//	{
-//		handles.set(e.getId(), null);
-//	}
-//
-//	public void pushCollision(Entity a, Entity b, EdgeType edge)
-//	{
-//		colls.add(new CollisionInfo(a, b, edge));
-//	}
-//	
-//	private EntityHandling createHandler(Entity e)
-//	{
-//		String group = world.getGroupManager().getGroupOf(e);
-//		
-//		if (group.equals("PLAYERS"))
-//			return new PlayerHandlingSystem(this);
-//		else if (group.equals("ENEMIES"))
-//			return new EnemyHandlingSystem();
-//		else
-//		{
-//			Log.warn("Unknown group for collision handler creation: "+group);
-//			return null;
-//		}
-//	}
-//
-//	private void handleCollision(Entity a, Entity b, EdgeType edge)
-//	{
-//		EntityHandling handler = handles.get(a.getId());
-//		handler.handleCollision(b, edge);
-//		
-//		
-//		String aGroup = world.getGroupManager().getGroupOf(a);
-//		String bGroup = world.getGroupManager().getGroupOf(b);
-//
-//		// Determine types
-//		if (aGroup.equals("PLAYERS"))
-//		{
-//			if (bGroup.equals("TERRAIN"))
-//			{
-//				handlePlayerTerrainCollision(a, b, edge);
-//			}
-//			else if (bGroup.equals("ITEMBOXES"))
-//			{
-//				handlePlayerBoxCollision(a, b, edge);
-//				handleBoxPlayerCollision(b, a, reverseEdge(edge));
-//			}
-//			else if (bGroup.equals("ENEMIES"))
-//			{
-//				handlePlayerEnemyCollision(a, b, edge);
-//				handleEnemyPlayerCollision(b, a, reverseEdge(edge));
-//			}
-//			else if (bGroup.equals("ITEMS"))
-//			{
-//				handlePlayerItemCollision(a, b, edge);
-//				handleItemPlayerCollision(b, a, reverseEdge(edge));
-//			}
-//		}
-//		else if (aGroup.equals("ENEMIES"))
-//		{
-//			if (bGroup.equals("TERRAIN") || bGroup.equals("ITEMBOXES"))
-//			{
-//				handleEnemyTerrainCollision(a, b, edge);
-//			}
-//			else if (bGroup.equals("PLAYERS"))
-//			{
-//				handleEnemyPlayerCollision(a, b, edge);
-//				handlePlayerEnemyCollision(b, a, reverseEdge(edge));
-//			}
-//		}
-//		else if (aGroup.equals("ITEMBOXES"))
-//		{
-//			if (bGroup.equals("PLAYERS"))
-//			{
-//				handleBoxPlayerCollision(a, b, edge);
-//				handlePlayerBoxCollision(b, a, reverseEdge(edge));
-//			}
-//			if (bGroup.equals("ENEMIES"))
-//			{
-//				// handleBoxEnemyCollision(a, b, edge);
-//				// handleEnemyBoxCollision(b, a, reverseEdge(edge));
-//			}
-//		}
-//		else if (aGroup.equals("ITEMS"))
-//		{
-//			if (bGroup.equals("PLAYERS"))
-//			{
-//				handleItemPlayerCollision(a, b, edge);
-//				handlePlayerItemCollision(b, a, reverseEdge(edge));
-//			}
-//			if (bGroup.equals("TERRAIN") || bGroup.equals("ITEMBOXES"))
-//			{
-//				handleItemTerrainCollision(a, b, edge);
-//			}
-//		}
-//	}
-//
-//	// ---------------------------------------------------------------------------------------------
-//
-//	private void handlePlayerEnemyCollision(Entity player, Entity enemy, EdgeType edge)
-//	{
-//		// Jumped on enemy
-//		if (edge == EdgeType.EDGE_BOTTOM)
-//		{
-//			player.getComponent(Velocity.class).setY(-BUMP_FACTOR);
-//			player.getComponent(Physical.class).setGrounded(false);
-//		}
-//		// Hit by enemy
-//		else if (edge != EdgeType.EDGE_NONE)
-//		{
-//			Health health = player.getComponent(Health.class);
-//			health.addDamage(1);
-//			if (!health.isAlive())
-//			{
-//				velocityMapper.get(player).setY(-0.5f);
-//				velocityMapper.get(player).setX(0.1f * (edge == EdgeType.EDGE_LEFT ? 1 : -1));
-//				player.getComponent(Physical.class).setGrounded(false);
-//			}
-//		}
-//	}
-//
-//	private void handleEnemyPlayerCollision(Entity enemy, Entity player, EdgeType edge)
-//	{
-//		// Jumped on by the player
-//		if (edge == EdgeType.EDGE_TOP)
-//		{
-//			Health health = enemy.getComponent(Health.class);
-//			health.addDamage(1);
-//			if (health.isAlive())
-//			{
-//				placeEntityOnOther(enemy, player, EdgeType.EDGE_BOTTOM);
-//			}
-//		}
-//	}
-//
-//	private void handlePlayerTerrainCollision(Entity player, Entity terrain, EdgeType edge)
-//	{
-//		placeEntityOnOther(player, terrain, reverseEdge(edge));
-//	}
-//
-//	private void handleTerrainPlayerCollision(Entity terrain, Entity player, EdgeType edge)
-//	{
-//	}
-//
-//	private void handleEnemyTerrainCollision(Entity enemy, Entity terrain, EdgeType edge)
-//	{
-//		placeEntityOnOther(enemy, terrain, reverseEdge(edge));
-//	}
-//
-//	private void handleTerrainEnemyCollision(Entity terrain, Entity enemy, EdgeType edge)
-//	{
-//	}
-//
-//	private void handleItemTerrainCollision(Entity item, Entity terrain, EdgeType edge)
-//	{
-//		placeEntityOnOther(item, terrain, reverseEdge(edge));
-//	}
-//
-//	private void handleTerrainItemCollision(Entity terrain, Entity item, EdgeType edge)
-//	{
-//	}
-//
-//	private void handlePlayerBoxCollision(Entity player, Entity box, EdgeType edge)
-//	{
-//		placeEntityOnOther(player, box, reverseEdge(edge));
-//	}
-//
-//	private void handleBoxPlayerCollision(Entity box, Entity player, EdgeType edge)
-//	{
-//		if (edge == EdgeType.EDGE_BOTTOM)
-//		{
-//			ItemDispenser holder = box.getComponent(ItemDispenser.class);
-//			if (!holder.isEmpty())
-//			{
-//				Entity item;
-//				Transform t = transformMapper.get(box);
-//
-//				switch (holder.getType())
-//				{
-//				case MUSHROOM:
-//					item = EntityFactory.createMushroom(world, t.getX(), t.getY());
-//					break;
-//
-//				case COIN:
-//				case FLOWER:
-//				case STAR:
-//				default:
-//					Log.warn("Unknown item type: " + holder.getType());
-//					return;
-//				}
-//				item.getComponent(Transform.class).addY(
-//						-item.getComponent(SpatialForm.class).getHeight());
-//				System.out.println("item height = "
-//						+ item.getComponent(SpatialForm.class).getHeight());
-//				item.refresh();
-//
-//				holder.setItemId(item.getId());
-//				holder.setDispensing(true);
-//				holder.decrementNumber();
-//			}
-//		}
-//	}
-//
-//	private void handlePlayerItemCollision(Entity player, Entity item, EdgeType edge)
-//	{
-//		ItemType type = item.getComponent(Item.class).getType();
-//
-//		switch (type)
-//		{
-//		case MUSHROOM:
-//			player.getComponent(Health.class).addDamage(-1);
-//			break;
-//		default:
-//			Log.warn("Unknown item type: " + type);
-//			break;
-//		}
-//	}
-//
-//	private void handleItemPlayerCollision(Entity item, Entity player, EdgeType edge)
-//	{
-//		world.deleteEntity(item);
-//	}
+	// @Override
+	// protected void begin()
+	// {
+	// }
+	//
+	// @Override
+	// protected void processEntities(ImmutableBag<Entity> entities)
+	// {
+	// for (int i = 0; colls.size() > i; i++)
+	// {
+	// CollisionInfo coll = colls.get(i);
+	// handleCollision(coll.getA(), coll.getB(), coll.getEdge());
+	// }
+	// }
+	//
+	// @Override
+	// protected void end()
+	// {
+	// }
+	//
+	// @Override
+	// protected void added(Entity e)
+	// {
+	// EntityHandling handle = createHandler(e);
+	// if (handle != null)
+	// {
+	// handle.initialise();
+	// handles.set(e.getId(), handle);
+	// }
+	// }
+	//
+	// @Override
+	// protected void removed(Entity e)
+	// {
+	// handles.set(e.getId(), null);
+	// }
+	//
+	// public void pushCollision(Entity a, Entity b, EdgeType edge)
+	// {
+	// colls.add(new CollisionInfo(a, b, edge));
+	// }
+	//
+	// private EntityHandling createHandler(Entity e)
+	// {
+	// String group = world.getGroupManager().getGroupOf(e);
+	//
+	// if (group.equals("PLAYERS"))
+	// return new PlayerHandlingSystem(this);
+	// else if (group.equals("ENEMIES"))
+	// return new EnemyHandlingSystem();
+	// else
+	// {
+	// Log.warn("Unknown group for collision handler creation: "+group);
+	// return null;
+	// }
+	// }
+	//
+	// private void handleCollision(Entity a, Entity b, EdgeType edge)
+	// {
+	// EntityHandling handler = handles.get(a.getId());
+	// handler.handleCollision(b, edge);
+	//
+	//
+	// String aGroup = world.getGroupManager().getGroupOf(a);
+	// String bGroup = world.getGroupManager().getGroupOf(b);
+	//
+	// // Determine types
+	// if (aGroup.equals("PLAYERS"))
+	// {
+	// if (bGroup.equals("TERRAIN"))
+	// {
+	// handlePlayerTerrainCollision(a, b, edge);
+	// }
+	// else if (bGroup.equals("ITEMBOXES"))
+	// {
+	// handlePlayerBoxCollision(a, b, edge);
+	// handleBoxPlayerCollision(b, a, reverseEdge(edge));
+	// }
+	// else if (bGroup.equals("ENEMIES"))
+	// {
+	// handlePlayerEnemyCollision(a, b, edge);
+	// handleEnemyPlayerCollision(b, a, reverseEdge(edge));
+	// }
+	// else if (bGroup.equals("ITEMS"))
+	// {
+	// handlePlayerItemCollision(a, b, edge);
+	// handleItemPlayerCollision(b, a, reverseEdge(edge));
+	// }
+	// }
+	// else if (aGroup.equals("ENEMIES"))
+	// {
+	// if (bGroup.equals("TERRAIN") || bGroup.equals("ITEMBOXES"))
+	// {
+	// handleEnemyTerrainCollision(a, b, edge);
+	// }
+	// else if (bGroup.equals("PLAYERS"))
+	// {
+	// handleEnemyPlayerCollision(a, b, edge);
+	// handlePlayerEnemyCollision(b, a, reverseEdge(edge));
+	// }
+	// }
+	// else if (aGroup.equals("ITEMBOXES"))
+	// {
+	// if (bGroup.equals("PLAYERS"))
+	// {
+	// handleBoxPlayerCollision(a, b, edge);
+	// handlePlayerBoxCollision(b, a, reverseEdge(edge));
+	// }
+	// if (bGroup.equals("ENEMIES"))
+	// {
+	// // handleBoxEnemyCollision(a, b, edge);
+	// // handleEnemyBoxCollision(b, a, reverseEdge(edge));
+	// }
+	// }
+	// else if (aGroup.equals("ITEMS"))
+	// {
+	// if (bGroup.equals("PLAYERS"))
+	// {
+	// handleItemPlayerCollision(a, b, edge);
+	// handlePlayerItemCollision(b, a, reverseEdge(edge));
+	// }
+	// if (bGroup.equals("TERRAIN") || bGroup.equals("ITEMBOXES"))
+	// {
+	// handleItemTerrainCollision(a, b, edge);
+	// }
+	// }
+	// }
+	//
+	// //
+	// ---------------------------------------------------------------------------------------------
+	//
+	// private void handlePlayerEnemyCollision(Entity player, Entity enemy,
+	// EdgeType edge)
+	// {
+	// // Jumped on enemy
+	// if (edge == EdgeType.EDGE_BOTTOM)
+	// {
+	// player.getComponent(Velocity.class).setY(-BUMP_FACTOR);
+	// player.getComponent(Physical.class).setGrounded(false);
+	// }
+	// // Hit by enemy
+	// else if (edge != EdgeType.EDGE_NONE)
+	// {
+	// Health health = player.getComponent(Health.class);
+	// health.addDamage(1);
+	// if (!health.isAlive())
+	// {
+	// velocityMapper.get(player).setY(-0.5f);
+	// velocityMapper.get(player).setX(0.1f * (edge == EdgeType.EDGE_LEFT ? 1 :
+	// -1));
+	// player.getComponent(Physical.class).setGrounded(false);
+	// }
+	// }
+	// }
+	//
+	// private void handleEnemyPlayerCollision(Entity enemy, Entity player,
+	// EdgeType edge)
+	// {
+	// // Jumped on by the player
+	// if (edge == EdgeType.EDGE_TOP)
+	// {
+	// Health health = enemy.getComponent(Health.class);
+	// health.addDamage(1);
+	// if (health.isAlive())
+	// {
+	// placeEntityOnOther(enemy, player, EdgeType.EDGE_BOTTOM);
+	// }
+	// }
+	// }
+	//
+	// private void handlePlayerTerrainCollision(Entity player, Entity terrain,
+	// EdgeType edge)
+	// {
+	// placeEntityOnOther(player, terrain, reverseEdge(edge));
+	// }
+	//
+	// private void handleTerrainPlayerCollision(Entity terrain, Entity player,
+	// EdgeType edge)
+	// {
+	// }
+	//
+	// private void handleEnemyTerrainCollision(Entity enemy, Entity terrain,
+	// EdgeType edge)
+	// {
+	// placeEntityOnOther(enemy, terrain, reverseEdge(edge));
+	// }
+	//
+	// private void handleTerrainEnemyCollision(Entity terrain, Entity enemy,
+	// EdgeType edge)
+	// {
+	// }
+	//
+	// private void handleItemTerrainCollision(Entity item, Entity terrain,
+	// EdgeType edge)
+	// {
+	// placeEntityOnOther(item, terrain, reverseEdge(edge));
+	// }
+	//
+	// private void handleTerrainItemCollision(Entity terrain, Entity item,
+	// EdgeType edge)
+	// {
+	// }
+	//
+	// private void handlePlayerBoxCollision(Entity player, Entity box, EdgeType
+	// edge)
+	// {
+	// placeEntityOnOther(player, box, reverseEdge(edge));
+	// }
+	//
+	// private void handleBoxPlayerCollision(Entity box, Entity player, EdgeType
+	// edge)
+	// {
+	// if (edge == EdgeType.EDGE_BOTTOM)
+	// {
+	// ItemDispenser holder = box.getComponent(ItemDispenser.class);
+	// if (!holder.isEmpty())
+	// {
+	// Entity item;
+	// Transform t = transformMapper.get(box);
+	//
+	// switch (holder.getType())
+	// {
+	// case MUSHROOM:
+	// item = EntityFactory.createMushroom(world, t.getX(), t.getY());
+	// break;
+	//
+	// case COIN:
+	// case FLOWER:
+	// case STAR:
+	// default:
+	// Log.warn("Unknown item type: " + holder.getType());
+	// return;
+	// }
+	// item.getComponent(Transform.class).addY(
+	// -item.getComponent(SpatialForm.class).getHeight());
+	// System.out.println("item height = "
+	// + item.getComponent(SpatialForm.class).getHeight());
+	// item.refresh();
+	//
+	// holder.setItemId(item.getId());
+	// holder.setDispensing(true);
+	// holder.decrementNumber();
+	// }
+	// }
+	// }
+	//
+	// private void handlePlayerItemCollision(Entity player, Entity item,
+	// EdgeType edge)
+	// {
+	// ItemType type = item.getComponent(Item.class).getType();
+	//
+	// switch (type)
+	// {
+	// case MUSHROOM:
+	// player.getComponent(Health.class).addDamage(-1);
+	// break;
+	// default:
+	// Log.warn("Unknown item type: " + type);
+	// break;
+	// }
+	// }
+	//
+	// private void handleItemPlayerCollision(Entity item, Entity player,
+	// EdgeType edge)
+	// {
+	// world.deleteEntity(item);
+	// }
 
 	// ---------------------------------------------------------------------------------------------
 
@@ -409,5 +427,4 @@ public abstract class EntityHandlingSystem extends EntityProcessingSystem
 	{
 		return true;
 	}
-
 }

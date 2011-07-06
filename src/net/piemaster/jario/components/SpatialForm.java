@@ -1,5 +1,7 @@
 package net.piemaster.jario.components;
 
+import java.util.ArrayList;
+
 import com.artemis.Component;
 
 public class SpatialForm extends Component
@@ -8,6 +10,8 @@ public class SpatialForm extends Component
 	private boolean visible;
 	private float width;
 	private float height;
+	
+	private ArrayList<Runnable> loadedCallbacks = new ArrayList<Runnable>();
 
 	public SpatialForm(String spatialFormFile)
 	{
@@ -71,5 +75,25 @@ public class SpatialForm extends Component
 	public void setHeight(float height)
 	{
 		this.height = height;
+	}
+	
+	public ArrayList<Runnable> getLoadedCallbacks()
+	{
+		return loadedCallbacks;
+	}
+	
+	public void pushLoadedCallback(Runnable callback)
+	{
+		loadedCallbacks.add(callback);
+	}
+	
+	public void clearLoadedCallbacks()
+	{
+		loadedCallbacks.clear();
+	}
+	
+	public int numLoadedCallbacks()
+	{
+		return loadedCallbacks.size();
 	}
 }

@@ -60,7 +60,6 @@ public class PlayerHandlingSystem extends EntityHandlingSystem
 
 		for (int i = coll.getSize() - 1; i >= 0; --i)
 		{
-			System.out.println("Handling player collision #" + i);
 			Entity target = world.getEntity(coll.getTargetIds().remove(i));
 			EdgeType edge = coll.getEdges().remove(i);
 			String group = world.getGroupManager().getGroupOf(target);

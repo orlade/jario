@@ -47,10 +47,16 @@ public class CollisionSystem extends EntitySystem
 			for (int i = 0; source.size() > i; i++)
 			{
 				Entity a = source.get(i);
+				
+				if(!meshMapper.get(a).isActive())
+					continue;
 
 				for (int j = 0; against.size() > j; j++)
 				{
 					Entity b = against.get(j);
+					
+					if(!meshMapper.get(b).isActive())
+						continue;
 					
 					// Ensure they're not the same
 					if(a == b)

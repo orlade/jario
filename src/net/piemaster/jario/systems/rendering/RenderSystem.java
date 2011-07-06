@@ -75,6 +75,13 @@ public class RenderSystem extends EntityProcessingSystem
 		{
 			spatial.initalize();
 			spatials.set(e.getId(), spatial);
+			
+			SpatialForm form = spatialFormMapper.get(e);
+			for(Runnable callback : form.getLoadedCallbacks())
+			{
+				callback.run();
+			}
+			form.clearLoadedCallbacks();
 		}
 	}
 

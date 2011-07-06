@@ -21,17 +21,17 @@ public abstract class Vector2f extends Component
 	{
 		return (float) Math.atan2(y, x);
 	}
-	
+
 	public float getAngleAsRadians()
 	{
 		return (float) Math.toRadians(getAngle());
 	}
-	
+
 	public void reset()
 	{
 		x = y = 0;
 	}
-	
+
 	public boolean isZero()
 	{
 		return x == 0 && y == 0;
@@ -54,6 +54,12 @@ public abstract class Vector2f extends Component
 
 	public void setY(float y)
 	{
+		this.y = y;
+	}
+
+	public void setBoth(float x, float y)
+	{
+		this.x = x;
 		this.y = y;
 	}
 
