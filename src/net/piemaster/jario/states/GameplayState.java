@@ -11,13 +11,14 @@ import net.piemaster.jario.systems.CollisionSystem;
 import net.piemaster.jario.systems.CullingSystem;
 import net.piemaster.jario.systems.DispenserSystem;
 import net.piemaster.jario.systems.DispensingSystem;
-import net.piemaster.jario.systems.HealthSystem;
 import net.piemaster.jario.systems.ExpirationSystem;
+import net.piemaster.jario.systems.HealthSystem;
 import net.piemaster.jario.systems.MovementSystem;
 import net.piemaster.jario.systems.PlayerControlSystem;
 import net.piemaster.jario.systems.RespawnSystem;
 import net.piemaster.jario.systems.handling.BoxHandlingSystem;
 import net.piemaster.jario.systems.handling.BulletHandlingSystem;
+import net.piemaster.jario.systems.handling.CoinHandlingSystem;
 import net.piemaster.jario.systems.handling.EnemyHandlingSystem;
 import net.piemaster.jario.systems.handling.ItemHandlingSystem;
 import net.piemaster.jario.systems.handling.ParakoopaHandlingSystem;
@@ -61,15 +62,15 @@ public class GameplayState extends BasicGameState
 	private EntitySystem playerHandlingSystem;
 	private EntitySystem enemyHandlingSystem;
 	private EntitySystem parakoopaHandlingSystem;
-//	private EntitySystem terrainHandlingSystem;
 	private EntitySystem itemHandlingSystem;
+	private EntitySystem coinHandlingSystem;
 	private EntitySystem bulletHandlingSystem;
 	private EntitySystem boxHandlingSystem;
 
 	private EntitySystem cullingSystem;
 	private EntitySystem renderSystem;
 	private EntitySystem hudRenderSystem;
-	private EntitySystem terrainRenderSystem;
+	private EntitySystem backgroundRenderSystem;
 	private EntitySystem meshRenderSystem;
 
 	private EntitySystem boundarySystem;
@@ -114,8 +115,8 @@ public class GameplayState extends BasicGameState
 		playerHandlingSystem = systemManager.setSystem(new PlayerHandlingSystem());
 		enemyHandlingSystem = systemManager.setSystem(new EnemyHandlingSystem());
 		parakoopaHandlingSystem = systemManager.setSystem(new ParakoopaHandlingSystem());
-//		terrainHandlingSystem = systemManager.setSystem(new TerrainHandlingSystem());
 		itemHandlingSystem = systemManager.setSystem(new ItemHandlingSystem());
+		coinHandlingSystem = systemManager.setSystem(new CoinHandlingSystem());
 		bulletHandlingSystem = systemManager.setSystem(new BulletHandlingSystem());
 		boxHandlingSystem = systemManager.setSystem(new BoxHandlingSystem());
 
@@ -125,7 +126,7 @@ public class GameplayState extends BasicGameState
 		cullingSystem = systemManager.setSystem(new CullingSystem());
 		renderSystem = systemManager.setSystem(new RenderSystem(gc));
 		hudRenderSystem = systemManager.setSystem(new HudRenderSystem(gc));
-		terrainRenderSystem = systemManager.setSystem(new TerrainRenderSystem(gc));
+		backgroundRenderSystem = systemManager.setSystem(new TerrainRenderSystem(gc));
 		meshRenderSystem = systemManager.setSystem(new CollisionMeshRenderSystem(gc));
 
 		systemManager.initializeAll();
@@ -134,7 +135,7 @@ public class GameplayState extends BasicGameState
 		MapLoader loader = new MapLoader(world);
 		try
 		{
-			loader.buildMap("assets/levels/level_1.map");
+			loader.buildMap("/levels/level_1.map");
 		}
 		catch (FileNotFoundException e)
 		{
@@ -158,7 +159,7 @@ public class GameplayState extends BasicGameState
 		// Handle collisions
 		collisionSystem.process();
 		playerHandlingSystem.process();
-//		terrainHandlingSystem.process();
+		coinHandlingSystem.process();
 		itemHandlingSystem.process();
 		bulletHandlingSystem.process();
 		boxHandlingSystem.process();
@@ -182,7 +183,7 @@ public class GameplayState extends BasicGameState
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException
 	{
-		terrainRenderSystem.process();
+		backgroundRenderSystem.process();
 		renderSystem.process();
 
 		if(debug)

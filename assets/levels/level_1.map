@@ -1,19 +1,11 @@
 # Comment!
 # Entity x y [w] [h]
-player 32 300
 
-goomba 1000 400
-parakoopa 800 400
-
-# Floors
+# Terrain
 block 0 500 1000 100
 block 1140 500 235 100
 block 1425 500 1025 100
 block 2480 500 904 100
-
-#block 750 500 400 100
-#block 750 450 50 50
-#block 1100 450 50 50
 
 itembox 155 350 32 32
 
@@ -26,3 +18,9 @@ block 383 350 32 32
 itembox 319 200 32 32
 
 block 500 425 64 75
+
+# Entities
+player 32 300
+
+goomba 1000 400
+parakoopa 800 400

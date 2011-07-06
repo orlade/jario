@@ -1,7 +1,6 @@
 package net.piemaster.jario.loader;
 
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.Scanner;
 
 import net.piemaster.jario.EntityFactory;
@@ -28,7 +27,7 @@ public class MapLoader
 	 */
 	public void buildMap(String mapFile) throws FileNotFoundException
 	{
-		Scanner scanner = new Scanner(new FileReader(mapFile));
+		Scanner scanner = new Scanner(getClass().getResourceAsStream(mapFile));
 		try
 		{
 			while (scanner.hasNextLine())

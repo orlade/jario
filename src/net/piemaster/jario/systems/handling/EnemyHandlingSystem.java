@@ -21,7 +21,7 @@ public class EnemyHandlingSystem extends EntityHandlingSystem
 	{
 		super(Enemy.class, Collisions.class);
 	}
-	
+
 	/**
 	 * Generic constructor to allow for subclasses.
 	 */
@@ -51,9 +51,13 @@ public class EnemyHandlingSystem extends EntityHandlingSystem
 			EdgeType edge = coll.getEdges().remove(i);
 			String group = world.getGroupManager().getGroupOf(target);
 
-			if (group.equals(EntityType.TERRAIN.toString()) || group.equals(EntityType.ITEMBOX.toString()))
+			if (group.equals(EntityType.TERRAIN.toString()))
 			{
 				handleTerrainCollision(e, target, edge);
+			}
+			else if (group.equals(EntityType.ITEMBOX.toString()))
+			{
+				handleBoxCollision(e, target, edge);
 			}
 			else if (group.equals(EntityType.PLAYER.toString()))
 			{
@@ -74,6 +78,12 @@ public class EnemyHandlingSystem extends EntityHandlingSystem
 				placeEntityOnOther(enemy, player, reverseEdge(edge));
 			}
 		}
+	}
+
+	protected void handleBoxCollision(Entity enemy, Entity box, EdgeType edge)
+	{
+		// Delegate, same as terrain
+		handleTerrainCollision(enemy, box, edge);
 	}
 
 	protected void handleTerrainCollision(Entity enemy, Entity terrain, EdgeType edge)

@@ -1,6 +1,7 @@
 package net.piemaster.jario;
 
 import net.piemaster.jario.components.Acceleration;
+import net.piemaster.jario.components.Coin;
 import net.piemaster.jario.components.CollisionMesh;
 import net.piemaster.jario.components.Collisions;
 import net.piemaster.jario.components.Enemy;
@@ -161,6 +162,7 @@ public class EntityFactory
 		shroom.addComponent(new CollisionMesh(x, y, 0, 0));
 		shroom.addComponent(new Collisions());
 		shroom.addComponent(new Globals());
+		shroom.addComponent(new Coin());
 		shroom.addComponent(new Item(ItemType.COIN));
 		
 		return shroom;
