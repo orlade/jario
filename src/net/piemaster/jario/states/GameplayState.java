@@ -11,7 +11,7 @@ import net.piemaster.jario.systems.CollisionSystem;
 import net.piemaster.jario.systems.CullingSystem;
 import net.piemaster.jario.systems.DispenserSystem;
 import net.piemaster.jario.systems.DispensingSystem;
-import net.piemaster.jario.systems.EnemyHealthSystem;
+import net.piemaster.jario.systems.HealthSystem;
 import net.piemaster.jario.systems.ExpirationSystem;
 import net.piemaster.jario.systems.MovementSystem;
 import net.piemaster.jario.systems.PlayerControlSystem;
@@ -19,6 +19,7 @@ import net.piemaster.jario.systems.RespawnSystem;
 import net.piemaster.jario.systems.handling.BoxHandlingSystem;
 import net.piemaster.jario.systems.handling.EnemyHandlingSystem;
 import net.piemaster.jario.systems.handling.ItemHandlingSystem;
+import net.piemaster.jario.systems.handling.ParakoopaHandlingSystem;
 import net.piemaster.jario.systems.handling.PlayerHandlingSystem;
 import net.piemaster.jario.systems.rendering.CollisionMeshRenderSystem;
 import net.piemaster.jario.systems.rendering.HudRenderSystem;
@@ -58,6 +59,7 @@ public class GameplayState extends BasicGameState
 
 	private EntitySystem playerHandlingSystem;
 	private EntitySystem enemyHandlingSystem;
+	private EntitySystem parakoopaHandlingSystem;
 //	private EntitySystem terrainHandlingSystem;
 	private EntitySystem itemHandlingSystem;
 	private EntitySystem boxHandlingSystem;
@@ -105,10 +107,11 @@ public class GameplayState extends BasicGameState
 		dispensingSystem = systemManager.setSystem(new DispensingSystem());
 		dispenserSystem = systemManager.setSystem(new DispenserSystem());
 		
-		enemyHealthSystem = systemManager.setSystem(new EnemyHealthSystem());
+		enemyHealthSystem = systemManager.setSystem(new HealthSystem());
 
 		playerHandlingSystem = systemManager.setSystem(new PlayerHandlingSystem());
 		enemyHandlingSystem = systemManager.setSystem(new EnemyHandlingSystem());
+		parakoopaHandlingSystem = systemManager.setSystem(new ParakoopaHandlingSystem());
 //		terrainHandlingSystem = systemManager.setSystem(new TerrainHandlingSystem());
 		itemHandlingSystem = systemManager.setSystem(new ItemHandlingSystem());
 		boxHandlingSystem = systemManager.setSystem(new BoxHandlingSystem());
@@ -152,6 +155,7 @@ public class GameplayState extends BasicGameState
 		collisionSystem.process();
 		playerHandlingSystem.process();
 		enemyHandlingSystem.process();
+		parakoopaHandlingSystem.process();
 //		terrainHandlingSystem.process();
 		itemHandlingSystem.process();
 		boxHandlingSystem.process();

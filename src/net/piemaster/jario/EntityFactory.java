@@ -1,8 +1,8 @@
 package net.piemaster.jario;
 
 import net.piemaster.jario.components.Acceleration;
-import net.piemaster.jario.components.Collisions;
 import net.piemaster.jario.components.CollisionMesh;
+import net.piemaster.jario.components.Collisions;
 import net.piemaster.jario.components.Enemy;
 import net.piemaster.jario.components.Globals;
 import net.piemaster.jario.components.Health;
@@ -10,6 +10,7 @@ import net.piemaster.jario.components.Item;
 import net.piemaster.jario.components.Item.ItemType;
 import net.piemaster.jario.components.ItemDispenser;
 import net.piemaster.jario.components.Jumping;
+import net.piemaster.jario.components.Parakoopa;
 import net.piemaster.jario.components.Physical;
 import net.piemaster.jario.components.Player;
 import net.piemaster.jario.components.Respawn;
@@ -107,6 +108,7 @@ public class EntityFactory
 		para.addComponent(new Globals());
 		para.addComponent(new Jumping(0.5f));
 		para.addComponent(new Enemy());
+		para.addComponent(new Parakoopa());
 		
 		return para;
 	}

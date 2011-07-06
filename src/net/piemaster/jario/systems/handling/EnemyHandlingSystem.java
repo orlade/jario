@@ -22,6 +22,9 @@ public class EnemyHandlingSystem extends EntityHandlingSystem
 		super(Enemy.class, Collisions.class);
 	}
 	
+	/**
+	 * Generic constructor to allow for subclasses.
+	 */
 	public EnemyHandlingSystem(Class<? extends Component> requiredType,
 			Class<? extends Component>... otherTypes)
 	{

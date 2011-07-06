@@ -3,6 +3,7 @@ package net.piemaster.jario.systems.handling;
 import net.piemaster.jario.components.Collisions;
 import net.piemaster.jario.components.Health;
 import net.piemaster.jario.components.Item;
+import net.piemaster.jario.components.Score;
 import net.piemaster.jario.components.Item.ItemType;
 import net.piemaster.jario.components.Player;
 import net.piemaster.jario.entities.EntityType;
@@ -128,6 +129,15 @@ public class PlayerHandlingSystem extends EntityHandlingSystem
 		case MUSHROOM:
 			healthMapper.get(player).addDamage(-1);
 			break;
+			
+		case FLOWER:
+//			healthMapper.get(player).addDamage(-1);
+			break;
+			
+		case COIN:
+			player.getComponent(Score.class).incrementScore();
+			break;
+			
 		default:
 			Log.warn("Unknown item type: " + type);
 			break;

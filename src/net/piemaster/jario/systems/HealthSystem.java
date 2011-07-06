@@ -8,12 +8,12 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.EntityProcessingSystem;
 
-public class EnemyHealthSystem extends EntityProcessingSystem
+public class HealthSystem extends EntityProcessingSystem
 {
 	private ComponentMapper<Health> healthMapper;
 
 	@SuppressWarnings("unchecked")
-	public EnemyHealthSystem()
+	public HealthSystem()
 	{
 		super(Health.class, CollisionMesh.class);
 	}
@@ -32,8 +32,6 @@ public class EnemyHealthSystem extends EntityProcessingSystem
 		{
 			e.getComponent(Physical.class).setGrounded(false);
 			e.getComponent(CollisionMesh.class).setActive(false);
-			world.getGroupManager().remove(e);
-			e.refresh();
 		}
 	}
 
