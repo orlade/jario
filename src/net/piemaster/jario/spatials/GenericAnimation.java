@@ -14,6 +14,7 @@ public class GenericAnimation extends Spatial
 {
 	private Transform transform;
 	private Animation anim;
+	private Animation flippedAnim;
 
 	public GenericAnimation(World world, Entity owner, String[] filenames, int duration)
 	{
@@ -22,13 +23,17 @@ public class GenericAnimation extends Spatial
 		try
 		{
 			Image[] images = new Image[filenames.length];
+			Image[] flippedImages = new Image[filenames.length];
+			
 			for(int i = 0; i < filenames.length; ++i)
 			{
 				images[i] = new Image(filenames[i]);
 				images[i].setCenterOfRotation(images[i].getWidth()/2, images[i].getHeight()/2);
+				flippedImages[i] = images[i].getFlippedCopy(true, false);
 			}
 			
 			anim = new Animation(images, duration, true);
+			flippedAnim = new Animation(flippedImages, duration, true);
 		}
 		catch (SlickException e)
 		{
@@ -45,7 +50,14 @@ public class GenericAnimation extends Spatial
 	@Override
 	public void render(Graphics g)
 	{
-		anim.draw(transform.getX(), transform.getY());
+		if(transform.isFacingRight())
+		{
+			anim.draw(transform.getX(), transform.getY());
+		}
+		else
+		{
+			flippedAnim.draw(transform.getX(), transform.getY());
+		}
 	}
 
 	@Override

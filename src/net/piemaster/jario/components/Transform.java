@@ -8,7 +8,7 @@ public class Transform extends Component
 	private float x;
 	private float y;
 	private float rotation;
-	private boolean facingRight;
+	private boolean facingRight = true;
 
 	public Transform()
 	{

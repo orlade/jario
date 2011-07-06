@@ -13,6 +13,7 @@ public class GenericImage extends Spatial
 {
 	private Transform transform;
 	private Image image;
+	private Image flippedImage;
 //	private String filename;
 
 	public GenericImage(World world, Entity owner, String filename)
@@ -24,6 +25,7 @@ public class GenericImage extends Spatial
 		{
 			image = new Image(filename);
 			image.setCenterOfRotation(image.getWidth()/2, image.getHeight()/2);
+			flippedImage = image.getFlippedCopy(true, false);
 		}
 		catch (SlickException e)
 		{
@@ -40,8 +42,16 @@ public class GenericImage extends Spatial
 	@Override
 	public void render(Graphics g)
 	{
-		image.setRotation(transform.getRotation());
-		g.drawImage(image, transform.getX(), transform.getY());
+		if(transform.isFacingRight())
+		{
+			image.setRotation(transform.getRotation());
+			g.drawImage(image, transform.getX(), transform.getY());
+		}
+		else
+		{
+			flippedImage.setRotation(transform.getRotation());
+			g.drawImage(flippedImage, transform.getX(), transform.getY());
+		}
 	}
 
 	@Override

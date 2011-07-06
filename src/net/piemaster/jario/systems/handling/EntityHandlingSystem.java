@@ -365,24 +365,14 @@ public abstract class EntityHandlingSystem extends EntityProcessingSystem
 			}
 			phys.setGrounded(false);
 		}
-		else if (edge == EdgeType.EDGE_LEFT)
+		else if (edge == EdgeType.EDGE_LEFT || edge == EdgeType.EDGE_RIGHT)
 		{
-			t1.setX(m2.getX() - m1.getWidth());
+			float diff = (edge == EdgeType.EDGE_LEFT) ?  -m1.getWidth() : m2.getWidth();
+			t1.setX(m2.getX() + diff);
 			if (phys.isBouncyHorizontal())
 			{
 				v1.setX(-v1.getX());
-			}
-			else
-			{
-				// haltHorizontal(e1);
-			}
-		}
-		else if (edge == EdgeType.EDGE_RIGHT)
-		{
-			t1.setX(m2.getX() + m2.getWidth());
-			if (phys.isBouncyHorizontal())
-			{
-				v1.setX(-v1.getX());
+				t1.setFacingRight(!t1.isFacingRight());
 			}
 			else
 			{

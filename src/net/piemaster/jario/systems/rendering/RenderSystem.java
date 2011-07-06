@@ -29,7 +29,7 @@ public class RenderSystem extends EntityProcessingSystem
 {
 	private Graphics graphics;
 	private Bag<Spatial> spatials;
-	private ComponentMapper<SpatialForm> spatialFormMapper;
+	private ComponentMapper<SpatialForm> formMapper;
 	private CameraSystem cameraSystem;
 
 	public RenderSystem(GameContainer container)
@@ -41,7 +41,7 @@ public class RenderSystem extends EntityProcessingSystem
 	@Override
 	public void initialize()
 	{
-		spatialFormMapper = new ComponentMapper<SpatialForm>(SpatialForm.class, world.getEntityManager());
+		formMapper = new ComponentMapper<SpatialForm>(SpatialForm.class, world.getEntityManager());
 
 		cameraSystem = world.getSystemManager().getSystem(CameraSystem.class);
 
@@ -58,7 +58,7 @@ public class RenderSystem extends EntityProcessingSystem
 	@Override
 	protected void process(Entity e)
 	{
-		if(spatialFormMapper.get(e).isVisible())
+		if(formMapper.get(e).isVisible())
 		{
 			Spatial spatial = spatials.get(e.getId());
 			spatial.render(graphics);
@@ -79,9 +79,9 @@ public class RenderSystem extends EntityProcessingSystem
 		{
 			spatial.initalize();
 			spatials.set(e.getId(), spatial);
-			
-			SpatialForm form = spatialFormMapper.get(e);
-			for(Runnable callback : form.getLoadedCallbacks())
+
+			SpatialForm form = formMapper.get(e);
+			for (Runnable callback : form.getLoadedCallbacks())
 			{
 				callback.run();
 			}
@@ -94,10 +94,10 @@ public class RenderSystem extends EntityProcessingSystem
 	{
 		spatials.set(e.getId(), null);
 	}
-	
+
 	private Spatial createSpatial(Entity e)
 	{
-		SpatialForm spatialForm = spatialFormMapper.get(e);
+		SpatialForm spatialForm = formMapper.get(e);
 		String spatialFormFile = spatialForm.getSpatialFormFile();
 
 		if ("PlayerImage".equalsIgnoreCase(spatialFormFile))
@@ -134,8 +134,8 @@ public class RenderSystem extends EntityProcessingSystem
 		}
 		else if ("Block".equalsIgnoreCase(spatialFormFile))
 		{
-			int width = (int)e.getComponent(SpatialForm.class).getWidth();
-			int height = (int)e.getComponent(SpatialForm.class).getHeight();
+			int width = (int) e.getComponent(SpatialForm.class).getWidth();
+			int height = (int) e.getComponent(SpatialForm.class).getHeight();
 			return new Block(world, e, width, height);
 		}
 		else if ("Missile".equalsIgnoreCase(spatialFormFile))
@@ -144,11 +144,11 @@ public class RenderSystem extends EntityProcessingSystem
 		}
 		else
 		{
-			Log.warn("Unknown spatial form: "+spatialFormFile);			
+			Log.warn("Unknown spatial form: " + spatialFormFile);
 			return null;
 		}
 	}
-	
+
 	/**
 	 * For the given entity, set the dimensions of the collision mesh and spaital components.
 	 */

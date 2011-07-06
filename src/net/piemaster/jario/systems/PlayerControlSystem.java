@@ -2,7 +2,6 @@ package net.piemaster.jario.systems;
 
 import net.piemaster.jario.EntityFactory;
 import net.piemaster.jario.components.Acceleration;
-import net.piemaster.jario.components.Fireball;
 import net.piemaster.jario.components.Health;
 import net.piemaster.jario.components.Jumping;
 import net.piemaster.jario.components.Physical;
