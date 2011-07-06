@@ -8,6 +8,7 @@ public class Transform extends Component
 	private float x;
 	private float y;
 	private float rotation;
+	private boolean facingRight;
 
 	public Transform()
 	{
@@ -86,4 +87,13 @@ public class Transform extends Component
 		return Utils.distance(t.getX(), t.getY(), x, y);
 	}
 
+	public boolean isFacingRight()
+	{
+		return facingRight;
+	}
+
+	public void setFacingRight(boolean facingRight)
+	{
+		this.facingRight = facingRight;
+	}
 }

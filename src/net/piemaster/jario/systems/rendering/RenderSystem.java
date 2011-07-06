@@ -1,11 +1,11 @@
 package net.piemaster.jario.systems.rendering;
 
 import net.piemaster.jario.components.CollisionMesh;
-import net.piemaster.jario.components.SpatialForm;
 import net.piemaster.jario.components.Item.ItemType;
+import net.piemaster.jario.components.SpatialForm;
 import net.piemaster.jario.spatials.Block;
 import net.piemaster.jario.spatials.Coin;
-import net.piemaster.jario.spatials.Explosion;
+import net.piemaster.jario.spatials.Fireball;
 import net.piemaster.jario.spatials.Flower;
 import net.piemaster.jario.spatials.Goomba;
 import net.piemaster.jario.spatials.ItemBox;
@@ -112,11 +112,6 @@ public class RenderSystem extends EntityProcessingSystem
 		{
 			return setupGenericSpatialEntity(e, new Parakoopa(world, e));
 		}
-		else if ("Parakoopa".equalsIgnoreCase(spatialFormFile))
-		{
-//			return setupGenericSpatialEntity(e, new Parakoopa(world, e));
-			return setupGenericSpatialEntity(e, new Parakoopa(world, e));
-		}
 		else if ("ItemBox".equalsIgnoreCase(spatialFormFile))
 		{
 			return setupGenericSpatialEntity(e, new ItemBox(world, e));
@@ -133,6 +128,10 @@ public class RenderSystem extends EntityProcessingSystem
 		{
 			return setupGenericSpatialEntity(e, new Coin(world, e));
 		}
+		else if ("Fireball".equalsIgnoreCase(spatialFormFile))
+		{
+			return setupGenericSpatialEntity(e, new Fireball(world, e));
+		}
 		else if ("Block".equalsIgnoreCase(spatialFormFile))
 		{
 			int width = (int)e.getComponent(SpatialForm.class).getWidth();
@@ -142,14 +141,6 @@ public class RenderSystem extends EntityProcessingSystem
 		else if ("Missile".equalsIgnoreCase(spatialFormFile))
 		{
 			return new Missile(world, e);
-		}
-		else if ("BulletExplosion".equalsIgnoreCase(spatialFormFile))
-		{
-			return new Explosion(world, e, 10);
-		}
-		else if ("ShipExplosion".equalsIgnoreCase(spatialFormFile))
-		{
-			return new Explosion(world, e, 30);
 		}
 		else
 		{

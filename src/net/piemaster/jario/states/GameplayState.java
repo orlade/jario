@@ -17,6 +17,7 @@ import net.piemaster.jario.systems.MovementSystem;
 import net.piemaster.jario.systems.PlayerControlSystem;
 import net.piemaster.jario.systems.RespawnSystem;
 import net.piemaster.jario.systems.handling.BoxHandlingSystem;
+import net.piemaster.jario.systems.handling.BulletHandlingSystem;
 import net.piemaster.jario.systems.handling.EnemyHandlingSystem;
 import net.piemaster.jario.systems.handling.ItemHandlingSystem;
 import net.piemaster.jario.systems.handling.ParakoopaHandlingSystem;
@@ -62,6 +63,7 @@ public class GameplayState extends BasicGameState
 	private EntitySystem parakoopaHandlingSystem;
 //	private EntitySystem terrainHandlingSystem;
 	private EntitySystem itemHandlingSystem;
+	private EntitySystem bulletHandlingSystem;
 	private EntitySystem boxHandlingSystem;
 
 	private EntitySystem cullingSystem;
@@ -114,6 +116,7 @@ public class GameplayState extends BasicGameState
 		parakoopaHandlingSystem = systemManager.setSystem(new ParakoopaHandlingSystem());
 //		terrainHandlingSystem = systemManager.setSystem(new TerrainHandlingSystem());
 		itemHandlingSystem = systemManager.setSystem(new ItemHandlingSystem());
+		bulletHandlingSystem = systemManager.setSystem(new BulletHandlingSystem());
 		boxHandlingSystem = systemManager.setSystem(new BoxHandlingSystem());
 
 		boundarySystem = systemManager.setSystem(new BoundarySystem(0, 0, 3384, 600));
@@ -157,6 +160,7 @@ public class GameplayState extends BasicGameState
 		playerHandlingSystem.process();
 //		terrainHandlingSystem.process();
 		itemHandlingSystem.process();
+		bulletHandlingSystem.process();
 		boxHandlingSystem.process();
 		parakoopaHandlingSystem.process();
 		enemyHandlingSystem.process();

@@ -1,6 +1,7 @@
 package net.piemaster.jario.systems;
 
 import net.piemaster.jario.components.Health;
+import net.piemaster.jario.components.Player;
 import net.piemaster.jario.components.SpatialForm;
 import net.piemaster.jario.components.Transform;
 import net.piemaster.jario.components.Velocity;
@@ -23,7 +24,7 @@ public class BoundarySystem extends EntityProcessingSystem
 	@SuppressWarnings("unchecked")
 	public BoundarySystem(int boundsStartX, int boundsStartY, int boundsEndX, int boundsEndY)
 	{
-		super(Transform.class, SpatialForm.class);
+		super(Player.class, Transform.class, SpatialForm.class);
 
 		this.boundsStartX = boundsStartX;
 		this.boundsStartY = boundsStartY;

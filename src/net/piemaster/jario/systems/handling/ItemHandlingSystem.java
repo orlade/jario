@@ -4,6 +4,7 @@ import net.piemaster.jario.components.Collisions;
 import net.piemaster.jario.components.Item;
 import net.piemaster.jario.systems.CollisionSystem.EdgeType;
 
+import com.artemis.Component;
 import com.artemis.Entity;
 
 public class ItemHandlingSystem extends EnemyHandlingSystem
@@ -12,6 +13,15 @@ public class ItemHandlingSystem extends EnemyHandlingSystem
 	public ItemHandlingSystem()
 	{
 		super(Item.class, Collisions.class);
+	}
+	
+	/**
+	 * Generic constructor to allow for subclasses.
+	 */
+	public ItemHandlingSystem(Class<? extends Component> requiredType,
+			Class<? extends Component>... otherTypes)
+	{
+		super(requiredType, otherTypes);
 	}
 
 	@Override

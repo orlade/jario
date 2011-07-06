@@ -3,6 +3,7 @@ package net.piemaster.jario.systems;
 import net.piemaster.jario.components.Health;
 import net.piemaster.jario.components.SpatialForm;
 import net.piemaster.jario.components.Transform;
+import net.piemaster.jario.components.Velocity;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
@@ -19,7 +20,7 @@ public class CullingSystem extends EntityProcessingSystem
 	@SuppressWarnings("unchecked")
 	public CullingSystem()
 	{
-		super(Transform.class, Health.class, SpatialForm.class);
+		super(Transform.class, Velocity.class, SpatialForm.class);
 	}
 
 	@Override
@@ -37,15 +38,15 @@ public class CullingSystem extends EntityProcessingSystem
 	protected void process(Entity e)
 	{
 		// Don't cull the player
-		if(e == world.getTagManager().getEntity("PLAYER"))
+		if (e == world.getTagManager().getEntity("PLAYER"))
 			return;
-		
+
 		Health health = healthMapper.get(e);
 		Transform t = transMapper.get(e);
 		SpatialForm spatial = spatialMapper.get(e);
 
 		// If dead and off the screen
-		if (!health.isAlive()
+		if ((health == null || !health.isAlive())
 				&& (t.getX() + spatial.getWidth() < cameraSystem.getStartX() || t.getX() > cameraSystem
 						.getEndX())
 				|| (t.getY() + spatial.getHeight() < cameraSystem.getStartY() || t.getY() > cameraSystem

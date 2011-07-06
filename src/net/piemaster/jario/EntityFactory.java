@@ -4,6 +4,8 @@ import net.piemaster.jario.components.Acceleration;
 import net.piemaster.jario.components.CollisionMesh;
 import net.piemaster.jario.components.Collisions;
 import net.piemaster.jario.components.Enemy;
+import net.piemaster.jario.components.Expires;
+import net.piemaster.jario.components.Fireball;
 import net.piemaster.jario.components.Globals;
 import net.piemaster.jario.components.Health;
 import net.piemaster.jario.components.Item;
@@ -162,6 +164,27 @@ public class EntityFactory
 		shroom.addComponent(new Item(ItemType.COIN));
 		
 		return shroom;
+	}
+	
+	public static Entity createFireball(World world, float x, float y)
+	{
+		float fireballSpeed = 0.5f;
+		
+		Entity fireball = world.createEntity();
+		fireball.setGroup(EntityType.BULLET.toString());
+		fireball.addComponent(new Transform(x, y));
+		fireball.addComponent(new Velocity(fireballSpeed, 0));
+		fireball.addComponent(new Acceleration());
+		fireball.addComponent(new Physical(false, false, false, false, true));
+		fireball.addComponent(new Jumping(0.5f));
+		fireball.addComponent(new SpatialForm("Fireball"));
+		fireball.addComponent(new CollisionMesh(x, y, 0, 0));
+		fireball.addComponent(new Collisions());
+		fireball.addComponent(new Globals());
+		fireball.addComponent(new Fireball());
+		fireball.addComponent(new Expires(1000));
+		
+		return fireball;
 	}
 
 //	public static Entity createShipExplosion(World world, float x, float y)

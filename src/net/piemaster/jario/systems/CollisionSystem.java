@@ -90,12 +90,18 @@ public class CollisionSystem extends EntitySystem
 		ImmutableBag<Entity> boxes = world.getGroupManager().getEntities(EntityType.ITEMBOX.toString());
 		ImmutableBag<Entity> items = world.getGroupManager().getEntities(EntityType.ITEM.toString());
 		ImmutableBag<Entity> enemies = world.getGroupManager().getEntities(EntityType.ENEMY.toString());
+		ImmutableBag<Entity> bullets = world.getGroupManager().getEntities(EntityType.BULLET.toString());
 		
 		processCollisions(players, terrain);
 		processCollisions(enemies, terrain);
 		processCollisions(items, terrain);
 		processCollisions(items, boxes);
 		processCollisions(players, enemies);
+		
+		processCollisions(bullets, players);
+		processCollisions(bullets, enemies);
+		processCollisions(bullets, terrain);
+		processCollisions(bullets, boxes);
 		
 		processCollisions(players, boxes);
 		processCollisions(enemies, boxes);
