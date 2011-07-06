@@ -3,7 +3,7 @@ package net.piemaster.jario.spatials;
 import com.artemis.Entity;
 import com.artemis.World;
 
-public class Fireball extends GenericImage
+public class Fireball extends GenericFlipImage
 {
 	private static final String IMAGE_PATH = "assets/images/fireball.png";
 	

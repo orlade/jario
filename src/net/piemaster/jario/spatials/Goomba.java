@@ -3,7 +3,7 @@ package net.piemaster.jario.spatials;
 import com.artemis.Entity;
 import com.artemis.World;
 
-public class Goomba extends GenericImage
+public class Goomba extends GenericFlipImage
 {
 	private static final String IMAGE_PATH = "assets/images/goomba.png";
 	

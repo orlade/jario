@@ -13,8 +13,6 @@ public class GenericImage extends Spatial
 {
 	protected Transform transform;
 	protected Image baseImage;
-	protected Image flippedImage;
-	
 	protected Image currentImage;
 
 	public GenericImage(World world, Entity owner)
@@ -30,7 +28,6 @@ public class GenericImage extends Spatial
 		{
 			baseImage = new Image(filename);
 			baseImage.setCenterOfRotation(baseImage.getWidth()/2, baseImage.getHeight()/2);
-			flippedImage = baseImage.getFlippedCopy(true, false);
 			currentImage = baseImage;
 		}
 		catch (SlickException e)

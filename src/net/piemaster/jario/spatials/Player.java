@@ -3,13 +3,12 @@ package net.piemaster.jario.spatials;
 import net.piemaster.jario.components.CollisionMesh;
 import net.piemaster.jario.components.Health;
 
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
 import com.artemis.Entity;
 import com.artemis.World;
 
-public class Player extends GenericImage
+public class Player extends GenericFlipImage
 {
 	private static final String IMAGE_PATH = "assets/images/jar.png";
 	
@@ -23,9 +22,11 @@ public class Player extends GenericImage
 	{
 		super(world, e, IMAGE_PATH);
 
-		// TODO Avoid duplicating this logic from PlayerHandlingSystem
 		bigImage = baseImage.getScaledCopy(baseImage.getWidth(), baseImage.getHeight()*2);
+		bigImage.setCenterOfRotation(bigImage.getWidth()/2, bigImage.getHeight()/2);
+		
 		flippedBigImage = bigImage.getFlippedCopy(true, false);
+		flippedBigImage.setCenterOfRotation(flippedBigImage.getWidth()/2, flippedBigImage.getHeight()/2);
 	}
 	
 	@Override
@@ -38,8 +39,9 @@ public class Player extends GenericImage
 	}
 
 	@Override
-	public void render(Graphics g)
+	protected void determineCurrentImage()
 	{
+		// TODO Avoid duplicating this logic from PlayerHandlingSystem
 		if(health.getHealth() > 1)
 		{
 			if (transform.isFacingRight())
@@ -54,7 +56,5 @@ public class Player extends GenericImage
 			else
 				currentImage = flippedImage;
 		}
-
-		super.render(g);
 	}
 }

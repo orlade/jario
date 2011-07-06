@@ -96,15 +96,16 @@ public class PlayerControlSystem extends EntityProcessingSystem implements KeyLi
 			}
 			else if (key == Input.KEY_F)
 			{
-				if(player.getComponent(FireballShooter.class) != null)
+				if (player.getComponent(FireballShooter.class) != null)
 				{
-					Transform t = player.getComponent(Transform.class);
-					Entity fireball = EntityFactory.createFireball(world, t.getX(), t.getY());
+					Entity fireball = EntityFactory.createFireball(world, transform.getX(),
+							transform.getY() + 30);
 					if (!transform.isFacingRight())
 					{
-						Velocity v = fireball.getComponent(Velocity.class);
+						Velocity v = velocityMapper.get(fireball);
 						v.setX(-v.getX());
 					}
+					transformMapper.get(fireball).setFacingRight(transform.isFacingRight());
 					fireball.refresh();
 				}
 			}
