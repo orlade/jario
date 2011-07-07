@@ -5,7 +5,7 @@ import com.artemis.World;
 
 public class Goomba extends GenericFlipImage
 {
-	private static final String IMAGE_PATH = "assets/images/goomba.png";
+	private static final String IMAGE_PATH = "/images/goomba.png";
 	
 	public Goomba(World world, Entity e)
 	{

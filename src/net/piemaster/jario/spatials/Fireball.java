@@ -5,7 +5,7 @@ import com.artemis.World;
 
 public class Fireball extends GenericFlipImage
 {
-	private static final String IMAGE_PATH = "assets/images/fireball.png";
+	private static final String IMAGE_PATH = "/images/fireball.png";
 	
 	public Fireball(World world, Entity e)
 	{

@@ -5,7 +5,7 @@ import com.artemis.World;
 
 public class Parakoopa extends GenericAnimation
 {
-	private static final String[] IMAGE_PATHS = {"assets/images/parakoopa.png", "assets/images/parakoopa_2.png"};
+	private static final String[] IMAGE_PATHS = {"/images/parakoopa.png", "/images/parakoopa_2.png"};
 	
 	public Parakoopa(World world, Entity e)
 	{

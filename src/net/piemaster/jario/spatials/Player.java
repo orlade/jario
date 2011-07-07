@@ -10,7 +10,7 @@ import com.artemis.World;
 
 public class Player extends GenericFlipImage
 {
-	private static final String IMAGE_PATH = "assets/images/jar.png";
+	private static final String IMAGE_PATH = "/images/jar.png";
 	
 	protected Health health;
 	protected CollisionMesh mesh;

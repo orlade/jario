@@ -1,6 +1,7 @@
 package net.piemaster.jario.spatials;
 
 import net.piemaster.jario.components.Transform;
+import net.piemaster.jario.loader.ImageLoader;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Graphics;
@@ -27,7 +28,7 @@ public class GenericAnimation extends Spatial
 			
 			for(int i = 0; i < filenames.length; ++i)
 			{
-				images[i] = new Image(filenames[i]);
+				images[i] = ImageLoader.loadImage(filenames[i]);
 				images[i].setCenterOfRotation(images[i].getWidth()/2, images[i].getHeight()/2);
 				flippedImages[i] = images[i].getFlippedCopy(true, false);
 			}

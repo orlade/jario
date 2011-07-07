@@ -1,5 +1,7 @@
 package net.piemaster.jario.systems.rendering;
 
+import net.piemaster.jario.loader.ImageLoader;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -27,7 +29,7 @@ public class TerrainRenderSystem extends EntitySystem
 	{
 		try
 		{
-			tile = new Image("assets/images/tile.png");
+			tile = ImageLoader.loadImage("/images/tile.png");
 		}
 		catch (SlickException e)
 		{

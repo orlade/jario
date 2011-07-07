@@ -5,7 +5,7 @@ import com.artemis.World;
 
 public class Flower extends GenericImage
 {
-	private static final String IMAGE_PATH = "assets/images/flower.png";
+	private static final String IMAGE_PATH = "/images/flower.png";
 	
 	public Flower(World world, Entity e)
 	{

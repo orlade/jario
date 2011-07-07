@@ -1,6 +1,7 @@
 package net.piemaster.jario.spatials;
 
 import net.piemaster.jario.components.Transform;
+import net.piemaster.jario.loader.ImageLoader;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -26,7 +27,7 @@ public class GenericImage extends Spatial
 		
 		try
 		{
-			baseImage = new Image(filename);
+			baseImage = ImageLoader.loadImage(filename);
 			baseImage.setCenterOfRotation(baseImage.getWidth()/2, baseImage.getHeight()/2);
 			currentImage = baseImage;
 		}

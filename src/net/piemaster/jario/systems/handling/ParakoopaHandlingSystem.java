@@ -23,6 +23,8 @@ public class ParakoopaHandlingSystem extends EnemyHandlingSystem
 		if(health.getHealth() < health.getMaximumHealth())
 		{
 			physicalMapper.get(e).setBouncyVertical(false);
+			if(velocityMapper.get(e).getY() < 0)
+				haltVertical(e);
 		}
 	}
 }

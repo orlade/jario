@@ -1,6 +1,7 @@
 package net.piemaster.jario.states;
 
 import net.piemaster.jario.Jario;
+import net.piemaster.jario.loader.ImageLoader;
 
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.GameContainer;
@@ -39,9 +40,9 @@ public class MainMenuState extends BasicGameState
 
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException
 	{
-		backgroundImage = new Image("assets/images/menu_background.jpg");
-		playImage = new Image("assets/images/menu_button_play.png");
-		exitImage = new Image("assets/images/menu_button_exit.png");
+		backgroundImage = ImageLoader.loadImage("/images/menu_background.jpg");
+		playImage = ImageLoader.loadImage("/images/menu_button_play.png");
+		exitImage = ImageLoader.loadImage("/images/menu_button_exit.png");
 
 		this.gc = gc;
 		this.sbg = sbg;

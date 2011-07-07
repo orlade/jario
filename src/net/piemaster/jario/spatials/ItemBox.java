@@ -1,6 +1,7 @@
 package net.piemaster.jario.spatials;
 
 import net.piemaster.jario.components.ItemDispenser;
+import net.piemaster.jario.loader.ImageLoader;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -11,8 +12,8 @@ import com.artemis.World;
 
 public class ItemBox extends GenericImage
 {
-	private static final String IMAGE_PATH = "assets/images/itembox.png";
-	private static final String EMPTY_IMAGE_PATH = "assets/images/itembox_empty.png";
+	private static final String IMAGE_PATH = "/images/itembox.png";
+	private static final String EMPTY_IMAGE_PATH = "/images/itembox_empty.png";
 	
 	private Image emptyImage;
 	private ItemDispenser dispenser;
@@ -23,9 +24,9 @@ public class ItemBox extends GenericImage
 		
 		try
 		{
-			baseImage = new Image(IMAGE_PATH);
+			baseImage = ImageLoader.loadImage(IMAGE_PATH);
 			baseImage.setCenterOfRotation(baseImage.getWidth()/2, baseImage.getHeight()/2);
-			emptyImage = new Image(EMPTY_IMAGE_PATH);
+			emptyImage = ImageLoader.loadImage(EMPTY_IMAGE_PATH);
 			emptyImage.setCenterOfRotation(emptyImage.getWidth()/2, emptyImage.getHeight()/2);
 			currentImage = baseImage;
 		}
