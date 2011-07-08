@@ -11,6 +11,8 @@ public class SpatialForm extends Component
 	private float width;
 	private float height;
 	
+	private String currentState = "";
+	
 	private ArrayList<Runnable> loadedCallbacks = new ArrayList<Runnable>();
 
 	public SpatialForm(String spatialFormFile)
@@ -95,5 +97,15 @@ public class SpatialForm extends Component
 	public int numLoadedCallbacks()
 	{
 		return loadedCallbacks.size();
+	}
+
+	public String getCurrentState()
+	{
+		return currentState;
+	}
+
+	public void setCurrentState(String currentState)
+	{
+		this.currentState = currentState;
 	}
 }

@@ -12,8 +12,8 @@ import net.piemaster.jario.spatials.ItemBox;
 import net.piemaster.jario.spatials.Missile;
 import net.piemaster.jario.spatials.Mushroom;
 import net.piemaster.jario.spatials.Parakoopa;
-import net.piemaster.jario.spatials.Player;
 import net.piemaster.jario.spatials.Spatial;
+import net.piemaster.jario.spatials.player.PlayerComposer;
 import net.piemaster.jario.systems.CameraSystem;
 
 import org.newdawn.slick.GameContainer;
@@ -102,7 +102,7 @@ public class RenderSystem extends EntityProcessingSystem
 
 		if ("PlayerImage".equalsIgnoreCase(spatialFormFile))
 		{
-			return setupGenericSpatialEntity(e, new Player(world, e));
+			return setupGenericSpatialEntity(e, new PlayerComposer(world, e));
 		}
 		else if ("Goomba".equalsIgnoreCase(spatialFormFile))
 		{

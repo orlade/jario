@@ -47,7 +47,10 @@ public class CollisionMesh extends Component
 
 	public void setDimensions(float width, float height)
 	{
-		setPoly(createBoxPoly(width, height));
+		if(width != getWidth() || height != getHeight())
+		{
+			setPoly(createBoxPoly(width, height));
+		}
 	}
 
 	public void setWidth(float width)

@@ -105,9 +105,8 @@ public class PlayerHandlingSystem extends EntityHandlingSystem
 			Health health = healthMapper.get(player);
 			if(health.getHealth() > 1)
 			{
-				CollisionMesh mesh = meshMapper.get(player);
-				mesh.setHeight(mesh.getHeight()/2);
-				transformMapper.get(player).addY(mesh.getHeight());
+				transformMapper.get(player).addY(meshMapper.get(player).getHeight()/2);
+				spatialMapper.get(player).setCurrentState("");
 				
 				FireballShooter shooter = player.getComponent(FireballShooter.class);
 				if(shooter != null)
@@ -142,10 +141,12 @@ public class PlayerHandlingSystem extends EntityHandlingSystem
 	private void handleItemCollision(Entity player, Entity item, EdgeType edge)
 	{
 		ItemType type = itemMapper.get(item).getType();
-
+		String newState = "BIG";
+			
 		switch (type)
 		{
 		case FLOWER:
+			newState = "FLOWER";
 			if(player.getComponent(FireballShooter.class) == null)
 			{
 				player.addComponent(new FireballShooter());
@@ -159,8 +160,8 @@ public class PlayerHandlingSystem extends EntityHandlingSystem
 				health.addDamage(-1);
 				CollisionMesh mesh = meshMapper.get(player);
 				transformMapper.get(player).addY(-mesh.getHeight());
-				mesh.setHeight(mesh.getHeight()*2);
 			}
+			spatialMapper.get(player).setCurrentState(newState);
 			break;
 			
 		case COIN:
