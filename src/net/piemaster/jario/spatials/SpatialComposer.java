@@ -1,11 +1,10 @@
-package net.piemaster.jario.spatials.player;
+package net.piemaster.jario.spatials;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import net.piemaster.jario.components.CollisionMesh;
 import net.piemaster.jario.components.SpatialForm;
-import net.piemaster.jario.spatials.Spatial;
 
 import org.newdawn.slick.Graphics;
 

@@ -1,5 +1,7 @@
 package net.piemaster.jario.spatials.player;
 
+import net.piemaster.jario.spatials.SpatialComposer;
+
 import org.newdawn.slick.Graphics;
 
 import com.artemis.Entity;
