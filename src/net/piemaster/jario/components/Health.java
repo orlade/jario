@@ -6,6 +6,7 @@ public class Health extends Component
 {
 	private float health;
 	private float maximumHealth;
+	private boolean invulnerable;
 
 	public Health(float health)
 	{
@@ -27,11 +28,18 @@ public class Health extends Component
 		return Math.round(health / maximumHealth * 100f);
 	}
 
+	/**
+	 * Reduces the current health by the given amount. If invulnerable = true and damage is
+	 * positive, it will be ignored.
+	 */
 	public void addDamage(int damage)
 	{
-		health -= damage;
-		if (health < 0)
-			health = 0;
+		if(!invulnerable || damage < 0)
+		{
+			health -= damage;
+			if (health < 0)
+				health = 0;
+		}
 	}
 
 	public void resetHealth()
@@ -49,4 +57,13 @@ public class Health extends Component
 		return health > 0;
 	}
 
+	public boolean isInvulnerable()
+	{
+		return invulnerable;
+	}
+
+	public void setInvulnerable(boolean invulnerable)
+	{
+		this.invulnerable = invulnerable;
+	}
 }

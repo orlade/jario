@@ -19,6 +19,7 @@ import net.piemaster.jario.components.Player;
 import net.piemaster.jario.components.Respawn;
 import net.piemaster.jario.components.Score;
 import net.piemaster.jario.components.SpatialForm;
+import net.piemaster.jario.components.Timer;
 import net.piemaster.jario.components.Transform;
 import net.piemaster.jario.components.Velocity;
 import net.piemaster.jario.entities.EntityType;
@@ -44,6 +45,7 @@ public class EntityFactory
 		player.addComponent(new Player());
 		player.addComponent(new Score());
 		player.addComponent(new Globals());
+		player.addComponent(new Timer());
 		player.addComponent(new Jumping(0.75f));
 		player.addComponent(new Respawn(2000, x, y));
 		

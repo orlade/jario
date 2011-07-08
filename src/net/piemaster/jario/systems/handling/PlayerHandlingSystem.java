@@ -10,6 +10,7 @@ import net.piemaster.jario.components.Item.ItemType;
 import net.piemaster.jario.components.Player;
 import net.piemaster.jario.entities.EntityType;
 import net.piemaster.jario.systems.CollisionSystem.EdgeType;
+import net.piemaster.jario.systems.delayed.InvulnerabilityHandler;
 
 import org.newdawn.slick.util.Log;
 
@@ -111,6 +112,7 @@ public class PlayerHandlingSystem extends EntityHandlingSystem
 				FireballShooter shooter = player.getComponent(FireballShooter.class);
 				if(shooter != null)
 					player.removeComponent(shooter);
+				
 			}
 			health.addDamage(1);
 			if (!health.isAlive())
@@ -118,6 +120,11 @@ public class PlayerHandlingSystem extends EntityHandlingSystem
 				velocityMapper.get(player).setY(-0.5f);
 				velocityMapper.get(player).setX(0.1f * (edge == EdgeType.EDGE_LEFT ? 1 : -1));
 				physicalMapper.get(player).setGrounded(false);
+			}
+			else
+			{
+				// Make the player invulnerable briefly
+				InvulnerabilityHandler.setTemporaryInvulnerability(world, player, 1000, true);
 			}
 		}
 	}

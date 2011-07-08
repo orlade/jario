@@ -9,6 +9,7 @@ import net.piemaster.jario.components.Physical;
 import net.piemaster.jario.components.Player;
 import net.piemaster.jario.components.Transform;
 import net.piemaster.jario.components.Velocity;
+import net.piemaster.jario.systems.delayed.InvulnerabilityHandler;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
@@ -108,6 +109,11 @@ public class PlayerControlSystem extends EntityProcessingSystem implements KeyLi
 					transformMapper.get(fireball).setFacingRight(transform.isFacingRight());
 					fireball.refresh();
 				}
+			}
+			// Press I for two seconds of invulnerability
+			else if (key == Input.KEY_I)
+			{
+				InvulnerabilityHandler.setTemporaryInvulnerability(world, player, 2000, true);
 			}
 		}
 	}

@@ -56,5 +56,9 @@ public class Player extends GenericFlipImage
 			else
 				currentImage = flippedImage;
 		}
+		if(health.isInvulnerable())
+			currentImage.setAlpha(0.5f);
+		else
+			currentImage.setAlpha(1);
 	}
 }

@@ -16,6 +16,7 @@ import net.piemaster.jario.systems.HealthSystem;
 import net.piemaster.jario.systems.MovementSystem;
 import net.piemaster.jario.systems.PlayerControlSystem;
 import net.piemaster.jario.systems.RespawnSystem;
+import net.piemaster.jario.systems.TimerSystem;
 import net.piemaster.jario.systems.handling.BoxHandlingSystem;
 import net.piemaster.jario.systems.handling.BulletHandlingSystem;
 import net.piemaster.jario.systems.handling.CoinHandlingSystem;
@@ -56,6 +57,7 @@ public class GameplayState extends BasicGameState
 	private EntitySystem respawnSystem;
 	private EntitySystem dispensingSystem;
 	private EntitySystem dispenserSystem;
+	private EntitySystem timerSystem;
 	
 	private EntitySystem healthSystem;
 
@@ -109,6 +111,7 @@ public class GameplayState extends BasicGameState
 		respawnSystem = systemManager.setSystem(new RespawnSystem());
 		dispensingSystem = systemManager.setSystem(new DispensingSystem());
 		dispenserSystem = systemManager.setSystem(new DispenserSystem());
+		timerSystem = systemManager.setSystem(new TimerSystem());
 		
 		healthSystem = systemManager.setSystem(new HealthSystem());
 
@@ -172,6 +175,7 @@ public class GameplayState extends BasicGameState
 		respawnSystem.process();
 		dispensingSystem.process();
 		dispenserSystem.process();
+		timerSystem.process();
 		
 		// Maintain limits
 		boundarySystem.process();
