@@ -1,6 +1,5 @@
 package net.piemaster.jario.systems;
 
-import net.piemaster.jario.components.CollisionMesh;
 import net.piemaster.jario.components.Health;
 import net.piemaster.jario.components.Player;
 import net.piemaster.jario.components.SpatialForm;
@@ -59,12 +58,8 @@ public class BoundarySystem extends EntityProcessingSystem
 			Health health = healthMapper.get(e);
 			if(health != null)
 			{
-				if(e == world.getTagManager().getEntity("PLAYER") && health.getHealth() > 1)
-				{
-					CollisionMesh mesh = e.getComponent(CollisionMesh.class);
-					mesh.setHeight(mesh.getHeight()/2);
-				}
 				health.setHealth(0);
+				spatial.setCurrentState("");
 			}
 			
 			Velocity vel = e.getComponent(Velocity.class);
