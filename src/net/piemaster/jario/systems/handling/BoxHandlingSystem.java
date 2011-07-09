@@ -1,12 +1,12 @@
 package net.piemaster.jario.systems.handling;
 
-import net.piemaster.jario.EntityFactory;
 import net.piemaster.jario.components.Collisions;
 import net.piemaster.jario.components.Dispensing;
 import net.piemaster.jario.components.Item;
 import net.piemaster.jario.components.ItemDispenser;
 import net.piemaster.jario.components.SpatialForm;
 import net.piemaster.jario.components.Transform;
+import net.piemaster.jario.entities.EntityFactory;
 import net.piemaster.jario.entities.EntityType;
 import net.piemaster.jario.systems.CollisionSystem.EdgeType;
 

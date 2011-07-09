@@ -1,6 +1,10 @@
 # Comment!
 # Entity x y [w] [h]
 
+# Start and end points
+start 50 350
+end 3200 350
+
 # Terrain
 block 0 500 1000 100
 block 1140 500 235 100

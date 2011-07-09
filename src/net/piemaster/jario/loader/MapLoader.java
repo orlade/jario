@@ -3,8 +3,8 @@ package net.piemaster.jario.loader;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-import net.piemaster.jario.EntityFactory;
 import net.piemaster.jario.components.Item.ItemType;
+import net.piemaster.jario.entities.EntityFactory;
 
 import com.artemis.World;
 
@@ -107,6 +107,14 @@ public class MapLoader
 		else if(type.equals("player"))
 		{
 			EntityFactory.createPlayer(world, x, y).refresh();
+		}
+		else if(type.equals("start"))
+		{
+			EntityFactory.createStartPoint(world, x, y).refresh();
+		}
+		else if(type.equals("end"))
+		{
+			EntityFactory.createEndPoint(world, x, y).refresh();
 		}
 		else
 		{

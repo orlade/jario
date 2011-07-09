@@ -1,4 +1,4 @@
-package net.piemaster.jario;
+package net.piemaster.jario.entities;
 
 import net.piemaster.jario.components.Acceleration;
 import net.piemaster.jario.components.Coin;
@@ -13,6 +13,7 @@ import net.piemaster.jario.components.Item;
 import net.piemaster.jario.components.Item.ItemType;
 import net.piemaster.jario.components.ItemDispenser;
 import net.piemaster.jario.components.Jumping;
+import net.piemaster.jario.components.Meta;
 import net.piemaster.jario.components.Parakoopa;
 import net.piemaster.jario.components.Physical;
 import net.piemaster.jario.components.Player;
@@ -22,7 +23,6 @@ import net.piemaster.jario.components.SpatialForm;
 import net.piemaster.jario.components.Timer;
 import net.piemaster.jario.components.Transform;
 import net.piemaster.jario.components.Velocity;
-import net.piemaster.jario.entities.EntityType;
 
 import com.artemis.Entity;
 import com.artemis.World;
@@ -48,7 +48,7 @@ public class EntityFactory
 		player.addComponent(new Timer());
 		player.addComponent(new Jumping(0.75f));
 		player.addComponent(new Respawn(2000, x, y));
-		
+
 		return player;
 	}
 
@@ -59,7 +59,7 @@ public class EntityFactory
 		block.addComponent(new Transform(x, y));
 		block.addComponent(new SpatialForm("Block", width, height));
 		block.addComponent(new CollisionMesh(x, y, width, height));
-		
+
 		return block;
 	}
 
@@ -67,8 +67,9 @@ public class EntityFactory
 	{
 		return createItemBox(world, x, y, ItemType.COIN, 1, 0);
 	}
-	
-	public static Entity createItemBox(World world, float x, float y, ItemType type, int number, int duration)
+
+	public static Entity createItemBox(World world, float x, float y, ItemType type, int number,
+			int duration)
 	{
 		Entity block = world.createEntity();
 		block.setGroup(EntityType.ITEMBOX.toString());
@@ -77,14 +78,14 @@ public class EntityFactory
 		block.addComponent(new CollisionMesh(x, y, 0, 0));
 		block.addComponent(new Collisions());
 		block.addComponent(new ItemDispenser(type, number, duration));
-		
+
 		return block;
 	}
-	
+
 	public static Entity createGoomba(World world, float x, float y)
 	{
 		float goombaSpeed = -0.1f;
-		
+
 		Entity goomba = world.createEntity();
 		goomba.setGroup(EntityType.ENEMY.toString());
 		goomba.addComponent(new Transform(x, y));
@@ -97,14 +98,14 @@ public class EntityFactory
 		goomba.addComponent(new Health(1));
 		goomba.addComponent(new Globals());
 		goomba.addComponent(new Enemy());
-		
+
 		return goomba;
 	}
 
 	public static Entity createParakoopa(World world, float x, float y)
 	{
 		float koopaSpeed = -0.1f;
-		
+
 		Entity para = world.createEntity();
 		para.setGroup(EntityType.ENEMY.toString());
 		para.addComponent(new Transform(x, y));
@@ -119,10 +120,10 @@ public class EntityFactory
 		para.addComponent(new Jumping(0.5f));
 		para.addComponent(new Enemy());
 		para.addComponent(new Parakoopa());
-		
+
 		return para;
 	}
-	
+
 	public static Entity createMushroom(World world, float x, float y)
 	{
 		Entity shroom = world.createEntity();
@@ -136,10 +137,10 @@ public class EntityFactory
 		shroom.addComponent(new Collisions());
 		shroom.addComponent(new Globals());
 		shroom.addComponent(new Item(ItemType.MUSHROOM));
-		
+
 		return shroom;
 	}
-	
+
 	public static Entity createFlower(World world, float x, float y)
 	{
 		Entity shroom = world.createEntity();
@@ -153,10 +154,10 @@ public class EntityFactory
 		shroom.addComponent(new Collisions());
 		shroom.addComponent(new Globals());
 		shroom.addComponent(new Item(ItemType.FLOWER));
-		
+
 		return shroom;
 	}
-	
+
 	public static Entity createCoin(World world, float x, float y)
 	{
 		Entity shroom = world.createEntity();
@@ -171,14 +172,14 @@ public class EntityFactory
 		shroom.addComponent(new Globals());
 		shroom.addComponent(new Coin());
 		shroom.addComponent(new Item(ItemType.COIN));
-		
+
 		return shroom;
 	}
-	
+
 	public static Entity createFireball(World world, float x, float y)
 	{
 		float fireballSpeed = 0.5f;
-		
+
 		Entity fireball = world.createEntity();
 		fireball.setGroup(EntityType.BULLET.toString());
 		fireball.addComponent(new Transform(x, y));
@@ -192,21 +193,27 @@ public class EntityFactory
 		fireball.addComponent(new Globals());
 		fireball.addComponent(new Fireball());
 		fireball.addComponent(new Expires(1000));
-		
+
 		return fireball;
 	}
 
-//	public static Entity createShipExplosion(World world, float x, float y)
-//	{
-//		Entity e = world.createEntity();
-//
-//		e.setGroup("EFFECTS");
-//
-//		e.addComponent(new Transform(x, y));
-//		e.addComponent(new SpatialForm("ShipExplosion"));
-//		e.addComponent(new Expires(1000));
-//
-//		return e;
-//	}
+	public static Entity createStartPoint(World world, float x, float y)
+	{
+		Entity start = world.createEntity();
+		start.setTag("START_POINT");
+		start.addComponent(new Transform(x, y));
+		start.addComponent(new Meta());
 
+		return start;
+	}
+
+	public static Entity createEndPoint(World world, float x, float y)
+	{
+		Entity end = world.createEntity();
+		end.setTag("END_POINT");
+		end.addComponent(new Transform(x, y));
+		end.addComponent(new Meta());
+
+		return end;
+	}
 }

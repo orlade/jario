@@ -1,6 +1,5 @@
 package net.piemaster.jario.systems;
 
-import net.piemaster.jario.EntityFactory;
 import net.piemaster.jario.components.Acceleration;
 import net.piemaster.jario.components.FireballShooter;
 import net.piemaster.jario.components.Health;
@@ -9,6 +8,7 @@ import net.piemaster.jario.components.Physical;
 import net.piemaster.jario.components.Player;
 import net.piemaster.jario.components.Transform;
 import net.piemaster.jario.components.Velocity;
+import net.piemaster.jario.entities.EntityFactory;
 import net.piemaster.jario.systems.delayed.InvulnerabilityHandler;
 
 import org.newdawn.slick.GameContainer;

@@ -13,6 +13,7 @@ import net.piemaster.jario.systems.DispenserSystem;
 import net.piemaster.jario.systems.DispensingSystem;
 import net.piemaster.jario.systems.ExpirationSystem;
 import net.piemaster.jario.systems.HealthSystem;
+import net.piemaster.jario.systems.LevelWinSystem;
 import net.piemaster.jario.systems.MovementSystem;
 import net.piemaster.jario.systems.PlayerControlSystem;
 import net.piemaster.jario.systems.RespawnSystem;
@@ -26,6 +27,7 @@ import net.piemaster.jario.systems.handling.ParakoopaHandlingSystem;
 import net.piemaster.jario.systems.handling.PlayerHandlingSystem;
 import net.piemaster.jario.systems.rendering.CollisionMeshRenderSystem;
 import net.piemaster.jario.systems.rendering.HudRenderSystem;
+import net.piemaster.jario.systems.rendering.MetaRenderSystem;
 import net.piemaster.jario.systems.rendering.RenderSystem;
 import net.piemaster.jario.systems.rendering.TerrainRenderSystem;
 
@@ -52,15 +54,16 @@ public class GameplayState extends BasicGameState
 	private EntitySystem movementSystem;
 	private EntitySystem meshSystem;
 
-	private EntitySystem collisionSystem;
+	private EntitySystem healthSystem;
+	private EntitySystem levelWinSystem;
+	
 	private EntitySystem expirationSystem;
 	private EntitySystem respawnSystem;
 	private EntitySystem dispensingSystem;
 	private EntitySystem dispenserSystem;
 	private EntitySystem timerSystem;
-	
-	private EntitySystem healthSystem;
 
+	private EntitySystem collisionSystem;
 	private EntitySystem playerHandlingSystem;
 	private EntitySystem enemyHandlingSystem;
 	private EntitySystem parakoopaHandlingSystem;
@@ -74,6 +77,7 @@ public class GameplayState extends BasicGameState
 	private EntitySystem hudRenderSystem;
 	private EntitySystem backgroundRenderSystem;
 	private EntitySystem meshRenderSystem;
+	private EntitySystem metaRenderSystem;
 
 	private EntitySystem boundarySystem;
 	private EntitySystem cameraSystem;
@@ -114,6 +118,7 @@ public class GameplayState extends BasicGameState
 		timerSystem = systemManager.setSystem(new TimerSystem());
 		
 		healthSystem = systemManager.setSystem(new HealthSystem());
+		levelWinSystem = systemManager.setSystem(new LevelWinSystem(sbg));
 
 		playerHandlingSystem = systemManager.setSystem(new PlayerHandlingSystem());
 		enemyHandlingSystem = systemManager.setSystem(new EnemyHandlingSystem());
@@ -131,6 +136,7 @@ public class GameplayState extends BasicGameState
 		hudRenderSystem = systemManager.setSystem(new HudRenderSystem(gc));
 		backgroundRenderSystem = systemManager.setSystem(new TerrainRenderSystem(gc));
 		meshRenderSystem = systemManager.setSystem(new CollisionMeshRenderSystem(gc));
+		metaRenderSystem = systemManager.setSystem(new MetaRenderSystem(gc));
 
 		systemManager.initializeAll();
 
@@ -176,6 +182,7 @@ public class GameplayState extends BasicGameState
 		dispensingSystem.process();
 		dispenserSystem.process();
 		timerSystem.process();
+		levelWinSystem.process();
 		
 		// Maintain limits
 		boundarySystem.process();
@@ -193,6 +200,7 @@ public class GameplayState extends BasicGameState
 		if(debug)
 		{
 			meshRenderSystem.process();
+			metaRenderSystem.process();
 		}
 		
 		hudRenderSystem.process();
