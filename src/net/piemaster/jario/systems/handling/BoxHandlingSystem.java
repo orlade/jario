@@ -84,6 +84,10 @@ public class BoxHandlingSystem extends EntityHandlingSystem
 					break;
 
 				case STAR:
+					item = EntityFactory.createStar(world, t.getX(), t.getY());
+					d.setOutVelocityX(0.2f);
+					break;
+					
 				default:
 					Log.warn("Unknown item type: " + holder.getType());
 					return;

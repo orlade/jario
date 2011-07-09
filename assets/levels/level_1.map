@@ -11,7 +11,7 @@ block 1140 500 235 100
 block 1425 500 1025 100
 block 2480 500 904 100
 
-itembox 155 350 32 32
+itembox 155 350 32 32 STAR # COIN 5 0
 
 block 255 350 32 32
 itembox 287 350 32 32 MUSHROOM
@@ -19,12 +19,13 @@ block 319 350 32 32
 itembox 351 350 32 32 FLOWER
 block 383 350 32 32
 
-itembox 319 200 32 32
+itembox 319 200 32 32 STAR
 
 block 500 425 64 75
+block 936 425 64 75
 
 # Entities
 player 32 300
 
-goomba 1000 400
+goomba 700 400
 parakoopa 800 400

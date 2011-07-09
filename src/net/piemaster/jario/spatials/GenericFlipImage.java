@@ -28,8 +28,7 @@ public class GenericFlipImage extends GenericImage
 	{
 		determineCurrentImage();
 		
-		currentImage.setRotation(transform.getRotation());
-		g.drawImage(currentImage, transform.getX(), transform.getY());
+		super.render(g);
 	}
 	
 	protected void determineCurrentImage()

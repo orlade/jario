@@ -13,6 +13,7 @@ import net.piemaster.jario.spatials.Missile;
 import net.piemaster.jario.spatials.Mushroom;
 import net.piemaster.jario.spatials.Parakoopa;
 import net.piemaster.jario.spatials.Spatial;
+import net.piemaster.jario.spatials.Star;
 import net.piemaster.jario.spatials.player.PlayerComposer;
 import net.piemaster.jario.systems.CameraSystem;
 
@@ -123,6 +124,10 @@ public class RenderSystem extends EntityProcessingSystem
 		else if (ItemType.FLOWER.toString().equalsIgnoreCase(spatialFormFile))
 		{
 			return setupGenericSpatialEntity(e, new Flower(world, e));
+		}
+		else if (ItemType.STAR.toString().equalsIgnoreCase(spatialFormFile))
+		{
+			return setupGenericSpatialEntity(e, new Star(world, e));
 		}
 		else if (ItemType.COIN.toString().equalsIgnoreCase(spatialFormFile))
 		{

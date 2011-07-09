@@ -1,7 +1,5 @@
 package net.piemaster.jario.entities;
 
-import org.lwjgl.input.Keyboard;
-
 import net.piemaster.jario.components.Acceleration;
 import net.piemaster.jario.components.Coin;
 import net.piemaster.jario.components.CollisionMesh;
@@ -11,9 +9,9 @@ import net.piemaster.jario.components.Expires;
 import net.piemaster.jario.components.Fireball;
 import net.piemaster.jario.components.Globals;
 import net.piemaster.jario.components.Health;
+import net.piemaster.jario.components.InputMovement;
 import net.piemaster.jario.components.Item;
 import net.piemaster.jario.components.Item.ItemType;
-import net.piemaster.jario.components.InputMovement;
 import net.piemaster.jario.components.ItemDispenser;
 import net.piemaster.jario.components.Jumping;
 import net.piemaster.jario.components.Meta;
@@ -26,6 +24,8 @@ import net.piemaster.jario.components.SpatialForm;
 import net.piemaster.jario.components.Timer;
 import net.piemaster.jario.components.Transform;
 import net.piemaster.jario.components.Velocity;
+
+import org.lwjgl.input.Keyboard;
 
 import com.artemis.Entity;
 import com.artemis.World;
@@ -160,6 +160,25 @@ public class EntityFactory
 		shroom.addComponent(new Item(ItemType.FLOWER));
 
 		return shroom;
+	}
+
+	public static Entity createStar(World world, float x, float y)
+	{
+		Entity star = world.createEntity();
+		star.setGroup(EntityType.ITEM.toString());
+		star.addComponent(new Transform(x, y));
+		star.addComponent(new Velocity());
+		star.addComponent(new Acceleration());
+		star.addComponent(new Physical(false, false, false, true, true, false, false));
+		star.addComponent(new Jumping(0.5f));
+		star.addComponent(new SpatialForm("Star"));
+		star.addComponent(new CollisionMesh(x, y, 0, 0));
+		star.addComponent(new Collisions());
+		star.addComponent(new Globals());
+		star.getComponent(Globals.class).setGravity(0.0017f);
+		star.addComponent(new Item(ItemType.STAR));
+		
+		return star;
 	}
 
 	public static Entity createCoin(World world, float x, float y)

@@ -26,15 +26,15 @@ public abstract class SpatialComposer extends Spatial
 {
 	protected SpatialForm form;
 	protected CollisionMesh mesh;
-	protected Map<String, Spatial> stateMap;
+	protected Map<String, EffectSpatial> stateMap;
 
-	private Spatial currentSpatial;
+	private EffectSpatial currentSpatial;
 
 	public SpatialComposer(World world, Entity e)
 	{
 		super(world, e);
 
-		stateMap = new HashMap<String, Spatial>();
+		stateMap = new HashMap<String, EffectSpatial>();
 	}
 
 	@Override
@@ -83,7 +83,7 @@ public abstract class SpatialComposer extends Spatial
 		return currentSpatial;
 	}
 
-	public void setCurrentSpatial(Spatial currentSpatial)
+	public void setCurrentSpatial(EffectSpatial currentSpatial)
 	{
 		this.currentSpatial = currentSpatial;
 		

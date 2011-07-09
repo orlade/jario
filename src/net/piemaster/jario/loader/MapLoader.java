@@ -93,16 +93,18 @@ public class MapLoader
 		}
 		else if(type.equals("itembox"))
 		{
-			if(scanner.hasNext())
-			{
-				ItemType itemType = ItemType.valueOf(ItemType.class, scanner.next());
-				EntityFactory.createItemBox(world, x, y, itemType, 1, 1000).refresh();
-			}
-			else
-			{
-				EntityFactory.createItemBox(world, x, y).refresh();
-			}
+			ItemType itemType = ItemType.COIN;
+			int num = 1;
+			int duration = 1000;
 			
+			if(scanner.hasNext())
+				itemType = ItemType.valueOf(ItemType.class, scanner.next());
+			if(scanner.hasNext())
+				num = Integer.parseInt(scanner.next());
+			if(scanner.hasNext())
+				duration = Integer.parseInt(scanner.next());
+			
+			EntityFactory.createItemBox(world, x, y, itemType, num, duration).refresh();
 		}
 		else if(type.equals("player"))
 		{

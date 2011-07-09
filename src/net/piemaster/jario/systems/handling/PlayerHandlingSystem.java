@@ -169,6 +169,10 @@ public class PlayerHandlingSystem extends EntityHandlingSystem
 			}
 			break;
 			
+		case STAR:
+			InvulnerabilityHandler.setTemporaryInvulnerability(world, player, 10000, true);
+			break;
+			
 		case COIN:
 			player.getComponent(Score.class).incrementScore();
 			break;

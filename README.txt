@@ -52,10 +52,11 @@
    ---------
  	
  - Add breakable blocks
- - Add invulnerability stars
+ - [Add invulnerability stars
  - Add more level geometry
- - Add level end, more levels and transitions
+ - Add [level end], more levels and transitions
  - Add more efficient (paged) level scrolling, enemy suspension
+ - Implement some kind of collision memory for greater accuracy
  - Fix reset/add New Game option
  - Add high scores
  - So much else...
