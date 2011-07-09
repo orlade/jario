@@ -8,6 +8,7 @@ import net.piemaster.jario.components.Item;
 import net.piemaster.jario.components.Score;
 import net.piemaster.jario.components.Item.ItemType;
 import net.piemaster.jario.components.Player;
+import net.piemaster.jario.components.SpatialForm;
 import net.piemaster.jario.entities.EntityType;
 import net.piemaster.jario.systems.CollisionSystem.EdgeType;
 import net.piemaster.jario.systems.delayed.InvulnerabilityHandler;
@@ -161,7 +162,11 @@ public class PlayerHandlingSystem extends EntityHandlingSystem
 				CollisionMesh mesh = meshMapper.get(player);
 				transformMapper.get(player).addY(-mesh.getHeight());
 			}
-			spatialMapper.get(player).setCurrentState(newState);
+			SpatialForm spatial = spatialMapper.get(player);
+			if(spatial.getCurrentState() == "")
+			{
+				spatial.setCurrentState(newState);
+			}
 			break;
 			
 		case COIN:

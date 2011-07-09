@@ -8,18 +8,18 @@ public class CollisionMesh extends Component
 {
 	private Polygon poly;
 	private boolean active = true;
-	
+
 	public CollisionMesh()
 	{
 		poly = new Polygon();
 	}
-	
+
 	public CollisionMesh(float x, float y, int width, int height)
 	{
 		this(width, height);
 		poly.setLocation(x, y);
 	}
-	
+
 	public CollisionMesh(int width, int height)
 	{
 		setPoly(createBoxPoly(width, height));
@@ -39,7 +39,7 @@ public class CollisionMesh extends Component
 	{
 		this.poly = poly;
 	}
-	
+
 	public void setLocation(float x, float y)
 	{
 		poly.setLocation(x, y);
@@ -47,7 +47,7 @@ public class CollisionMesh extends Component
 
 	public void setDimensions(float width, float height)
 	{
-		if(width != getWidth() || height != getHeight())
+		if (width != getWidth() || height != getHeight())
 		{
 			setPoly(createBoxPoly(width, height));
 		}
@@ -62,7 +62,7 @@ public class CollisionMesh extends Component
 	{
 		setPoly(createBoxPoly(poly.getWidth(), height));
 	}
-	
+
 	protected Polygon createBoxPoly(float width, float height)
 	{
 		Polygon p = new Polygon();
@@ -73,22 +73,22 @@ public class CollisionMesh extends Component
 		p.setClosed(true);
 		return p;
 	}
-	
+
 	public float getX()
 	{
 		return poly.getX();
 	}
-	
+
 	public float getY()
 	{
 		return poly.getY();
 	}
-	
+
 	public float getWidth()
 	{
 		return poly.getWidth();
 	}
-	
+
 	public float getHeight()
 	{
 		return poly.getHeight();

@@ -15,7 +15,7 @@ import net.piemaster.jario.systems.ExpirationSystem;
 import net.piemaster.jario.systems.HealthSystem;
 import net.piemaster.jario.systems.LevelWinSystem;
 import net.piemaster.jario.systems.MovementSystem;
-import net.piemaster.jario.systems.PlayerControlSystem;
+import net.piemaster.jario.systems.ControlInputSystem;
 import net.piemaster.jario.systems.RespawnSystem;
 import net.piemaster.jario.systems.TimerSystem;
 import net.piemaster.jario.systems.handling.BoxHandlingSystem;
@@ -105,7 +105,7 @@ public class GameplayState extends BasicGameState
 
 		// Create the systems
 		SystemManager systemManager = world.getSystemManager();
-		controlSystem = systemManager.setSystem(new PlayerControlSystem(gc));
+		controlSystem = systemManager.setSystem(new ControlInputSystem(gc));
 
 		movementSystem = systemManager.setSystem(new MovementSystem(gc));
 		meshSystem = systemManager.setSystem(new CollisionMeshSystem());

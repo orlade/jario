@@ -1,5 +1,7 @@
 package net.piemaster.jario.entities;
 
+import org.lwjgl.input.Keyboard;
+
 import net.piemaster.jario.components.Acceleration;
 import net.piemaster.jario.components.Coin;
 import net.piemaster.jario.components.CollisionMesh;
@@ -11,6 +13,7 @@ import net.piemaster.jario.components.Globals;
 import net.piemaster.jario.components.Health;
 import net.piemaster.jario.components.Item;
 import net.piemaster.jario.components.Item.ItemType;
+import net.piemaster.jario.components.InputMovement;
 import net.piemaster.jario.components.ItemDispenser;
 import net.piemaster.jario.components.Jumping;
 import net.piemaster.jario.components.Meta;
@@ -38,6 +41,7 @@ public class EntityFactory
 		player.addComponent(new Velocity());
 		player.addComponent(new Acceleration());
 		player.addComponent(new Physical());
+		player.addComponent(new InputMovement(Keyboard.KEY_LEFT, Keyboard.KEY_RIGHT, Keyboard.KEY_SPACE));
 		player.addComponent(new SpatialForm("PlayerImage"));
 		player.addComponent(new CollisionMesh(x, y, 0, 0));
 		player.addComponent(new Collisions());
@@ -84,13 +88,13 @@ public class EntityFactory
 
 	public static Entity createGoomba(World world, float x, float y)
 	{
-		float goombaSpeed = -0.1f;
+		float goombaAccel = -0.001f;
 
 		Entity goomba = world.createEntity();
 		goomba.setGroup(EntityType.ENEMY.toString());
 		goomba.addComponent(new Transform(x, y));
-		goomba.addComponent(new Velocity(goombaSpeed, 0));
-		goomba.addComponent(new Acceleration());
+		goomba.addComponent(new Velocity(0, 0));
+		goomba.addComponent(new Acceleration(goombaAccel, 0, true));
 		goomba.addComponent(new Physical(true, false));
 		goomba.addComponent(new SpatialForm("Goomba"));
 		goomba.addComponent(new CollisionMesh(x, y, 0, 0));
@@ -104,13 +108,13 @@ public class EntityFactory
 
 	public static Entity createParakoopa(World world, float x, float y)
 	{
-		float koopaSpeed = -0.1f;
+		float koopaAccel = -0.001f;
 
 		Entity para = world.createEntity();
 		para.setGroup(EntityType.ENEMY.toString());
 		para.addComponent(new Transform(x, y));
-		para.addComponent(new Velocity(koopaSpeed, 0));
-		para.addComponent(new Acceleration());
+		para.addComponent(new Velocity(0, 0));
+		para.addComponent(new Acceleration(koopaAccel, 0, true));
 		para.addComponent(new Physical(true, true));
 		para.addComponent(new SpatialForm("Parakoopa"));
 		para.addComponent(new CollisionMesh(x, y, 0, 0));
@@ -131,7 +135,7 @@ public class EntityFactory
 		shroom.addComponent(new Transform(x, y));
 		shroom.addComponent(new Velocity());
 		shroom.addComponent(new Acceleration());
-		shroom.addComponent(new Physical(false, false, false, true, false, false));
+		shroom.addComponent(new Physical(false, false, false, true, false, false, false));
 		shroom.addComponent(new SpatialForm("Mushroom"));
 		shroom.addComponent(new CollisionMesh(x, y, 0, 0));
 		shroom.addComponent(new Collisions());
@@ -148,7 +152,7 @@ public class EntityFactory
 		shroom.addComponent(new Transform(x, y));
 		shroom.addComponent(new Velocity());
 		shroom.addComponent(new Acceleration());
-		shroom.addComponent(new Physical(false, false, false, true, false, false));
+		shroom.addComponent(new Physical(false, false, false, true, false, false, false));
 		shroom.addComponent(new SpatialForm("Flower"));
 		shroom.addComponent(new CollisionMesh(x, y, 0, 0));
 		shroom.addComponent(new Collisions());
@@ -165,7 +169,7 @@ public class EntityFactory
 		shroom.addComponent(new Transform(x, y));
 		shroom.addComponent(new Velocity());
 		shroom.addComponent(new Acceleration());
-		shroom.addComponent(new Physical(false, false, false, true, false, false));
+		shroom.addComponent(new Physical(false, false, false, true, false, false, false));
 		shroom.addComponent(new SpatialForm("Coin"));
 		shroom.addComponent(new CollisionMesh(x, y, 0, 0));
 		shroom.addComponent(new Collisions());
@@ -185,7 +189,7 @@ public class EntityFactory
 		fireball.addComponent(new Transform(x, y));
 		fireball.addComponent(new Velocity(fireballSpeed, 0));
 		fireball.addComponent(new Acceleration());
-		fireball.addComponent(new Physical(false, false, false, false, true));
+		fireball.addComponent(new Physical(false, false, false, false, true, true, false));
 		fireball.addComponent(new Jumping(0.5f));
 		fireball.addComponent(new SpatialForm("Fireball"));
 		fireball.addComponent(new CollisionMesh(x, y, 0, 0));

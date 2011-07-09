@@ -53,6 +53,11 @@ public class MovementSystem extends EntityProcessingSystem
 			{
 				accel.addY(globals.getGravity());
 			}
+			// Update acceleration with friction
+			if(physical.isHasFriction())
+			{
+				accel.addX(vel.getX() * -globals.getFriction());
+			}
 			
 			// Update velocity with acceleration
 			vel.addX(accel.getX() * world.getDelta());

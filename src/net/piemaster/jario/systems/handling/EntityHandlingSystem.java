@@ -18,6 +18,7 @@ public abstract class EntityHandlingSystem extends EntityProcessingSystem
 {
 	protected ComponentMapper<Transform> transformMapper;
 	protected ComponentMapper<Velocity> velocityMapper;
+	protected ComponentMapper<Acceleration> accelMapper;
 	protected ComponentMapper<Physical> physicalMapper;
 	protected ComponentMapper<SpatialForm> spatialMapper;
 	protected ComponentMapper<CollisionMesh> meshMapper;
@@ -39,6 +40,7 @@ public abstract class EntityHandlingSystem extends EntityProcessingSystem
 	{
 		transformMapper = new ComponentMapper<Transform>(Transform.class, world.getEntityManager());
 		velocityMapper = new ComponentMapper<Velocity>(Velocity.class, world.getEntityManager());
+		accelMapper = new ComponentMapper<Acceleration>(Acceleration.class, world.getEntityManager());
 		physicalMapper = new ComponentMapper<Physical>(Physical.class, world.getEntityManager());
 		spatialMapper = new ComponentMapper<SpatialForm>(SpatialForm.class,
 				world.getEntityManager());
@@ -333,6 +335,7 @@ public abstract class EntityHandlingSystem extends EntityProcessingSystem
 		CollisionMesh m2 = meshMapper.get(e2);
 		Transform t1 = transformMapper.get(e1);
 		Velocity v1 = velocityMapper.get(e1);
+		Acceleration a1 = accelMapper.get(e1);
 		Physical phys = physicalMapper.get(e1);
 		Jumping jump = jumpMapper.get(e1);
 
@@ -371,16 +374,16 @@ public abstract class EntityHandlingSystem extends EntityProcessingSystem
 			t1.setX(m2.getX() + diff);
 			if (phys.isBouncyHorizontal())
 			{
-				v1.setX(-v1.getX());
 				t1.setFacingRight(!t1.isFacingRight());
+				v1.setX(-v1.getX());
+				if(a1 != null)
+					a1.reverse(true, false);
 			}
 			else
 			{
 				// haltHorizontal(e1);
 			}
 		}
-		// Update the collision mesh
-		m1.setLocation(t1.getX(), t1.getY());
 	}
 
 	public void haltVertical(Entity ent)
