@@ -70,6 +70,11 @@ public class MovementSystem extends EntityProcessingSystem
 			transform.addX(vel.getX() * world.getDelta());
 			transform.addY(vel.getY() * world.getDelta());
 			
+			if(Math.abs(vel.getX()) < 0.001f)
+			{
+				vel.setX(0);
+			}
+			
 			// Reset acceleration for the frame
 			accel.reset();
 		}

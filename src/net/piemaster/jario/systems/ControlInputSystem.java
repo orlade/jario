@@ -98,11 +98,11 @@ public class ControlInputSystem extends EntityProcessingSystem implements KeyLis
 				accel.setX(accelAmount * multi);
 				transform.setFacingRight(true);
 			}
-			else
-			{
-				accel.setX(0);
-				velocity.setX(0);
-			}
+//			else
+//			{
+//				accel.setX(0);
+//				velocity.setX(0);
+//			}
 
 			// Shooting
 			if (container.getInput().isKeyPressed(Input.KEY_F) && e.getComponent(FireballShooter.class) != null)

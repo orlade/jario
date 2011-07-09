@@ -142,15 +142,15 @@ public class PlayerHandlingSystem extends EntityHandlingSystem
 	private void handleItemCollision(Entity player, Entity item, EdgeType edge)
 	{
 		ItemType type = itemMapper.get(item).getType();
-		String newState = "BIG";
 			
 		switch (type)
 		{
 		case FLOWER:
-			newState = "FLOWER";
 			if(player.getComponent(FireballShooter.class) == null)
 			{
 				player.addComponent(new FireballShooter());
+				SpatialForm spatial = spatialMapper.get(player);
+				spatial.setCurrentState("FLOWER");
 			}
 			// No break
 			
@@ -165,7 +165,7 @@ public class PlayerHandlingSystem extends EntityHandlingSystem
 			SpatialForm spatial = spatialMapper.get(player);
 			if(spatial.getCurrentState() == "")
 			{
-				spatial.setCurrentState(newState);
+				spatial.setCurrentState("BIG");
 			}
 			break;
 			

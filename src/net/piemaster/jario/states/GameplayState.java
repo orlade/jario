@@ -26,6 +26,7 @@ import net.piemaster.jario.systems.handling.ItemHandlingSystem;
 import net.piemaster.jario.systems.handling.ParakoopaHandlingSystem;
 import net.piemaster.jario.systems.handling.PlayerHandlingSystem;
 import net.piemaster.jario.systems.rendering.CollisionMeshRenderSystem;
+import net.piemaster.jario.systems.rendering.DebugHudRenderSystem;
 import net.piemaster.jario.systems.rendering.HudRenderSystem;
 import net.piemaster.jario.systems.rendering.MetaRenderSystem;
 import net.piemaster.jario.systems.rendering.RenderSystem;
@@ -76,8 +77,10 @@ public class GameplayState extends BasicGameState
 	private EntitySystem renderSystem;
 	private EntitySystem hudRenderSystem;
 	private EntitySystem backgroundRenderSystem;
+	
 	private EntitySystem meshRenderSystem;
 	private EntitySystem metaRenderSystem;
+	private EntitySystem debugHudRenderSystem;
 
 	private EntitySystem boundarySystem;
 	private EntitySystem cameraSystem;
@@ -135,8 +138,10 @@ public class GameplayState extends BasicGameState
 		renderSystem = systemManager.setSystem(new RenderSystem(gc));
 		hudRenderSystem = systemManager.setSystem(new HudRenderSystem(gc));
 		backgroundRenderSystem = systemManager.setSystem(new TerrainRenderSystem(gc));
+		
 		meshRenderSystem = systemManager.setSystem(new CollisionMeshRenderSystem(gc));
 		metaRenderSystem = systemManager.setSystem(new MetaRenderSystem(gc));
+		debugHudRenderSystem = systemManager.setSystem(new DebugHudRenderSystem(gc));
 
 		systemManager.initializeAll();
 
@@ -201,6 +206,7 @@ public class GameplayState extends BasicGameState
 		{
 			meshRenderSystem.process();
 			metaRenderSystem.process();
+			debugHudRenderSystem.process();
 		}
 		
 		hudRenderSystem.process();

@@ -374,10 +374,16 @@ public abstract class EntityHandlingSystem extends EntityProcessingSystem
 			t1.setX(m2.getX() + diff);
 			if (phys.isBouncyHorizontal())
 			{
-				t1.setFacingRight(!t1.isFacingRight());
-				v1.setX(-v1.getX());
-				if(a1 != null)
-					a1.reverse(true, false);
+				// If walking INTO the placed edge
+				int vDir = (int) Math.signum(v1.getX());
+				int edgeDir = edge == EdgeType.EDGE_LEFT ? 1 : -1;
+				if(vDir == edgeDir)
+				{
+					t1.setFacingRight(!t1.isFacingRight());
+					v1.setX(-v1.getX());
+					if(a1 != null)
+						a1.reverse(true, false);
+				}
 			}
 			else
 			{

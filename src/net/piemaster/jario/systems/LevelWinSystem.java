@@ -1,9 +1,11 @@
 package net.piemaster.jario.systems;
 
-import net.piemaster.jario.Jario;
 import net.piemaster.jario.components.Health;
+import net.piemaster.jario.components.InputMovement;
+import net.piemaster.jario.components.Physical;
 import net.piemaster.jario.components.Player;
 import net.piemaster.jario.components.Transform;
+import net.piemaster.jario.components.Velocity;
 
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -13,8 +15,8 @@ import com.artemis.EntityProcessingSystem;
 
 public class LevelWinSystem extends EntityProcessingSystem
 {
-	private StateBasedGame sbg;
-	
+//	private StateBasedGame sbg;
+
 	private ComponentMapper<Health> healthMapper;
 	private ComponentMapper<Transform> transformMapper;
 
@@ -22,8 +24,8 @@ public class LevelWinSystem extends EntityProcessingSystem
 	public LevelWinSystem(StateBasedGame sbg)
 	{
 		super(Player.class, Transform.class);
-		
-		this.sbg = sbg;
+
+//		this.sbg = sbg;
 	}
 
 	@Override
@@ -38,10 +40,19 @@ public class LevelWinSystem extends EntityProcessingSystem
 	{
 		Transform t = transformMapper.get(e);
 		Transform et = transformMapper.get(world.getTagManager().getEntity("END_POINT"));
-		
-		if(t.getX() > et.getX() && healthMapper.get(e).isAlive())
+
+		if (t.getX() > et.getX() && healthMapper.get(e).isAlive())
 		{
-			sbg.enterState(Jario.MAINMENUSTATE);
+//			sbg.enterState(Jario.MAINMENUSTATE);
+			
+			InputMovement input = e.getComponent(InputMovement.class);
+			if (input != null)
+			{
+				e.removeComponent(input);
+				e.refresh();
+			}
+			e.getComponent(Physical.class).setHasFriction(false);
+			e.getComponent(Velocity.class).setX(0.1f);
 		}
 	}
 }
