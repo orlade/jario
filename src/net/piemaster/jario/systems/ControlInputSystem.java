@@ -93,10 +93,15 @@ public class ControlInputSystem extends EntityProcessingSystem implements KeyLis
 				accel.setX(-accelAmount * multi);
 				transform.setFacingRight(false);
 			}
-			if (container.getInput().isKeyDown(input.getRight()))
+			else if (container.getInput().isKeyDown(input.getRight()))
 			{
 				accel.setX(accelAmount * multi);
 				transform.setFacingRight(true);
+			}
+			else
+			{
+				accel.setX(0);
+				velocity.setX(0);
 			}
 
 			// Shooting
@@ -117,6 +122,16 @@ public class ControlInputSystem extends EntityProcessingSystem implements KeyLis
 			if (container.getInput().isKeyPressed(Input.KEY_I))
 			{
 				InvulnerabilityHandler.setTemporaryInvulnerability(world, e, 2000, true);
+			}
+			// DEBUG: Move
+			if (container.getInput().isKeyPressed(Input.KEY_L))
+			{
+				transformMapper.get(e).addX(10);
+			}
+			// DEBUG: Move
+			if (container.getInput().isKeyPressed(Input.KEY_K))
+			{
+				transformMapper.get(e).addX(-10);
 			}
 		}
 	}

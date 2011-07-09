@@ -45,13 +45,10 @@ public class CollisionMeshRenderSystem extends EntityProcessingSystem
 	protected void process(Entity e)
 	{
 		CollisionMesh mesh = meshMapper.get(e);
-		if(mesh != null)
-		{
-			Polygon poly = meshMapper.get(e).getPoly();
-			graphics.setColor(mesh.isActive() ? ACTIVE_FILL : INACTIVE_FILL);
-			graphics.setAntiAlias(true);
-			graphics.fill(poly);
-		}
+		Polygon poly = meshMapper.get(e).getPoly();
+		graphics.setColor(mesh.isActive() ? ACTIVE_FILL : INACTIVE_FILL);
+		graphics.setAntiAlias(true);
+		graphics.fill(poly);
 	}
 
 	@Override

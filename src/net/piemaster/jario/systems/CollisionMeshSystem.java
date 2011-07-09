@@ -32,7 +32,7 @@ public class CollisionMeshSystem extends EntityProcessingSystem
 		if(mesh != null)
 		{
 			Transform t = transformMapper.get(e);
-			meshMapper.get(e).setLocation(t.getX(), t.getY());
+			meshMapper.get(e).setLocation((int)t.getX(), (int)t.getY());
 		}
 	}
 }

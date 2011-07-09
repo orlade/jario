@@ -1,7 +1,9 @@
 package net.piemaster.jario.systems.rendering;
 
+import net.piemaster.jario.components.CollisionMesh;
 import net.piemaster.jario.components.Player;
 import net.piemaster.jario.components.Score;
+import net.piemaster.jario.components.Transform;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -37,6 +39,13 @@ public class HudRenderSystem extends EntityProcessingSystem
 		Score score = scoreMapper.get(e);
 		g.setColor(Color.white);
 		g.drawString("Score: " + score.getScore(), 20, container.getHeight() - 40);
+
+		Transform t = world.getTagManager().getEntity("PLAYER").getComponent(Transform.class);
+		g.drawString("(x, y) = (" + t.getX() + ", " + t.getY() + ")", 20,
+				container.getHeight() - 60);
+		CollisionMesh mesh = world.getTagManager().getEntity("PLAYER").getComponent(CollisionMesh.class);
+		g.drawString("Mesh (x, y) = (" + mesh.getX() + ", " + mesh.getY() + ")", 20,
+				container.getHeight() - 80);
 	}
 
 }
