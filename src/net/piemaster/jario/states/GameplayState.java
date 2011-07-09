@@ -8,6 +8,7 @@ import net.piemaster.jario.systems.BoundarySystem;
 import net.piemaster.jario.systems.CameraSystem;
 import net.piemaster.jario.systems.CollisionMeshSystem;
 import net.piemaster.jario.systems.CollisionSystem;
+import net.piemaster.jario.systems.ControlInputSystem;
 import net.piemaster.jario.systems.CullingSystem;
 import net.piemaster.jario.systems.DispenserSystem;
 import net.piemaster.jario.systems.DispensingSystem;
@@ -15,7 +16,6 @@ import net.piemaster.jario.systems.ExpirationSystem;
 import net.piemaster.jario.systems.HealthSystem;
 import net.piemaster.jario.systems.LevelWinSystem;
 import net.piemaster.jario.systems.MovementSystem;
-import net.piemaster.jario.systems.ControlInputSystem;
 import net.piemaster.jario.systems.RespawnSystem;
 import net.piemaster.jario.systems.TimerSystem;
 import net.piemaster.jario.systems.handling.BoxHandlingSystem;
@@ -112,7 +112,7 @@ public class GameplayState extends BasicGameState
 
 		movementSystem = systemManager.setSystem(new MovementSystem(gc));
 		meshSystem = systemManager.setSystem(new CollisionMeshSystem());
-
+		
 		collisionSystem = systemManager.setSystem(new CollisionSystem());
 		expirationSystem = systemManager.setSystem(new ExpirationSystem());
 		respawnSystem = systemManager.setSystem(new RespawnSystem());
@@ -162,7 +162,7 @@ public class GameplayState extends BasicGameState
 		world.loopStart();
 
 		world.setDelta(delta);
-
+		
 		// Handle input
 		controlSystem.process();
 
@@ -179,7 +179,7 @@ public class GameplayState extends BasicGameState
 		boxHandlingSystem.process();
 		parakoopaHandlingSystem.process();
 		enemyHandlingSystem.process();
-		
+
 		// Handle operational systems
 		healthSystem.process();
 		expirationSystem.process();
@@ -216,7 +216,6 @@ public class GameplayState extends BasicGameState
 	public void enter(GameContainer container, StateBasedGame game) throws SlickException
 	{
 		super.enter(container, game);
-
 		container.getInput().addMouseListener(this);
 	}
 
@@ -224,7 +223,6 @@ public class GameplayState extends BasicGameState
 	public void leave(GameContainer container, StateBasedGame game) throws SlickException
 	{
 		super.leave(container, game);
-
 		container.getInput().removeMouseListener(this);
 	}
 

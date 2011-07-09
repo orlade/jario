@@ -63,10 +63,10 @@ public class PlayerHandlingSystem extends EntityHandlingSystem
 	{
 		Collisions coll = e.getComponent(Collisions.class);
 
-		for (int i = coll.getSize() - 1; i >= 0; --i)
+		for (int i = 0; i < coll.getSize(); ++i)
 		{
-			Entity target = world.getEntity(coll.getTargetIds().remove(i));
-			EdgeType edge = coll.getEdges().remove(i);
+			Entity target = world.getEntity(coll.getTargetIds().get(i));
+			EdgeType edge = coll.getEdges().get(i);
 			String group = world.getGroupManager().getGroupOf(target);
 			
 			// If colliding with an object that has been slated for removal, continue
@@ -90,6 +90,7 @@ public class PlayerHandlingSystem extends EntityHandlingSystem
 				handleItemCollision(e, target, edge);
 			}
 		}
+		coll.clear();
 	}
 
 	private void handleEnemyCollision(Entity player, Entity enemy, EdgeType edge)
@@ -104,27 +105,30 @@ public class PlayerHandlingSystem extends EntityHandlingSystem
 		else if (edge != EdgeType.EDGE_NONE)
 		{
 			Health health = healthMapper.get(player);
-			if(health.getHealth() > 1)
+			if(!health.isInvulnerable())
 			{
-				transformMapper.get(player).addY(meshMapper.get(player).getHeight()/2);
-				spatialMapper.get(player).setCurrentState("");
-				
-				FireballShooter shooter = player.getComponent(FireballShooter.class);
-				if(shooter != null)
-					player.removeComponent(shooter);
-				
-			}
-			health.addDamage(1);
-			if (!health.isAlive())
-			{
-				velocityMapper.get(player).setY(-0.5f);
-				velocityMapper.get(player).setX(0.1f * (edge == EdgeType.EDGE_LEFT ? 1 : -1));
-				physicalMapper.get(player).setGrounded(false);
-			}
-			else
-			{
-				// Make the player invulnerable briefly
-				InvulnerabilityHandler.setTemporaryInvulnerability(world, player, 1000, true);
+				if(health.getHealth() > 1)
+				{
+					transformMapper.get(player).addY(meshMapper.get(player).getHeight()/2);
+					spatialMapper.get(player).setCurrentState("");
+					
+					FireballShooter shooter = player.getComponent(FireballShooter.class);
+					if(shooter != null)
+						player.removeComponent(shooter);
+					
+				}
+				health.addDamage(1);
+				if (!health.isAlive())
+				{
+					velocityMapper.get(player).setY(-0.5f);
+					velocityMapper.get(player).setX(0.1f * (edge == EdgeType.EDGE_LEFT ? 1 : -1));
+					physicalMapper.get(player).setGrounded(false);
+				}
+				else
+				{
+					// Make the player invulnerable briefly
+					InvulnerabilityHandler.setTemporaryInvulnerability(world, player, 1000, true);
+				}
 			}
 		}
 	}
@@ -158,9 +162,12 @@ public class PlayerHandlingSystem extends EntityHandlingSystem
 			Health health = healthMapper.get(player);
 			if(health.getHealth() == 1)
 			{
+				System.out.println("Y = "+transformMapper.get(player).getY());
 				health.addDamage(-1);
 				CollisionMesh mesh = meshMapper.get(player);
 				transformMapper.get(player).addY(-mesh.getHeight());
+				System.out.println("added "+mesh.getHeight()+" to player pos.y");
+				System.out.println("Y = "+transformMapper.get(player).getY());
 			}
 			SpatialForm spatial = spatialMapper.get(player);
 			if(spatial.getCurrentState() == "")

@@ -9,8 +9,6 @@ import com.artemis.Component;
 
 public class Collisions extends Component
 {
-//	private int targetId;
-//	private EdgeType edge;
 	private ArrayList<Integer> targetIds;
 	private ArrayList<EdgeType> edges;
 
@@ -39,6 +37,12 @@ public class Collisions extends Component
 	public int getSize()
 	{
 		return targetIds.size();
+	}
+	
+	public void clear()
+	{
+		targetIds.clear();
+		edges.clear();
 	}
 	
 //	public void pop()

@@ -1,5 +1,7 @@
 package net.piemaster.jario.spatials;
 
+import net.piemaster.jario.spatials.effects.SpatialEffect;
+
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
@@ -37,6 +39,18 @@ public class GenericFlipImage extends GenericImage
 			currentImage = baseImage;
 		else
 			currentImage = flippedImage;
+	}
+
+	@Override
+	public void applyEffect(SpatialEffect effect)
+	{
+		Image current = currentImage;
+		Image nonCurrent = (currentImage == baseImage) ? flippedImage : baseImage;
+		
+		currentImage = nonCurrent;
+		super.applyEffect(effect);
+		currentImage = current;
+		super.applyEffect(effect);
 	}
 
 	@Override

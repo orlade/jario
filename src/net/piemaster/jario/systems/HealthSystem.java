@@ -31,6 +31,7 @@ public class HealthSystem extends EntityProcessingSystem
 		if(!health.isAlive())
 		{
 			e.getComponent(Physical.class).setGrounded(false);
+			e.getComponent(Physical.class).setHasFriction(false);
 			e.getComponent(CollisionMesh.class).setActive(false);
 		}
 	}

@@ -56,6 +56,108 @@ public abstract class EntityHandlingSystem extends EntityProcessingSystem
 		// handles = new Bag<EntityHandling>();
 	}
 
+	// ---------------------------------------------------------------------------------------------
+
+	/**
+	 * Set position and stop relevant movement.
+	 */
+	public void placeEntityOnOther(Entity e1, Entity e2, EdgeType edge)
+	{
+		CollisionMesh m1 = meshMapper.get(e1);
+		CollisionMesh m2 = meshMapper.get(e2);
+		Transform t1 = transformMapper.get(e1);
+		Velocity v1 = velocityMapper.get(e1);
+		Acceleration a1 = accelMapper.get(e1);
+		Physical phys = physicalMapper.get(e1);
+		Jumping jump = jumpMapper.get(e1);
+
+		if (edge == EdgeType.EDGE_TOP)
+		{
+			// Set the Y coordinate to that of the terrain object
+			t1.setY(m2.getY() - m1.getHeight());
+			if (phys.isBouncyVertical() && jump != null)
+			{
+				v1.setY(-jump.getJumpFactor());
+			}
+			else
+			{
+				if (v1.getY() > 0)
+				{
+					haltVertical(e1);
+				}
+			}
+			// Record that the actor is on the ground to avoid gravity
+			phys.setGrounded(true);
+		}
+		else if (edge == EdgeType.EDGE_BOTTOM)
+		{
+			t1.setY(m2.getY() + m2.getHeight());
+
+			if (v1.getY() < 0)
+			{
+				haltVertical(e1);
+			}
+			phys.setGrounded(false);
+		}
+		else if (edge == EdgeType.EDGE_LEFT || edge == EdgeType.EDGE_RIGHT)
+		{
+			float diff = (edge == EdgeType.EDGE_LEFT) ?  -m1.getWidth() : m2.getWidth();
+			t1.setX(m2.getX() + diff);
+			if (phys.isBouncyHorizontal())
+			{
+				// If walking INTO the placed edge
+				int vDir = (int) Math.signum(v1.getX());
+				int edgeDir = edge == EdgeType.EDGE_LEFT ? 1 : -1;
+				if(vDir == edgeDir)
+				{
+					t1.setFacingRight(!t1.isFacingRight());
+					v1.setX(-v1.getX());
+					if(a1 != null)
+						a1.reverse(true, false);
+				}
+			}
+			else
+			{
+				// haltHorizontal(e1);
+			}
+		}
+	}
+
+	public void haltVertical(Entity ent)
+	{
+		ent.getComponent(Acceleration.class).setY(0);
+		ent.getComponent(Velocity.class).setY(0);
+	}
+
+	public void haltHorizontal(Entity ent)
+	{
+		ent.getComponent(Acceleration.class).setX(0);
+		ent.getComponent(Velocity.class).setX(0);
+	}
+
+	protected EdgeType reverseEdge(EdgeType edge)
+	{
+		switch (edge)
+		{
+		case EDGE_LEFT:
+			return EdgeType.EDGE_RIGHT;
+		case EDGE_RIGHT:
+			return EdgeType.EDGE_LEFT;
+		case EDGE_TOP:
+			return EdgeType.EDGE_BOTTOM;
+		case EDGE_BOTTOM:
+			return EdgeType.EDGE_TOP;
+		default:
+			return EdgeType.EDGE_NONE;
+		}
+	}
+
+	@Override
+	protected boolean checkProcessing()
+	{
+		return true;
+	}
+
 	// @Override
 	// protected void begin()
 	// {
@@ -323,107 +425,4 @@ public abstract class EntityHandlingSystem extends EntityProcessingSystem
 	// {
 	// world.deleteEntity(item);
 	// }
-
-	// ---------------------------------------------------------------------------------------------
-
-	/**
-	 * Set position and stop relevant movement.
-	 */
-	public void placeEntityOnOther(Entity e1, Entity e2, EdgeType edge)
-	{
-		CollisionMesh m1 = meshMapper.get(e1);
-		CollisionMesh m2 = meshMapper.get(e2);
-		Transform t1 = transformMapper.get(e1);
-		Velocity v1 = velocityMapper.get(e1);
-		Acceleration a1 = accelMapper.get(e1);
-		Physical phys = physicalMapper.get(e1);
-		Jumping jump = jumpMapper.get(e1);
-
-		if (edge == EdgeType.EDGE_TOP)
-		{
-			// Set the Y coordinate to that of the terrain object
-			t1.setY(m2.getY() - m1.getHeight());
-
-			if (phys.isBouncyVertical() && jump != null)
-			{
-				v1.setY(-jump.getJumpFactor());
-			}
-			else
-			{
-				if (v1.getY() > 0)
-				{
-					haltVertical(e1);
-				}
-			}
-			// Record that the actor is on the ground to avoid gravity
-			phys.setGrounded(true);
-		}
-		else if (edge == EdgeType.EDGE_BOTTOM)
-		{
-			t1.setY(m2.getY() + m2.getHeight());
-
-			if (v1.getY() < 0)
-			{
-				haltVertical(e1);
-			}
-			phys.setGrounded(false);
-		}
-		else if (edge == EdgeType.EDGE_LEFT || edge == EdgeType.EDGE_RIGHT)
-		{
-			float diff = (edge == EdgeType.EDGE_LEFT) ?  -m1.getWidth() : m2.getWidth();
-			t1.setX(m2.getX() + diff);
-			if (phys.isBouncyHorizontal())
-			{
-				// If walking INTO the placed edge
-				int vDir = (int) Math.signum(v1.getX());
-				int edgeDir = edge == EdgeType.EDGE_LEFT ? 1 : -1;
-				if(vDir == edgeDir)
-				{
-					t1.setFacingRight(!t1.isFacingRight());
-					v1.setX(-v1.getX());
-					if(a1 != null)
-						a1.reverse(true, false);
-				}
-			}
-			else
-			{
-				// haltHorizontal(e1);
-			}
-		}
-	}
-
-	public void haltVertical(Entity ent)
-	{
-		ent.getComponent(Acceleration.class).setY(0);
-		ent.getComponent(Velocity.class).setY(0);
-	}
-
-	public void haltHorizontal(Entity ent)
-	{
-		ent.getComponent(Acceleration.class).setX(0);
-		ent.getComponent(Velocity.class).setX(0);
-	}
-
-	protected EdgeType reverseEdge(EdgeType edge)
-	{
-		switch (edge)
-		{
-		case EDGE_LEFT:
-			return EdgeType.EDGE_RIGHT;
-		case EDGE_RIGHT:
-			return EdgeType.EDGE_LEFT;
-		case EDGE_TOP:
-			return EdgeType.EDGE_BOTTOM;
-		case EDGE_BOTTOM:
-			return EdgeType.EDGE_TOP;
-		default:
-			return EdgeType.EDGE_NONE;
-		}
-	}
-
-	@Override
-	protected boolean checkProcessing()
-	{
-		return true;
-	}
 }
