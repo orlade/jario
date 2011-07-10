@@ -35,9 +35,9 @@ public class BoundarySystem extends EntityProcessingSystem
 	@Override
 	public void initialize()
 	{
-		transformMapper = new ComponentMapper<Transform>(Transform.class, world.getEntityManager());
-		spatialMapper = new ComponentMapper<SpatialForm>(SpatialForm.class, world.getEntityManager());
-		healthMapper = new ComponentMapper<Health>(Health.class, world.getEntityManager());
+		transformMapper = new ComponentMapper<Transform>(Transform.class, world);
+		spatialMapper = new ComponentMapper<SpatialForm>(SpatialForm.class, world);
+		healthMapper = new ComponentMapper<Health>(Health.class, world);
 	}
 
 	@Override

@@ -12,6 +12,7 @@ import net.piemaster.jario.spatials.ItemBox;
 import net.piemaster.jario.spatials.Missile;
 import net.piemaster.jario.spatials.Mushroom;
 import net.piemaster.jario.spatials.Parakoopa;
+import net.piemaster.jario.spatials.Shell;
 import net.piemaster.jario.spatials.Spatial;
 import net.piemaster.jario.spatials.Star;
 import net.piemaster.jario.spatials.player.PlayerComposer;
@@ -42,7 +43,7 @@ public class RenderSystem extends EntityProcessingSystem
 	@Override
 	public void initialize()
 	{
-		formMapper = new ComponentMapper<SpatialForm>(SpatialForm.class, world.getEntityManager());
+		formMapper = new ComponentMapper<SpatialForm>(SpatialForm.class, world);
 
 		cameraSystem = world.getSystemManager().getSystem(CameraSystem.class);
 
@@ -112,6 +113,10 @@ public class RenderSystem extends EntityProcessingSystem
 		else if ("Parakoopa".equalsIgnoreCase(spatialFormFile))
 		{
 			return setupGenericSpatialEntity(e, new Parakoopa(world, e));
+		}
+		else if ("Shell".equalsIgnoreCase(spatialFormFile))
+		{
+			return setupGenericSpatialEntity(e, new Shell(world, e));
 		}
 		else if ("ItemBox".equalsIgnoreCase(spatialFormFile))
 		{

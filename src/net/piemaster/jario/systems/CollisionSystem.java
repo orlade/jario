@@ -10,6 +10,7 @@ import org.newdawn.slick.geom.Polygon;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.EntitySystem;
+import com.artemis.GroupManager;
 import com.artemis.utils.ImmutableBag;
 
 public class CollisionSystem extends EntitySystem
@@ -31,15 +32,21 @@ public class CollisionSystem extends EntitySystem
 	@Override
 	public void initialize()
 	{
-		meshMapper = new ComponentMapper<CollisionMesh>(CollisionMesh.class,
-				world.getEntityManager());
-		collMapper = new ComponentMapper<Collisions>(Collisions.class, world.getEntityManager());
-		
-//		handlingSystem = world.getSystemManager().getSystem(HandlingSystem.class);
+		meshMapper = new ComponentMapper<CollisionMesh>(CollisionMesh.class, world);
+		collMapper = new ComponentMapper<Collisions>(Collisions.class, world);
 	}
 
-	// ---------------------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 
+	/**
+	 * Detects collisions and registers a CollisionInfo object with the Collisions component of each
+	 * entity that was colliding with another.
+	 * 
+	 * @param source
+	 *            A bag of entities to test for collisions with the against bag.
+	 * @param against
+	 *            A bag of entities to test for collisions with the source bag.
+	 */
 	private void processCollisions(ImmutableBag<Entity> source, ImmutableBag<Entity> against)
 	{
 		if (source != null && against != null)
@@ -47,33 +54,33 @@ public class CollisionSystem extends EntitySystem
 			for (int i = 0; source.size() > i; i++)
 			{
 				Entity a = source.get(i);
-				
-				if(!meshMapper.get(a).isActive())
+
+				if (!meshMapper.get(a).isActive())
 					continue;
 
 				for (int j = 0; against.size() > j; j++)
 				{
 					Entity b = against.get(j);
-					
-					if(!meshMapper.get(b).isActive())
+
+					if (!meshMapper.get(b).isActive())
 						continue;
-					
+
 					// Ensure they're not the same
-					if(a == b)
+					if (a == b)
 						break;
 
 					if (collisionExists(a, b))
 					{
 						EdgeType edge = detectCollisionEdge(a, b);
-						
-						if(edge != EdgeType.EDGE_NONE)
+
+						if (edge != EdgeType.EDGE_NONE)
 						{
 							Collisions ca = collMapper.get(a);
-							if(ca != null)
+							if (ca != null)
 								ca.push(b.getId(), edge);
-							
+
 							Collisions cb = collMapper.get(b);
-							if(cb != null)
+							if (cb != null)
 								cb.push(a.getId(), reverseEdge(edge));
 						}
 					}
@@ -81,132 +88,38 @@ public class CollisionSystem extends EntitySystem
 			}
 		}
 	}
-	
+
 	@Override
 	protected void processEntities(ImmutableBag<Entity> entities)
 	{
-		ImmutableBag<Entity> players = world.getGroupManager().getEntities(EntityType.PLAYER.toString());
-		ImmutableBag<Entity> terrain = world.getGroupManager().getEntities(EntityType.TERRAIN.toString());
-		ImmutableBag<Entity> boxes = world.getGroupManager().getEntities(EntityType.ITEMBOX.toString());
-		ImmutableBag<Entity> items = world.getGroupManager().getEntities(EntityType.ITEM.toString());
-		ImmutableBag<Entity> enemies = world.getGroupManager().getEntities(EntityType.ENEMY.toString());
-		ImmutableBag<Entity> bullets = world.getGroupManager().getEntities(EntityType.BULLET.toString());
-		
+		// Get the relevant groups
+		GroupManager groupMgr = world.getGroupManager();
+		ImmutableBag<Entity> players = groupMgr.getEntities(EntityType.PLAYER.toString());
+		ImmutableBag<Entity> terrain = groupMgr.getEntities(EntityType.TERRAIN.toString());
+		ImmutableBag<Entity> boxes = groupMgr.getEntities(EntityType.ITEMBOX.toString());
+		ImmutableBag<Entity> items = groupMgr.getEntities(EntityType.ITEM.toString());
+		ImmutableBag<Entity> enemies = groupMgr.getEntities(EntityType.ENEMY.toString());
+		ImmutableBag<Entity> weapons = groupMgr.getEntities(EntityType.WEAPON.toString());
+
+		// Process collisions between relevant pairs of groups
 		processCollisions(players, terrain);
 		processCollisions(enemies, terrain);
 		processCollisions(items, terrain);
 		processCollisions(items, boxes);
 		processCollisions(players, enemies);
-		
-		processCollisions(bullets, players);
-		processCollisions(bullets, enemies);
-		processCollisions(bullets, terrain);
-		processCollisions(bullets, boxes);
-		
+
+		processCollisions(weapons, players);
+		processCollisions(weapons, enemies);
+		processCollisions(weapons, terrain);
+		processCollisions(weapons, boxes);
+		processCollisions(weapons, weapons);
+
 		processCollisions(players, boxes);
 		processCollisions(enemies, boxes);
 		processCollisions(players, items);
-
-//		// Check player against enemies
-//		if (player != null && enemies != null && meshMapper.get(player).isActive())
-//		{
-//			boolean playerMoving = physicalMapper.get(player).isMoving();
-//			for (int i = 0; enemies.size() > i; i++)
-//			{
-//				Entity enemy = enemies.get(i);
-//				// Ignore inactive collision meshes
-//				if (!meshMapper.get(enemy).isActive())
-//					continue;
-//
-//				if ((playerMoving || physicalMapper.get(enemy).isMoving())
-//						&& collisionExists(player, enemy))
-//				{
-//					EdgeType edge = detectCollisionEdge(player, enemy);
-//					handlePlayerEnemyCollision(player, enemy, edge);
-//					handleEnemyPlayerCollision(enemy, player, reverseEdge(edge));
-//				}
-//			}
-//		}
-//
-//		// Check player against item boxes
-//		if (player != null && boxes != null && meshMapper.get(player).isActive())
-//		{
-//			boolean playerMoving = physicalMapper.get(player).isMoving();
-//			for (int i = 0; boxes.size() > i; i++)
-//			{
-//				Entity box = boxes.get(i);
-//				// Ignore inactive collision meshes
-//				if (!meshMapper.get(box).isActive())
-//					continue;
-//
-//				if (playerMoving && collisionExists(player, box))
-//				{
-//					EdgeType edge = detectCollisionEdge(player, box);
-//					handlePlayerBoxCollision(player, box, edge);
-//					handleBoxPlayerCollision(box, player, reverseEdge(edge));
-//				}
-//			}
-//		}
-//
-//		// Check player and enemies against terrain
-//		if (terrain != null && (enemies != null || player != null))
-//		{
-//			// Loop terrain inside enemies to allow storage of enemy properties
-//			// per terrain
-//			for (int i = 0; terrain.size() > i; i++)
-//			{
-//				Entity block = terrain.get(i);
-//
-//				if (enemies != null)
-//				{
-//					for (int j = 0; enemies.size() > j; j++)
-//					{
-//						Entity enemy = enemies.get(j);
-//
-//						if (enemy.getComponent(Physical.class).isMoving()
-//								&& collisionExists(enemy, block))
-//						{
-//							EdgeType edge = detectCollisionEdge(enemy, block);
-//							handleEnemyTerrainCollision(enemy, block, edge);
-//							handleTerrainEnemyCollision(block, enemy, edge);
-//						}
-//					}
-//				}
-//
-//				// Items
-//				if (items != null)
-//				{
-//					for (int j = 0; items.size() > j; j++)
-//					{
-//						Entity item = items.get(j);
-//
-//						if (item.getComponent(Physical.class).isMoving()
-//								&& collisionExists(item, block))
-//						{
-//							EdgeType edge = detectCollisionEdge(item, block);
-//							handleItemTerrainCollision(item, block, edge);
-//							handleTerrainItemCollision(block, item, edge);
-//						}
-//					}
-//				}
-//
-//				if (player != null && meshMapper.get(player).isActive())
-//				{
-//					if (player.getComponent(Physical.class).isMoving()
-//							&& collisionExists(player, block))
-//					{
-//						EdgeType edge = detectCollisionEdge(player, block);
-//						handlePlayerTerrainCollision(player, block, edge);
-//						handleTerrainPlayerCollision(block, player, edge);
-//					}
-//				}
-//			}
-//		}
 	}
 
-	
-
-	// ------------------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 
 	private boolean collisionExists(Entity e1, Entity e2)
 	{
@@ -216,8 +129,7 @@ public class CollisionSystem extends EntitySystem
 	}
 
 	/**
-	 * Detects the edge of the collision between the collision meshes of two
-	 * entities.
+	 * Detects the edge of the collision between the collision meshes of two entities.
 	 * 
 	 * @param e1
 	 *            The entity of interest.
@@ -287,7 +199,6 @@ public class CollisionSystem extends EntitySystem
 		}
 	}
 
-	
 	@Override
 	protected boolean checkProcessing()
 	{

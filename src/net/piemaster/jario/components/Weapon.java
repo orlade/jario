@@ -4,20 +4,24 @@ import com.artemis.Component;
 
 public class Weapon extends Component
 {
-	private long shotAt;
+	private int shotBy;
 
 	public Weapon()
 	{
 	}
-
-	public void setShotAt(long shotAt)
+	
+	public Weapon(int shotBy)
 	{
-		this.shotAt = shotAt;
+		this.shotBy = shotBy;
 	}
 
-	public long getShotAt()
+	public int getShotBy()
 	{
-		return shotAt;
+		return shotBy;
 	}
 
+	public void setShotBy(int shotBy)
+	{
+		this.shotBy = shotBy;
+	}
 }

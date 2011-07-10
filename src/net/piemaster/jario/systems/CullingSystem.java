@@ -26,10 +26,10 @@ public class CullingSystem extends EntityProcessingSystem
 	@Override
 	public void initialize()
 	{
-		healthMapper = new ComponentMapper<Health>(Health.class, world.getEntityManager());
-		transMapper = new ComponentMapper<Transform>(Transform.class, world.getEntityManager());
+		healthMapper = new ComponentMapper<Health>(Health.class, world);
+		transMapper = new ComponentMapper<Transform>(Transform.class, world);
 		spatialMapper = new ComponentMapper<SpatialForm>(SpatialForm.class,
-				world.getEntityManager());
+				world);
 
 		cameraSystem = world.getSystemManager().getSystem(CameraSystem.class);
 	}

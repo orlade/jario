@@ -19,12 +19,13 @@ import net.piemaster.jario.systems.MovementSystem;
 import net.piemaster.jario.systems.RespawnSystem;
 import net.piemaster.jario.systems.TimerSystem;
 import net.piemaster.jario.systems.handling.BoxHandlingSystem;
-import net.piemaster.jario.systems.handling.BulletHandlingSystem;
 import net.piemaster.jario.systems.handling.CoinHandlingSystem;
 import net.piemaster.jario.systems.handling.EnemyHandlingSystem;
 import net.piemaster.jario.systems.handling.ItemHandlingSystem;
 import net.piemaster.jario.systems.handling.ParakoopaHandlingSystem;
 import net.piemaster.jario.systems.handling.PlayerHandlingSystem;
+import net.piemaster.jario.systems.handling.ShellHandlingSystem;
+import net.piemaster.jario.systems.handling.WeaponHandlingSystem;
 import net.piemaster.jario.systems.rendering.CollisionMeshRenderSystem;
 import net.piemaster.jario.systems.rendering.DebugHudRenderSystem;
 import net.piemaster.jario.systems.rendering.HudRenderSystem;
@@ -70,7 +71,8 @@ public class GameplayState extends BasicGameState
 	private EntitySystem parakoopaHandlingSystem;
 	private EntitySystem itemHandlingSystem;
 	private EntitySystem coinHandlingSystem;
-	private EntitySystem bulletHandlingSystem;
+	private EntitySystem shellHandlingSystem;
+	private EntitySystem weaponHandlingSystem;
 	private EntitySystem boxHandlingSystem;
 
 	private EntitySystem cullingSystem;
@@ -124,11 +126,12 @@ public class GameplayState extends BasicGameState
 		levelWinSystem = systemManager.setSystem(new LevelWinSystem(sbg));
 
 		playerHandlingSystem = systemManager.setSystem(new PlayerHandlingSystem());
+		shellHandlingSystem = systemManager.setSystem(new ShellHandlingSystem());
 		enemyHandlingSystem = systemManager.setSystem(new EnemyHandlingSystem());
 		parakoopaHandlingSystem = systemManager.setSystem(new ParakoopaHandlingSystem());
 		itemHandlingSystem = systemManager.setSystem(new ItemHandlingSystem());
 		coinHandlingSystem = systemManager.setSystem(new CoinHandlingSystem());
-		bulletHandlingSystem = systemManager.setSystem(new BulletHandlingSystem());
+		weaponHandlingSystem = systemManager.setSystem(new WeaponHandlingSystem());
 		boxHandlingSystem = systemManager.setSystem(new BoxHandlingSystem());
 
 		boundarySystem = systemManager.setSystem(new BoundarySystem(0, 0, 3384, 600));
@@ -174,8 +177,9 @@ public class GameplayState extends BasicGameState
 		collisionSystem.process();
 		playerHandlingSystem.process();
 		coinHandlingSystem.process();
+		shellHandlingSystem.process();
+		weaponHandlingSystem.process();
 		itemHandlingSystem.process();
-		bulletHandlingSystem.process();
 		boxHandlingSystem.process();
 		parakoopaHandlingSystem.process();
 		enemyHandlingSystem.process();

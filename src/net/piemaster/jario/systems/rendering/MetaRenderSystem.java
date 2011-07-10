@@ -31,7 +31,7 @@ public class MetaRenderSystem extends EntityProcessingSystem
 	@Override
 	public void initialize()
 	{
-		transMapper = new ComponentMapper<Transform>(Transform.class, world.getEntityManager());
+		transMapper = new ComponentMapper<Transform>(Transform.class, world);
 		cameraSystem = world.getSystemManager().getSystem(CameraSystem.class);
 	}
 

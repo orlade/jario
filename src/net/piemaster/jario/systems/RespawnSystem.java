@@ -2,6 +2,7 @@ package net.piemaster.jario.systems;
 
 import net.piemaster.jario.components.CollisionMesh;
 import net.piemaster.jario.components.Health;
+import net.piemaster.jario.components.Physical;
 import net.piemaster.jario.components.Respawn;
 import net.piemaster.jario.components.SpatialForm;
 import net.piemaster.jario.components.Transform;
@@ -26,11 +27,11 @@ public class RespawnSystem extends EntityProcessingSystem
 	@Override
 	public void initialize()
 	{
-		respawnMapper = new ComponentMapper<Respawn>(Respawn.class, world.getEntityManager());
-		transformMapper = new ComponentMapper<Transform>(Transform.class, world.getEntityManager());
-		healthMapper = new ComponentMapper<Health>(Health.class, world.getEntityManager());
+		respawnMapper = new ComponentMapper<Respawn>(Respawn.class, world);
+		transformMapper = new ComponentMapper<Transform>(Transform.class, world);
+		healthMapper = new ComponentMapper<Health>(Health.class, world);
 		spatialMapper = new ComponentMapper<SpatialForm>(SpatialForm.class,
-				world.getEntityManager());
+				world);
 	}
 
 	@Override
@@ -47,7 +48,9 @@ public class RespawnSystem extends EntityProcessingSystem
 				transformMapper.get(e).setLocation(respawn.getRespawnX(), respawn.getRespawnY());
 				transformMapper.get(e).setRotation(0);
 				healthMapper.get(e).resetHealth();
+				healthMapper.get(e).setInvulnerable(false);
 				spatialMapper.get(e).setVisible(true);
+				e.getComponent(Physical.class).setHasFriction(true);
 
 				CollisionMesh collMesh = e.getComponent(CollisionMesh.class);
 				if (collMesh != null)

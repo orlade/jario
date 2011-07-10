@@ -24,7 +24,7 @@ public class TimerSystem extends EntityProcessingSystem
 	@Override
 	public void initialize()
 	{
-		timerMapper = new ComponentMapper<Timer>(Timer.class, world.getEntityManager());
+		timerMapper = new ComponentMapper<Timer>(Timer.class, world);
 		handlerMap = new HashMap<String, ArrayList<ListenerSystem>>();
 	}
 

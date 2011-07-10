@@ -19,7 +19,7 @@ public class ExpirationSystem extends EntityProcessingSystem
 	@Override
 	public void initialize()
 	{
-		expiresMapper = new ComponentMapper<Expires>(Expires.class, world.getEntityManager());
+		expiresMapper = new ComponentMapper<Expires>(Expires.class, world);
 	}
 
 	@Override

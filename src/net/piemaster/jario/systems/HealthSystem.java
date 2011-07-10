@@ -21,7 +21,7 @@ public class HealthSystem extends EntityProcessingSystem
 	@Override
 	public void initialize()
 	{
-		healthMapper = new ComponentMapper<Health>(Health.class, world.getEntityManager());
+		healthMapper = new ComponentMapper<Health>(Health.class, world);
 	}
 
 	@Override

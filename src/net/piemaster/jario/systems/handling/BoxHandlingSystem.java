@@ -2,23 +2,18 @@ package net.piemaster.jario.systems.handling;
 
 import net.piemaster.jario.components.Collisions;
 import net.piemaster.jario.components.Dispensing;
-import net.piemaster.jario.components.Item;
 import net.piemaster.jario.components.ItemDispenser;
 import net.piemaster.jario.components.SpatialForm;
 import net.piemaster.jario.components.Transform;
 import net.piemaster.jario.entities.EntityFactory;
-import net.piemaster.jario.entities.EntityType;
 import net.piemaster.jario.systems.CollisionSystem.EdgeType;
 
 import org.newdawn.slick.util.Log;
 
-import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 
-public class BoxHandlingSystem extends EntityHandlingSystem
+public class BoxHandlingSystem extends EmptyHandlingSystem
 {
-	protected ComponentMapper<Item> itemMapper;
-
 	@SuppressWarnings("unchecked")
 	public BoxHandlingSystem()
 	{
@@ -26,36 +21,7 @@ public class BoxHandlingSystem extends EntityHandlingSystem
 	}
 
 	@Override
-	public void initialize()
-	{
-		super.initialize();
-
-		itemMapper = new ComponentMapper<Item>(Item.class, world.getEntityManager());
-	}
-
-	@Override
-	protected void process(Entity e)
-	{
-		Collisions coll = e.getComponent(Collisions.class);
-
-		for (int i = coll.getSize() - 1; i >= 0; --i)
-		{
-			Entity target = world.getEntity(coll.getTargetIds().remove(i));
-			EdgeType edge = coll.getEdges().remove(i);
-			String group = world.getGroupManager().getGroupOf(target);
-
-			// If colliding with an object that has been slated for removal, continue
-			if (group == null)
-				continue;
-
-			if (group.equals(EntityType.PLAYER.toString()))
-			{
-				handlePlayerCollision(e, target, edge);
-			}
-		}
-	}
-
-	private void handlePlayerCollision(Entity box, Entity player, EdgeType edge)
+	protected void handlePlayerCollision(Entity box, Entity player, EdgeType edge)
 	{
 		if (edge == EdgeType.EDGE_BOTTOM)
 		{
@@ -112,11 +78,6 @@ public class BoxHandlingSystem extends EntityHandlingSystem
 				holder.setDispensing(true);
 				holder.setActive(true);
 				holder.decrementNumber();
-				
-//				if(holder.isEmpty())
-//				{
-//					spatialMapper.get(box);
-//				}
 			}
 		}
 	}

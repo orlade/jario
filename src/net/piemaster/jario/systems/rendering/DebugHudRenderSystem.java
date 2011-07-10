@@ -33,8 +33,8 @@ public class DebugHudRenderSystem extends EntityProcessingSystem
 	public void initialize()
 	{
 		meshMapper = new ComponentMapper<CollisionMesh>(CollisionMesh.class,
-				world.getEntityManager());
-		transformMapper = new ComponentMapper<Transform>(Transform.class, world.getEntityManager());
+				world);
+		transformMapper = new ComponentMapper<Transform>(Transform.class, world);
 	}
 
 	@Override

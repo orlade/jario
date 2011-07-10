@@ -18,7 +18,7 @@ public class DispenserSystem extends EntityProcessingSystem
 	@Override
 	public void initialize()
 	{
-		dispenserMapper = new ComponentMapper<ItemDispenser>(ItemDispenser.class, world.getEntityManager());
+		dispenserMapper = new ComponentMapper<ItemDispenser>(ItemDispenser.class, world);
 	}
 
 	@Override

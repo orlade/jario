@@ -21,8 +21,8 @@ public class CollisionMeshSystem extends EntityProcessingSystem
 	@Override
 	public void initialize()
 	{
-		transformMapper = new ComponentMapper<Transform>(Transform.class, world.getEntityManager());
-		meshMapper = new ComponentMapper<CollisionMesh>(CollisionMesh.class, world.getEntityManager());
+		transformMapper = new ComponentMapper<Transform>(Transform.class, world);
+		meshMapper = new ComponentMapper<CollisionMesh>(CollisionMesh.class, world);
 	}
 
 	@Override

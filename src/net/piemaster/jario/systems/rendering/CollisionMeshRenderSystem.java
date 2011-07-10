@@ -30,7 +30,7 @@ public class CollisionMeshRenderSystem extends EntityProcessingSystem
 	@Override
 	public void initialize()
 	{
-		meshMapper = new ComponentMapper<CollisionMesh>(CollisionMesh.class, world.getEntityManager());
+		meshMapper = new ComponentMapper<CollisionMesh>(CollisionMesh.class, world);
 		cameraSystem = world.getSystemManager().getSystem(CameraSystem.class);
 	}
 

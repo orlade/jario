@@ -29,7 +29,7 @@ public class Block extends Spatial
 	public void initalize()
 	{
 		ComponentMapper<Transform> transformMapper = new ComponentMapper<Transform>(
-				Transform.class, world.getEntityManager());
+				Transform.class, world);
 		transform = transformMapper.get(owner);
 
 		polygon = new Polygon();

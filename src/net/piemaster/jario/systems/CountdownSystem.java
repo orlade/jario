@@ -24,7 +24,7 @@ public class CountdownSystem extends EntityProcessingSystem
 	@Override
 	public void initialize()
 	{
-		countMapper = new ComponentMapper<Countdown>(Countdown.class, world.getEntityManager());
+		countMapper = new ComponentMapper<Countdown>(Countdown.class, world);
 		handlerMap = new HashMap<String, ArrayList<ListenerSystem>>();
 	}
 

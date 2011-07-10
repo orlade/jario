@@ -20,10 +20,12 @@ import net.piemaster.jario.components.Physical;
 import net.piemaster.jario.components.Player;
 import net.piemaster.jario.components.Respawn;
 import net.piemaster.jario.components.Score;
+import net.piemaster.jario.components.Shell;
 import net.piemaster.jario.components.SpatialForm;
 import net.piemaster.jario.components.Timer;
 import net.piemaster.jario.components.Transform;
 import net.piemaster.jario.components.Velocity;
+import net.piemaster.jario.components.Weapon;
 
 import org.lwjgl.input.Keyboard;
 
@@ -128,6 +130,24 @@ public class EntityFactory
 		return para;
 	}
 
+	public static Entity createShell(World world, float x, float y)
+	{
+		Entity para = world.createEntity();
+		para.setGroup(EntityType.WEAPON.toString());
+		para.addComponent(new Transform(x, y));
+		para.addComponent(new Velocity(0, 0));
+		para.addComponent(new Acceleration());
+		para.addComponent(new Physical(false, false, false, true, false, true, false));
+		para.addComponent(new SpatialForm("Shell"));
+		para.addComponent(new CollisionMesh(x, y, 0, 0));
+		para.addComponent(new Collisions());
+		para.addComponent(new Globals());
+		para.addComponent(new Weapon());
+		para.addComponent(new Shell());
+
+		return para;
+	}
+
 	public static Entity createMushroom(World world, float x, float y)
 	{
 		Entity shroom = world.createEntity();
@@ -204,7 +224,7 @@ public class EntityFactory
 		float fireballSpeed = 0.5f;
 
 		Entity fireball = world.createEntity();
-		fireball.setGroup(EntityType.BULLET.toString());
+		fireball.setGroup(EntityType.WEAPON.toString());
 		fireball.addComponent(new Transform(x, y));
 		fireball.addComponent(new Velocity(fireballSpeed, 0));
 		fireball.addComponent(new Acceleration());
@@ -214,6 +234,7 @@ public class EntityFactory
 		fireball.addComponent(new CollisionMesh(x, y, 0, 0));
 		fireball.addComponent(new Collisions());
 		fireball.addComponent(new Globals());
+		fireball.addComponent(new Weapon());
 		fireball.addComponent(new Fireball());
 		fireball.addComponent(new Expires(1000));
 

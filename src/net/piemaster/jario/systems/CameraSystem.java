@@ -41,7 +41,7 @@ public class CameraSystem extends EntitySystem implements MouseListener
 	@Override
 	public void initialize()
 	{
-		transformMapper = new ComponentMapper<Transform>(Transform.class, world.getEntityManager());
+		transformMapper = new ComponentMapper<Transform>(Transform.class, world);
 
 		ensurePlayerEntity();
 

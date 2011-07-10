@@ -1,4 +1,4 @@
-package net.piemaster.jario.systems.handling;
+package net.piemaster.jario.systems.handling.utils;
 
 import net.piemaster.jario.systems.CollisionSystem.EdgeType;
 

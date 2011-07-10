@@ -31,8 +31,8 @@ public class LevelWinSystem extends EntityProcessingSystem
 	@Override
 	public void initialize()
 	{
-		healthMapper = new ComponentMapper<Health>(Health.class, world.getEntityManager());
-		transformMapper = new ComponentMapper<Transform>(Transform.class, world.getEntityManager());
+		healthMapper = new ComponentMapper<Health>(Health.class, world);
+		transformMapper = new ComponentMapper<Transform>(Transform.class, world);
 	}
 
 	@Override

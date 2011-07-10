@@ -28,7 +28,7 @@ public class HudRenderSystem extends EntityProcessingSystem
 	@Override
 	public void initialize()
 	{
-		scoreMapper = new ComponentMapper<Score>(Score.class, world.getEntityManager());
+		scoreMapper = new ComponentMapper<Score>(Score.class, world);
 	}
 
 	@Override
