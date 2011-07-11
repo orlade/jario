@@ -32,5 +32,7 @@ public class ExpirationSystem extends EntityProcessingSystem
 		{
 			world.deleteEntity(e);
 		}
+
+		System.out.println("expired");
 	}
 }

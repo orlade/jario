@@ -1,6 +1,7 @@
 package net.piemaster.jario.systems.handling;
 
 import net.piemaster.jario.components.Collisions;
+import net.piemaster.jario.components.Shell;
 import net.piemaster.jario.components.Weapon;
 import net.piemaster.jario.systems.CollisionSystem.EdgeType;
 
@@ -24,8 +25,25 @@ public class WeaponHandlingSystem extends ItemHandlingSystem
 	}
 
 	@Override
+	protected void handlePlayerCollision(Entity weapon, Entity player, EdgeType edge)
+	{
+		// NO-OP
+	}
+
+	@Override
 	protected void handleEnemyCollision(Entity weapon, Entity enemy, EdgeType edge)
 	{
 		world.deleteEntity(weapon);
+	}
+
+	@Override
+	protected void handleWeaponCollision(Entity weapon, Entity otherWeapon, EdgeType edge)
+	{
+		// If colliding with a shell
+		Shell shell = otherWeapon.getComponent(Shell.class);
+		if(shell != null)
+		{
+			world.deleteEntity(weapon);
+		}
 	}
 }
