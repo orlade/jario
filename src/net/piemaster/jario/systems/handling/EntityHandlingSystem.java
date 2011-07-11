@@ -34,18 +34,33 @@ public abstract class EntityHandlingSystem extends EntityProcessingSystem
 
 		for (int i = 0; i < coll.getSize(); ++i)
 		{
-			Entity target = world.getEntity(coll.getTargetIds().get(i));
-			EdgeType edge = coll.getEdges().get(i);
-			String group = world.getGroupManager().getGroupOf(target);
-			
-			// If colliding with an object that has been slated for removal, continue
-			if(group == null)
-				continue;
-			
+			processCollision(e, coll, i);
+//			Entity target = world.getEntity(coll.getTargetIds().get(i));
+//			EdgeType edge = coll.getEdges().get(i);
+//			String group = world.getGroupManager().getGroupOf(target);
+//			
+//			// If colliding with an object that has been slated for removal, continue
+//			if(group == null)
+//				continue;
+//			
+//			// Run the registered handler
+//			handlers.get(group).handle(e, target, edge);
+		}
+		coll.clear();
+	}
+	
+	protected void processCollision(Entity e, Collisions coll, int index)
+	{
+		Entity target = world.getEntity(coll.getTargetIds().get(index));
+		EdgeType edge = coll.getEdges().get(index);
+		String group = world.getGroupManager().getGroupOf(target);
+		
+		// Ignore entities slated for removal
+		if(group != null)
+		{
 			// Run the registered handler
 			handlers.get(group).handle(e, target, edge);
 		}
-		coll.clear();
 	}
 
 	// -------------------------------------------------------------------------

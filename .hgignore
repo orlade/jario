@@ -1,3 +1,5 @@
 
 syntax: regexp
 ^wip$
+syntax: regexp
+^NOTES\.txt$

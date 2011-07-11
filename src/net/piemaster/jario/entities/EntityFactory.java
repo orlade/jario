@@ -20,6 +20,7 @@ import net.piemaster.jario.components.Physical;
 import net.piemaster.jario.components.Player;
 import net.piemaster.jario.components.Respawn;
 import net.piemaster.jario.components.Score;
+import net.piemaster.jario.components.SemiPassable;
 import net.piemaster.jario.components.Shell;
 import net.piemaster.jario.components.SpatialForm;
 import net.piemaster.jario.components.Timer;
@@ -65,6 +66,19 @@ public class EntityFactory
 		block.addComponent(new Transform(x, y));
 		block.addComponent(new SpatialForm("Block", width, height));
 		block.addComponent(new CollisionMesh(x, y, width, height));
+
+		return block;
+	}
+
+	public static Entity createPlatform(World world, float x, float y, int width, int height)
+	{
+		Entity block = world.createEntity();
+		block.setGroup(EntityType.TERRAIN.toString());
+		block.addComponent(new Transform(x, y));
+		block.addComponent(new SpatialForm("Platform", width, height));
+		block.addComponent(new CollisionMesh(x, y, width, height));
+		block.addComponent(new SemiPassable(false, true, true, true));
+		block.addComponent(new Collisions());
 
 		return block;
 	}

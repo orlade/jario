@@ -17,7 +17,7 @@ import com.artemis.Component;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 
-public abstract class EmptyHandlingSystem extends EntityHandlingSystem
+public abstract class EmptyHandlingSystem extends PersistentEntityHandlingSystem
 {
 	// Convenience mappers
 	protected ComponentMapper<Transform> transformMapper;

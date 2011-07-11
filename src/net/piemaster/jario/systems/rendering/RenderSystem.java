@@ -10,6 +10,7 @@ import net.piemaster.jario.spatials.Flower;
 import net.piemaster.jario.spatials.ItemBox;
 import net.piemaster.jario.spatials.Missile;
 import net.piemaster.jario.spatials.Mushroom;
+import net.piemaster.jario.spatials.Platform;
 import net.piemaster.jario.spatials.Shell;
 import net.piemaster.jario.spatials.Star;
 import net.piemaster.jario.spatials.enemies.Goomba;
@@ -147,6 +148,12 @@ public class RenderSystem extends EntityProcessingSystem
 			int width = (int) e.getComponent(SpatialForm.class).getWidth();
 			int height = (int) e.getComponent(SpatialForm.class).getHeight();
 			return new Block(world, e, width, height);
+		}
+		else if ("Platform".equalsIgnoreCase(spatialFormFile))
+		{
+			int width = (int) e.getComponent(SpatialForm.class).getWidth();
+			int height = (int) e.getComponent(SpatialForm.class).getHeight();
+			return new Platform(world, e, width, height);
 		}
 		else if ("Missile".equalsIgnoreCase(spatialFormFile))
 		{

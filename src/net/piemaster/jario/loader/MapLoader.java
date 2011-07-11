@@ -83,6 +83,10 @@ public class MapLoader
 		{
 			EntityFactory.createBlock(world, x, y, w, h).refresh();
 		}
+		else if(type.equals("platform"))
+		{
+			EntityFactory.createPlatform(world, x, y, w, h).refresh();
+		}
 		else if(type.equals("goomba"))
 		{
 			EntityFactory.createGoomba(world, x, y).refresh();

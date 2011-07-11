@@ -21,11 +21,13 @@ block 383 350 32 32
 
 itembox 319 200 32 32 STAR
 
+platform 490 350 84 10
+
 block 500 425 64 75
 block 936 425 64 75
 
 # Entities
-player 50 300
+player 500 300
 
 goomba 700 400
-parakoopa 800 400
+# parakoopa 800 400

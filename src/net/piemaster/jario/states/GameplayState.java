@@ -16,6 +16,7 @@ import net.piemaster.jario.systems.ExpirationSystem;
 import net.piemaster.jario.systems.HealthSystem;
 import net.piemaster.jario.systems.LevelWinSystem;
 import net.piemaster.jario.systems.MovementSystem;
+import net.piemaster.jario.systems.RecoverySystem;
 import net.piemaster.jario.systems.RespawnSystem;
 import net.piemaster.jario.systems.TimerSystem;
 import net.piemaster.jario.systems.handling.BoxHandlingSystem;
@@ -24,6 +25,7 @@ import net.piemaster.jario.systems.handling.EnemyHandlingSystem;
 import net.piemaster.jario.systems.handling.ItemHandlingSystem;
 import net.piemaster.jario.systems.handling.ParakoopaHandlingSystem;
 import net.piemaster.jario.systems.handling.PlayerHandlingSystem;
+import net.piemaster.jario.systems.handling.SemiTerrainHandlingSystem;
 import net.piemaster.jario.systems.handling.ShellHandlingSystem;
 import net.piemaster.jario.systems.handling.WeaponHandlingSystem;
 import net.piemaster.jario.systems.rendering.CollisionMeshRenderSystem;
@@ -63,6 +65,7 @@ public class GameplayState extends BasicGameState
 	private EntitySystem respawnSystem;
 	private EntitySystem dispensingSystem;
 	private EntitySystem dispenserSystem;
+	private EntitySystem recoverySystem;
 	private EntitySystem timerSystem;
 
 	private EntitySystem collisionSystem;
@@ -74,6 +77,7 @@ public class GameplayState extends BasicGameState
 	private EntitySystem shellHandlingSystem;
 	private EntitySystem weaponHandlingSystem;
 	private EntitySystem boxHandlingSystem;
+	private EntitySystem semiTerrainHandlingSystem;
 
 	private EntitySystem cullingSystem;
 	private EntitySystem renderSystem;
@@ -120,6 +124,7 @@ public class GameplayState extends BasicGameState
 		respawnSystem = systemManager.setSystem(new RespawnSystem());
 		dispensingSystem = systemManager.setSystem(new DispensingSystem());
 		dispenserSystem = systemManager.setSystem(new DispenserSystem());
+		recoverySystem = systemManager.setSystem(new RecoverySystem());
 		timerSystem = systemManager.setSystem(new TimerSystem());
 		
 		healthSystem = systemManager.setSystem(new HealthSystem());
@@ -133,6 +138,7 @@ public class GameplayState extends BasicGameState
 		coinHandlingSystem = systemManager.setSystem(new CoinHandlingSystem());
 		weaponHandlingSystem = systemManager.setSystem(new WeaponHandlingSystem());
 		boxHandlingSystem = systemManager.setSystem(new BoxHandlingSystem());
+		semiTerrainHandlingSystem = systemManager.setSystem(new SemiTerrainHandlingSystem());
 
 		boundarySystem = systemManager.setSystem(new BoundarySystem(0, 0, 3384, 600));
 		cameraSystem = systemManager.setSystem(new CameraSystem(gc));
@@ -176,11 +182,16 @@ public class GameplayState extends BasicGameState
 		// Handle collisions
 		collisionSystem.process();
 		playerHandlingSystem.process();
+		
 		coinHandlingSystem.process();
+		itemHandlingSystem.process();
+		
 		shellHandlingSystem.process();
 		weaponHandlingSystem.process();
-		itemHandlingSystem.process();
+		
+		semiTerrainHandlingSystem.process();
 		boxHandlingSystem.process();
+		
 		parakoopaHandlingSystem.process();
 		enemyHandlingSystem.process();
 
@@ -190,6 +201,7 @@ public class GameplayState extends BasicGameState
 		respawnSystem.process();
 		dispensingSystem.process();
 		dispenserSystem.process();
+		recoverySystem.process();
 		timerSystem.process();
 		levelWinSystem.process();
 		
