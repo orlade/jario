@@ -1,4 +1,4 @@
-package net.piemaster.jario.spatials;
+package net.piemaster.jario.spatials.generic;
 
 import net.piemaster.jario.components.Transform;
 import net.piemaster.jario.loader.ImageLoader;
@@ -49,6 +49,8 @@ public class GenericImage extends EffectSpatial
 	public void applyEffect(SpatialEffect effect)
 	{
 		currentImage.setAlpha(effect.getAlpha());
+		
+		// TODO Handling for other effects (scale, offset, etc.)
 	}
 
 	@Override

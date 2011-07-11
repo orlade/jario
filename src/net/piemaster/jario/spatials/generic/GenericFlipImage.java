@@ -1,4 +1,4 @@
-package net.piemaster.jario.spatials;
+package net.piemaster.jario.spatials.generic;
 
 import net.piemaster.jario.spatials.effects.SpatialEffect;
 

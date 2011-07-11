@@ -2,6 +2,7 @@ package net.piemaster.jario.spatials;
 
 import net.piemaster.jario.components.ItemDispenser;
 import net.piemaster.jario.loader.ImageLoader;
+import net.piemaster.jario.spatials.generic.GenericImage;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;

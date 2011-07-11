@@ -7,14 +7,14 @@ import net.piemaster.jario.spatials.Block;
 import net.piemaster.jario.spatials.Coin;
 import net.piemaster.jario.spatials.Fireball;
 import net.piemaster.jario.spatials.Flower;
-import net.piemaster.jario.spatials.Goomba;
 import net.piemaster.jario.spatials.ItemBox;
 import net.piemaster.jario.spatials.Missile;
 import net.piemaster.jario.spatials.Mushroom;
-import net.piemaster.jario.spatials.Parakoopa;
 import net.piemaster.jario.spatials.Shell;
-import net.piemaster.jario.spatials.Spatial;
 import net.piemaster.jario.spatials.Star;
+import net.piemaster.jario.spatials.enemies.Goomba;
+import net.piemaster.jario.spatials.enemies.KoopaComposer;
+import net.piemaster.jario.spatials.generic.Spatial;
 import net.piemaster.jario.spatials.player.PlayerComposer;
 import net.piemaster.jario.systems.CameraSystem;
 
@@ -112,7 +112,7 @@ public class RenderSystem extends EntityProcessingSystem
 		}
 		else if ("Parakoopa".equalsIgnoreCase(spatialFormFile))
 		{
-			return setupGenericSpatialEntity(e, new Parakoopa(world, e));
+			return setupGenericSpatialEntity(e, new KoopaComposer(world, e));
 		}
 		else if ("Shell".equalsIgnoreCase(spatialFormFile))
 		{

@@ -8,7 +8,7 @@ public class Transform extends Component
 	private float x;
 	private float y;
 	private float rotation;
-	private boolean facingRight = true;
+	private boolean facingRight;
 
 	public Transform()
 	{
@@ -18,6 +18,12 @@ public class Transform extends Component
 	{
 		this.x = x;
 		this.y = y;
+	}
+
+	public Transform(float x, float y, boolean facingRight)
+	{
+		this(x, y);
+		this.facingRight = facingRight;
 	}
 
 	public Transform(float x, float y, float rotation)

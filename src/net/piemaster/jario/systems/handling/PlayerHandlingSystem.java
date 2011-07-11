@@ -15,6 +15,7 @@ import net.piemaster.jario.systems.delayed.InvulnerabilityHandler;
 
 import org.newdawn.slick.util.Log;
 
+import com.artemis.ComponentTypeManager;
 import com.artemis.Entity;
 
 public class PlayerHandlingSystem extends EmptyHandlingSystem
@@ -143,9 +144,7 @@ public class PlayerHandlingSystem extends EmptyHandlingSystem
 				transformMapper.get(player).addY(meshMapper.get(player).getHeight()/2);
 				spatialMapper.get(player).setCurrentState("");
 				
-				FireballShooter shooter = player.getComponent(FireballShooter.class);
-				if(shooter != null)
-					player.removeComponent(shooter);
+				player.removeComponent(ComponentTypeManager.getTypeFor(FireballShooter.class));
 				
 			}
 			health.addDamage(amount);

@@ -1,5 +1,7 @@
 package net.piemaster.jario.spatials;
 
+import net.piemaster.jario.spatials.generic.GenericFlipImage;
+
 import com.artemis.Entity;
 import com.artemis.World;
 

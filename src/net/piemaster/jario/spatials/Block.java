@@ -1,6 +1,7 @@
 package net.piemaster.jario.spatials;
 
 import net.piemaster.jario.components.Transform;
+import net.piemaster.jario.spatials.generic.Spatial;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;

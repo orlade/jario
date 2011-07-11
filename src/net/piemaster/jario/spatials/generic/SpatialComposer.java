@@ -1,5 +1,6 @@
-package net.piemaster.jario.spatials;
+package net.piemaster.jario.spatials.generic;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,6 +8,7 @@ import net.piemaster.jario.components.CollisionMesh;
 import net.piemaster.jario.components.SpatialForm;
 
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.util.Log;
 
 import com.artemis.Entity;
 import com.artemis.World;
@@ -26,15 +28,15 @@ public abstract class SpatialComposer extends Spatial
 {
 	protected SpatialForm form;
 	protected CollisionMesh mesh;
-	protected Map<String, EffectSpatial> stateMap;
-
-	private EffectSpatial currentSpatial;
+	
+	private Map<String, Spatial> stateMap;
+	private Spatial currentSpatial;
 
 	public SpatialComposer(World world, Entity e)
 	{
 		super(world, e);
 
-		stateMap = new HashMap<String, EffectSpatial>();
+		stateMap = new HashMap<String, Spatial>();
 	}
 
 	@Override
@@ -43,7 +45,7 @@ public abstract class SpatialComposer extends Spatial
 		form = owner.getComponent(SpatialForm.class);
 		mesh = owner.getComponent(CollisionMesh.class);
 
-		for (Spatial spatial : stateMap.values())
+		for (Spatial spatial : getStates())
 		{
 			spatial.initalize();
 		}
@@ -52,10 +54,32 @@ public abstract class SpatialComposer extends Spatial
 	@Override
 	public void render(Graphics g)
 	{
+		refreshCurrentSpatial();
+		
 		if (currentSpatial != null)
 		{
 			currentSpatial.render(g);
 		}
+	}
+
+	protected void refreshCurrentSpatial()
+	{
+		setCurrentSpatial(getSpatial(form.getCurrentState()));
+	}
+	
+	protected void registerState(String state, Spatial spatial)
+	{
+		stateMap.put(state, spatial);
+	}
+	
+	protected Collection<Spatial> getStates()
+	{
+		return stateMap.values();
+	}
+	
+	protected Spatial getSpatial(String state)
+	{
+		return stateMap.get(state);
 	}
 
 	@Override
@@ -83,13 +107,20 @@ public abstract class SpatialComposer extends Spatial
 		return currentSpatial;
 	}
 
-	public void setCurrentSpatial(EffectSpatial currentSpatial)
+	public void setCurrentSpatial(Spatial currentSpatial)
 	{
 		this.currentSpatial = currentSpatial;
 		
 		// Update spatial form properties
-		form.setWidth(currentSpatial.getWidth());
-		form.setHeight(currentSpatial.getHeight());
+		if(form != null)
+		{
+			form.setWidth(currentSpatial.getWidth());
+			form.setHeight(currentSpatial.getHeight());
+		}
+		else
+		{
+			Log.warn("No spatial form registered for spatial: "+getClass());
+		}
 		// Update collision mesh dimensions
 		if(mesh != null)
 		{

@@ -19,6 +19,12 @@ public class SpatialForm extends Component
 	{
 		this(spatialFormFile, true);
 	}
+	
+	public SpatialForm(String spatialFormFile, String state)
+	{
+		this(spatialFormFile);
+		this.currentState = state;
+	}
 
 	public SpatialForm(String spatialFormFile, float width, float height)
 	{

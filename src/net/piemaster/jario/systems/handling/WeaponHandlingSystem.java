@@ -24,18 +24,8 @@ public class WeaponHandlingSystem extends ItemHandlingSystem
 	}
 
 	@Override
-	protected void handlePlayerCollision(Entity weapon, Entity player, EdgeType edge)
-	{
-	}
-
-	@Override
 	protected void handleEnemyCollision(Entity weapon, Entity enemy, EdgeType edge)
 	{
 		world.deleteEntity(weapon);
-	}
-
-	@Override
-	protected void handleWeaponCollision(Entity weapon, Entity otherWeapon, EdgeType edge)
-	{
 	}
 }

@@ -25,7 +25,7 @@ block 500 425 64 75
 block 936 425 64 75
 
 # Entities
-player 32 300
+player 50 300
 
 goomba 700 400
 parakoopa 800 400

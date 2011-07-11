@@ -39,7 +39,7 @@ public class EntityFactory
 		Entity player = world.createEntity();
 		player.setGroup(EntityType.PLAYER.toString());
 		player.setTag("PLAYER");
-		player.addComponent(new Transform(x, y));
+		player.addComponent(new Transform(x, y, true));
 		player.addComponent(new Velocity());
 		player.addComponent(new Acceleration());
 		player.addComponent(new Physical());
@@ -118,7 +118,7 @@ public class EntityFactory
 		para.addComponent(new Velocity(0, 0));
 		para.addComponent(new Acceleration(koopaAccel, 0, true));
 		para.addComponent(new Physical(true, true));
-		para.addComponent(new SpatialForm("Parakoopa"));
+		para.addComponent(new SpatialForm("Parakoopa", "PARA"));
 		para.addComponent(new CollisionMesh(x, y, 0, 0));
 		para.addComponent(new Collisions());
 		para.addComponent(new Health(2));

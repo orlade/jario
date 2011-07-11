@@ -52,7 +52,7 @@
    ---------
  	
  - Add breakable blocks
- - [Add invulnerability stars
+ - [Add invulnerability stars]
  - Add more level geometry
  - Add [level end], more levels and transitions
  - Add more efficient (paged) level scrolling, enemy suspension

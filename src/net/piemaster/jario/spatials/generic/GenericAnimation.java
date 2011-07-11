@@ -1,4 +1,4 @@
-package net.piemaster.jario.spatials;
+package net.piemaster.jario.spatials.generic;
 
 import net.piemaster.jario.components.Transform;
 import net.piemaster.jario.loader.ImageLoader;
@@ -13,9 +13,14 @@ import com.artemis.World;
 
 public class GenericAnimation extends Spatial
 {
-	private Transform transform;
-	private Animation anim;
-	private Animation flippedAnim;
+	protected Transform transform;
+	protected Animation baseAnim;
+	protected Animation currentAnim;
+
+	public GenericAnimation(World world, Entity owner)
+	{
+		super(world, owner);
+	}
 
 	public GenericAnimation(World world, Entity owner, String[] filenames, int duration)
 	{
@@ -24,17 +29,15 @@ public class GenericAnimation extends Spatial
 		try
 		{
 			Image[] images = new Image[filenames.length];
-			Image[] flippedImages = new Image[filenames.length];
 			
 			for(int i = 0; i < filenames.length; ++i)
 			{
 				images[i] = ImageLoader.loadImage(filenames[i]);
 				images[i].setCenterOfRotation(images[i].getWidth()/2, images[i].getHeight()/2);
-				flippedImages[i] = images[i].getFlippedCopy(true, false);
 			}
 			
-			anim = new Animation(images, duration, true);
-			flippedAnim = new Animation(flippedImages, duration, true);
+			baseAnim = new Animation(images, duration, true);
+			currentAnim = baseAnim;
 		}
 		catch (SlickException e)
 		{
@@ -51,22 +54,15 @@ public class GenericAnimation extends Spatial
 	@Override
 	public void render(Graphics g)
 	{
-		if(transform.isFacingRight())
-		{
-			anim.draw(transform.getX(), transform.getY());
-		}
-		else
-		{
-			flippedAnim.draw(transform.getX(), transform.getY());
-		}
+		currentAnim.draw(transform.getX(), transform.getY());
 	}
 
 	@Override
 	public float getWidth()
 	{
-		if(anim != null)
+		if(currentAnim != null)
 		{
-			return anim.getWidth();
+			return currentAnim.getWidth();
 		}
 		return 0;
 	}
@@ -74,9 +70,9 @@ public class GenericAnimation extends Spatial
 	@Override
 	public float getHeight()
 	{
-		if(anim != null)
+		if(currentAnim != null)
 		{
-			return anim.getHeight();
+			return currentAnim.getHeight();
 		}
 		return 0;
 	}

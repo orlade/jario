@@ -26,6 +26,10 @@ public class ParakoopaHandlingSystem extends EnemyHandlingSystem
 		if(health.getHealth() < health.getMaximumHealth())
 		{
 			physicalMapper.get(e).setBouncyVertical(false);
+			spatialMapper.get(e).setCurrentState("");
+//			e.removeComponent(ComponentTypeManager.getTypeFor(Parakoopa.class));
+//			e.addComponent(new Koopa());
+//			e.refresh();
 		}
 		// If dead, convert to shell
 		if(!health.isAlive())

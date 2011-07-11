@@ -1,4 +1,4 @@
-package net.piemaster.jario.spatials;
+package net.piemaster.jario.spatials.generic;
 
 import java.util.ArrayList;
 import java.util.List;
