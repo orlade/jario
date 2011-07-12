@@ -38,7 +38,6 @@ public class RecoverySystem extends DelayedEntityProcessingSystem
 
 		if (recovering.isExpired())
 		{
-			System.out.println("Removing recovery");
 			e.removeComponent(ComponentTypeManager.getTypeFor(Recovering.class));
 		}
 		else if (recovering.getRemaining() < shortestRemaining)
@@ -56,7 +55,7 @@ public class RecoverySystem extends DelayedEntityProcessingSystem
 		}
 	}
 	
-	public void pubadded(Entity e)
+	public void addedWrapper(Entity e)
 	{
 		added(e);
 	}
@@ -64,7 +63,6 @@ public class RecoverySystem extends DelayedEntityProcessingSystem
 	@Override
 	protected void added(Entity e)
 	{
-		System.out.println("ADDING in system!");
 		Recovering recovering = recoveryMapper.get(e);
 		if (!isRunning() || recovering.getRemaining() < getRemainingTimeUntilProcessing())
 		{

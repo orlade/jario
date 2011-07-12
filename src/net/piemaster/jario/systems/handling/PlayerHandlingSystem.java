@@ -26,6 +26,7 @@ import com.artemis.Entity;
 public class PlayerHandlingSystem extends EmptyHandlingSystem
 {
 	private static final float BUMP_FACTOR = 0.3f;
+	private static final int RECOVERY_TIME = 1000;
 	
 	private ComponentMapper<Recovering> recoveryMapper;
 
@@ -48,11 +49,9 @@ public class PlayerHandlingSystem extends EmptyHandlingSystem
 	@Override
 	protected void handleEnemyCollision(Entity player, Entity enemy, EdgeType edge)
 	{
-//		System.out.println("Handling player collision with enemy");
 		// If the player is recovering
 		if(recoveryMapper.get(player) != null)
 		{
-//			System.out.println("Recovering!");
 			// If not already registered as passing, do so now
 			if(!isPassing(enemy.getId(), player.getId()))
 			{
@@ -65,20 +64,19 @@ public class PlayerHandlingSystem extends EmptyHandlingSystem
 		{
 			if(isPassing(enemy.getId(), player.getId()))
 			{
-				System.out.println("Unregistering.");
-				unregisterPassing(enemy.getId(), player.getId());
+				unregisterPassing(enemy.getId(), player.getId(), true);
+				// TODO CAn this be removed? Should make invulnerable part of recovering anyway
+				healthMapper.get(player).setInvulnerable(false);
+				takeDamage(1, player, edge);
 			}
 			// Jumped on enemy
-			if (edge == EdgeType.EDGE_BOTTOM)
+			else if (edge == EdgeType.EDGE_BOTTOM)
 			{
 				bump(player);
-				System.out.println("STOMP");
 			}
 			// Hit by enemy
 			else if (edge != EdgeType.EDGE_NONE)
 			{
-				System.out.println("Is player invulnerable?" + healthMapper.get(player).isInvulnerable());
-				System.out.println("OUCH");
 				takeDamage(1, player, edge);
 			}
 		}
@@ -124,7 +122,7 @@ public class PlayerHandlingSystem extends EmptyHandlingSystem
 			break;
 			
 		default:
-			Log.warn("Unknown item type: " + type);
+			Log.warn("PLAYER HANDLER: Unknown item type: " + type);
 			break;
 		}
 	}
@@ -206,13 +204,12 @@ public class PlayerHandlingSystem extends EmptyHandlingSystem
 			else
 			{
 				// Make the player invulnerable briefly
-				InvulnerabilityHandler.setTemporaryInvulnerability(world, player, 1000, true);
+				InvulnerabilityHandler.setTemporaryInvulnerability(world, player, RECOVERY_TIME, true);
 				// Mark the player as recovering
-				System.out.println("ADDING to player");
-				player.addComponent(new Recovering(1000));
-				System.out.println("the System is "+world.getSystemManager().getSystem(RecoverySystem.class));
+				player.addComponent(new Recovering(RECOVERY_TIME));
 				player.refresh();
-//				world.getSystemManager().getSystem(RecoverySystem.class).pubadded(player);
+				// TODO Temporary workaround - fix delayed system and remove
+				world.getSystemManager().getSystem(RecoverySystem.class).addedWrapper(player);
 				
 			}
 		}

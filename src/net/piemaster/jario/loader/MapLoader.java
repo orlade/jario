@@ -3,6 +3,8 @@ package net.piemaster.jario.loader;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+import org.newdawn.slick.util.Log;
+
 import net.piemaster.jario.components.Item.ItemType;
 import net.piemaster.jario.entities.EntityFactory;
 
@@ -124,7 +126,7 @@ public class MapLoader
 		}
 		else
 		{
-			System.out.println("Unknown type: '"+type+"'");
+			Log.warn("MAP LOADER: Cannot create entity, unknown type: '"+type+"'");
 		}
 	}
 }
