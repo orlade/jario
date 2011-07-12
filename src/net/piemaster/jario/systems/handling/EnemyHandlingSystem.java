@@ -37,10 +37,7 @@ public class EnemyHandlingSystem extends EmptyHandlingSystem
 			{
 				health.addDamage(1);
 				
-				if (health.isAlive())
-				{
-					placeEntityOnOther(enemy, player, reverseEdge(edge));
-				}
+				placeEntityOnOther(enemy, player, reverseEdge(edge));
 			}
 		}
 	}
