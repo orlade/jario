@@ -2,33 +2,81 @@
 # Entity x y [w] [h]
 
 # Start and end points
-start 50 350
-end 3200 350
+start 50 368
+end 6352 368
 
 # Terrain
-block 0 500 1000 100
-block 1140 500 235 100
-block 1425 500 1025 100
-block 2480 500 904 100
+block 0 400 2208 100
+block 2272 400 480 100
+block 2848 400 2048 100
+block 4960 400 1808 100
 
-itembox 155 350 32 32 COIN 5 0
+itembox 512 272 32 32 COIN 5 0
 
-block 255 350 32 32
-itembox 287 350 32 32 MUSHROOM
-block 319 350 32 32
-itembox 351 350 32 32 FLOWER
-block 383 350 32 32
+block 640 272 32 32
+itembox 672 272 32 32 MUSHROOM
+block 704 272 32 32
+itembox 736 272 32 32 FLOWER
+block 768 272 32 32
+itembox 704 144 32 32 STAR
 
-itembox 319 200 32 32 STAR
+goomba 672 368
 
-platform 490 350 84 10
+# platform 490 350 84 10
 
-block 500 425 64 75
-block 936 425 64 75
+block 900 336 64 64
+block 1220 304 64 96
+
+goomba 1290 368
+
+block 1474 272 64 128
+
+parakoopa 1732 368
+
+block 1822 272 64 128
+
+block 2464 272 32 32
+itembox 2496 272 32 32 MUSHROOM
+block 2528 272 32 32
+
+block 2560 144 32 32
+block 2592 144 32 32
+block 2624 144 32 32
+block 2656 144 32 32
+block 2688 144 32 32
+block 2720 144 32 32
+block 2752 144 32 32
+block 2784 144 32 32
+
+goomba 2520 112
+goomba 2608 220
+
+block 2816 144 32 32
+block 2848 144 32 32
+block 2880 144 32 32
+itembox 2912 144 32 32
+
+block 2912 272 32 32
+
+goomba 3034 368
+goomba 3082 368
+
+block 3200 272 32 32
+itembox 3232 272 32 32 STAR
+
+itembox 3392 272 32 32
+itembox 3488 272 32 32
+itembox 3584 272 32 32
+itembox 3488 144 32 32 MUSHROOM
+
+koopa 3382 368
+
+block 3776 272 32 32
+
+goomba 3950 368
+goomba 3994 368
+goomba 4058 368
+goomba 4104 368
 
 # Entities
-player 50 350
-# player 500 300
-
-goomba 700 400
-parakoopa 800 400
+player 50 368

@@ -6,7 +6,7 @@ import com.artemis.Component;
 public class Globals extends Component
 {
 	private float gravity = 0.003f;
-	private float friction = 0.0075f;
+	private float friction = 0.01f;
 
 	public float getGravity()
 	{

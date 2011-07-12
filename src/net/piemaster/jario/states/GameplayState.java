@@ -142,7 +142,7 @@ public class GameplayState extends BasicGameState
 		boxHandlingSystem = systemManager.setSystem(new BoxHandlingSystem());
 		semiTerrainHandlingSystem = systemManager.setSystem(new SemiTerrainHandlingSystem());
 
-		boundarySystem = systemManager.setSystem(new BoundarySystem(0, 0, 3384, 600));
+		boundarySystem = systemManager.setSystem(new BoundarySystem(0, 0, 6768, 450));
 		cameraSystem = systemManager.setSystem(new CameraSystem(gc));
 		
 		soundSystem = systemManager.setSystem(new SoundSystem());

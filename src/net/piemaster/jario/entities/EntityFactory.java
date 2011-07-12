@@ -54,7 +54,7 @@ public class EntityFactory
 		player.addComponent(new Score());
 		player.addComponent(new Globals());
 		player.addComponent(new Timer());
-		player.addComponent(new Jumping(0.75f));
+		player.addComponent(new Jumping(0.9f));
 		player.addComponent(new Respawn(2000, x, y));
 		player.addComponent(new Audible());
 

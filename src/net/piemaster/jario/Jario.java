@@ -26,7 +26,7 @@ public class Jario extends StateBasedGame
 	{
 		AppGameContainer app = new AppGameContainer(new Jario());
 
-		app.setDisplayMode(800, 600, false);
+		app.setDisplayMode(800, 450, false);
 		app.start();
 	}
 
