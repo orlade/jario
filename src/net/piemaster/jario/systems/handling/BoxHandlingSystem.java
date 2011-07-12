@@ -7,6 +7,7 @@ import net.piemaster.jario.components.SpatialForm;
 import net.piemaster.jario.components.Transform;
 import net.piemaster.jario.entities.EntityFactory;
 import net.piemaster.jario.systems.CollisionSystem.EdgeType;
+import net.piemaster.jario.systems.SoundSystem;
 
 import org.newdawn.slick.util.Log;
 
@@ -37,21 +38,25 @@ public class BoxHandlingSystem extends EmptyHandlingSystem
 				case MUSHROOM:
 					item = EntityFactory.createMushroom(world, t.getX(), t.getY());
 					d.setOutVelocityX(0.2f);
+					SoundSystem.pushSound(SoundSystem.ITEM_WOOP_SOUND, box);
 					break;
 
 				case COIN:
 					item = EntityFactory.createCoin(world, t.getX(), t.getY());
 					d.setLifetime(0);
 					d.setOutVelocityY(-0.5f);
+					SoundSystem.pushSound(SoundSystem.NINTENDO_SOUND, box);
 					break;
 
 				case FLOWER:
 					item = EntityFactory.createFlower(world, t.getX(), t.getY());
+					SoundSystem.pushSound(SoundSystem.ITEM_WOOP_SOUND, box);
 					break;
 
 				case STAR:
 					item = EntityFactory.createStar(world, t.getX(), t.getY());
 					d.setOutVelocityX(0.2f);
+					SoundSystem.pushSound(SoundSystem.ITEM_WOOP_SOUND, box);
 					break;
 					
 				default:

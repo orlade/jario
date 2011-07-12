@@ -21,6 +21,16 @@
 			<locationURI>PARENT-2-PROJECT_LOC/lib/artemis.jar</locationURI>
 		</link>
 		<link>
+			<name>lib/jogg-0.0.7.jar</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/lib/slick/lib/jogg-0.0.7.jar</locationURI>
+		</link>
+		<link>
+			<name>lib/jorbis-0.0.15.jar</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/lib/slick/lib/jorbis-0.0.15.jar</locationURI>
+		</link>
+		<link>
 			<name>lib/lwjgl.jar</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/lib/lwjgl-2.7.1/jar/lwjgl.jar</locationURI>

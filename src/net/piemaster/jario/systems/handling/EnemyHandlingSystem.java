@@ -5,6 +5,7 @@ import net.piemaster.jario.components.Enemy;
 import net.piemaster.jario.components.Health;
 import net.piemaster.jario.components.Shell;
 import net.piemaster.jario.systems.CollisionSystem.EdgeType;
+import net.piemaster.jario.systems.SoundSystem;
 
 import com.artemis.Component;
 import com.artemis.Entity;
@@ -32,13 +33,8 @@ public class EnemyHandlingSystem extends EmptyHandlingSystem
 		// Jumped on by the player
 		if (edge == EdgeType.EDGE_TOP)
 		{
-			Health health = healthMapper.get(enemy);
-			if(health != null)
-			{
-				health.addDamage(1);
-				
-				placeEntityOnOther(enemy, player, reverseEdge(edge));
-			}
+			takeDamage(1, enemy, edge);
+			placeEntityOnOther(enemy, player, reverseEdge(edge));
 		}
 	}
 
@@ -51,20 +47,13 @@ public class EnemyHandlingSystem extends EmptyHandlingSystem
 		{
 			if(velocityMapper.get(weapon).getX() != 0)
 			{
-				Health health = healthMapper.get(enemy);
-				if(health != null)
-				{
-					health.addDamage(1);
-				}
+				takeDamage(1, enemy, edge);
 			}
 		}
 		else
 		{
-			Health health = healthMapper.get(enemy);
-			if(health != null)
-			{
-				health.addDamage(1);
-			}
+			takeDamage(1, enemy, edge);
+			SoundSystem.pushSound(SoundSystem.CRUSH_SOUND, enemy);
 		}
 	}
 
@@ -79,5 +68,17 @@ public class EnemyHandlingSystem extends EmptyHandlingSystem
 	protected void handleTerrainCollision(Entity enemy, Entity terrain, EdgeType edge)
 	{
 		placeEntityOnOther(enemy, terrain, reverseEdge(edge));
+	}
+	
+	// -------------------------------------------------------------------------
+	
+	private void takeDamage(int amount, Entity enemy, EdgeType edge)
+	{
+		Health health = healthMapper.get(enemy);
+		if(health != null)
+		{
+			health.addDamage(1);
+		}
+		SoundSystem.pushSound(SoundSystem.POP_SOUND, enemy);
 	}
 }

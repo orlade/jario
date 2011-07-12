@@ -14,6 +14,7 @@ import net.piemaster.jario.components.SpatialForm;
 import net.piemaster.jario.components.Velocity;
 import net.piemaster.jario.systems.CollisionSystem.EdgeType;
 import net.piemaster.jario.systems.RecoverySystem;
+import net.piemaster.jario.systems.SoundSystem;
 import net.piemaster.jario.systems.delayed.InvulnerabilityHandler;
 
 import org.newdawn.slick.util.Log;
@@ -111,10 +112,12 @@ public class PlayerHandlingSystem extends EmptyHandlingSystem
 			{
 				spatial.setCurrentState("BIG");
 			}
+			SoundSystem.pushSound(SoundSystem.POWERUP_SOUND, player);
 			break;
 			
 		case STAR:
 			InvulnerabilityHandler.setTemporaryInvulnerability(world, player, 10000, true);
+			SoundSystem.pushSound(SoundSystem.POWERUP_SOUND, player);
 			break;
 			
 		case COIN:
@@ -194,7 +197,10 @@ public class PlayerHandlingSystem extends EmptyHandlingSystem
 						player.removeComponent(t);
 				
 			}
+			
 			health.addDamage(amount);
+			SoundSystem.pushSound(SoundSystem.PUNCH_SOUND, player);
+			
 			if (!health.isAlive())
 			{
 				velocityMapper.get(player).setY(-0.5f);

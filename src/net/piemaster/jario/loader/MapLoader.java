@@ -3,10 +3,10 @@ package net.piemaster.jario.loader;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-import org.newdawn.slick.util.Log;
-
 import net.piemaster.jario.components.Item.ItemType;
 import net.piemaster.jario.entities.EntityFactory;
+
+import org.newdawn.slick.util.Log;
 
 import com.artemis.World;
 

@@ -74,3 +74,17 @@
   - All the contributors to the fantastic ecosystem of open-source software that lets people like
     me do what they love as a hobby (Java (sort of), Eclipse, LWJGL, Slick, Artemis, and even GIMP).
     
+ Sound credits:
+  - Pop - http://www.freesound.org/samplesViewSingle.php?id=124108
+  - Punch - http://www.freesound.org/samplesViewSingle.php?id=118513
+  - Powerup - http://www.freesound.org/samplesViewSingle.php?id=58919
+  - Woop - http://www.freesound.org/samplesViewSingle.php?id=39017
+  - Ping - http://www.freesound.org/samplesViewSingle.php?id=73566
+  - Nintendo - http://www.freesound.org/samplesViewSingle.php?id=61234
+  - Jump - http://www.freesound.org/samplesViewSingle.php?id=73560
+  - Crush - http://www.freesound.org/samplesViewSingle.php?id=73564
+  - Slide pop - http://www.freesound.org/samplesViewSingle.php?id=31844
+  - Laser - http://www.freesound.org/samplesViewSingle.php?id=31873
+  - Item woop - http://www.freesound.org/samplesViewSingle.php?id=31881
+  - Fail - http://www.freesound.org/samplesViewSingle.php?id=31879
+  - Winner - http://www.freesound.org/samplesViewSingle.php?id=33108

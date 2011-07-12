@@ -1,6 +1,7 @@
 package net.piemaster.jario.entities;
 
 import net.piemaster.jario.components.Acceleration;
+import net.piemaster.jario.components.Audible;
 import net.piemaster.jario.components.Coin;
 import net.piemaster.jario.components.CollisionMesh;
 import net.piemaster.jario.components.Collisions;
@@ -55,6 +56,7 @@ public class EntityFactory
 		player.addComponent(new Timer());
 		player.addComponent(new Jumping(0.75f));
 		player.addComponent(new Respawn(2000, x, y));
+		player.addComponent(new Audible());
 
 		return player;
 	}
@@ -98,6 +100,7 @@ public class EntityFactory
 		block.addComponent(new CollisionMesh(x, y, 0, 0));
 		block.addComponent(new Collisions());
 		block.addComponent(new ItemDispenser(type, number, duration));
+		block.addComponent(new Audible());
 
 		return block;
 	}
@@ -118,6 +121,7 @@ public class EntityFactory
 		goomba.addComponent(new Health(1));
 		goomba.addComponent(new Globals());
 		goomba.addComponent(new Enemy());
+		goomba.addComponent(new Audible());
 
 		return goomba;
 	}
@@ -140,6 +144,7 @@ public class EntityFactory
 		para.addComponent(new Jumping(0.5f));
 		para.addComponent(new Enemy());
 		para.addComponent(new Parakoopa());
+		para.addComponent(new Audible());
 
 		return para;
 	}
@@ -158,6 +163,7 @@ public class EntityFactory
 		para.addComponent(new Globals());
 		para.addComponent(new Weapon());
 		para.addComponent(new Shell());
+		para.addComponent(new Audible());
 
 		return para;
 	}

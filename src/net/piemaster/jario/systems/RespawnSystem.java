@@ -70,6 +70,11 @@ public class RespawnSystem extends EntityProcessingSystem
 			{
 				respawn.resetTimer();
 				respawn.setActive(true);
+				
+				if(e == world.getTagManager().getEntity("PLAYER"))
+				{
+					SoundSystem.pushSound(SoundSystem.FAIL_SOUND, e);
+				}
 			}
 		}
 	}

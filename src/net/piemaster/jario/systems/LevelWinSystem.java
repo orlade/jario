@@ -10,6 +10,7 @@ import net.piemaster.jario.components.Velocity;
 import org.newdawn.slick.state.StateBasedGame;
 
 import com.artemis.ComponentMapper;
+import com.artemis.ComponentType;
 import com.artemis.ComponentTypeManager;
 import com.artemis.Entity;
 import com.artemis.EntityProcessingSystem;
@@ -44,10 +45,16 @@ public class LevelWinSystem extends EntityProcessingSystem
 
 		if (t.getX() > et.getX() && healthMapper.get(e).isAlive())
 		{
-			e.removeComponent(ComponentTypeManager.getTypeFor(InputMovement.class));
-			e.refresh();
-			e.getComponent(Physical.class).setHasFriction(false);
-			e.getComponent(Velocity.class).setX(0.1f);
+			ComponentType inputType = ComponentTypeManager.getTypeFor(InputMovement.class);
+			if(e.getComponent(inputType) != null)
+			{
+				e.removeComponent(inputType);
+				e.refresh();
+				e.getComponent(Physical.class).setHasFriction(false);
+				e.getComponent(Velocity.class).setX(0.1f);
+
+				SoundSystem.pushSound(SoundSystem.WINNER_SOUND, e);
+			}
 		}
 	}
 }

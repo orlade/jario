@@ -1,6 +1,7 @@
 package net.piemaster.jario.systems.handling;
 
 import net.piemaster.jario.components.Acceleration;
+import net.piemaster.jario.components.Audible;
 import net.piemaster.jario.components.CollisionMesh;
 import net.piemaster.jario.components.Health;
 import net.piemaster.jario.components.Item;
@@ -29,6 +30,7 @@ public abstract class EmptyHandlingSystem extends PersistentEntityHandlingSystem
 	protected ComponentMapper<CollisionMesh> meshMapper;
 	protected ComponentMapper<Item> itemMapper;
 	protected ComponentMapper<Jumping> jumpMapper;
+	protected ComponentMapper<Audible> audibleMapper;
 
 	/**
 	 * Extension constructor.
@@ -57,6 +59,7 @@ public abstract class EmptyHandlingSystem extends PersistentEntityHandlingSystem
 		meshMapper = new ComponentMapper<CollisionMesh>(CollisionMesh.class, world);
 		itemMapper = new ComponentMapper<Item>(Item.class, world);
 		jumpMapper = new ComponentMapper<Jumping>(Jumping.class, world);
+		audibleMapper = new ComponentMapper<Audible>(Audible.class, world);
 
 		// Register collision handlers
 		handlers.put(EntityType.TERRAIN.toString(), new CollisionCommand()

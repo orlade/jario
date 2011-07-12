@@ -18,6 +18,7 @@ import net.piemaster.jario.systems.LevelWinSystem;
 import net.piemaster.jario.systems.MovementSystem;
 import net.piemaster.jario.systems.RecoverySystem;
 import net.piemaster.jario.systems.RespawnSystem;
+import net.piemaster.jario.systems.SoundSystem;
 import net.piemaster.jario.systems.TimerSystem;
 import net.piemaster.jario.systems.handling.BoxHandlingSystem;
 import net.piemaster.jario.systems.handling.CoinHandlingSystem;
@@ -80,6 +81,7 @@ public class GameplayState extends BasicGameState
 	private EntitySystem semiTerrainHandlingSystem;
 
 	private EntitySystem cullingSystem;
+	private EntitySystem soundSystem;
 	private EntitySystem renderSystem;
 	private EntitySystem hudRenderSystem;
 	private EntitySystem backgroundRenderSystem;
@@ -143,6 +145,7 @@ public class GameplayState extends BasicGameState
 		boundarySystem = systemManager.setSystem(new BoundarySystem(0, 0, 3384, 600));
 		cameraSystem = systemManager.setSystem(new CameraSystem(gc));
 		
+		soundSystem = systemManager.setSystem(new SoundSystem());
 		cullingSystem = systemManager.setSystem(new CullingSystem());
 		renderSystem = systemManager.setSystem(new RenderSystem(gc));
 		hudRenderSystem = systemManager.setSystem(new HudRenderSystem(gc));
@@ -211,6 +214,9 @@ public class GameplayState extends BasicGameState
 		
 		// Cull dead and off-screen characters
 		cullingSystem.process();
+		
+		// Play sounds
+		soundSystem.process();
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException

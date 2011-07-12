@@ -34,6 +34,7 @@ public class HealthSystem extends EntityProcessingSystem
 			e.getComponent(Physical.class).setHasFriction(false);
 			e.getComponent(CollisionMesh.class).setActive(false);
 		}
+
 	}
 
 	@Override

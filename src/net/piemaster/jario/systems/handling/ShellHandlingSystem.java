@@ -4,6 +4,7 @@ import net.piemaster.jario.components.Collisions;
 import net.piemaster.jario.components.Shell;
 import net.piemaster.jario.components.Velocity;
 import net.piemaster.jario.systems.CollisionSystem.EdgeType;
+import net.piemaster.jario.systems.SoundSystem;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
@@ -63,6 +64,8 @@ public class ShellHandlingSystem extends EnemyHandlingSystem
 
 		Velocity vel = velocityMapper.get(shell);
 		vel.setX(shellMapper.get(shell).getKickSpeed() * dir);
+		
+		SoundSystem.pushSound(SoundSystem.POP_SOUND, shell);
 	}
 
 	private void kick(Entity shell, Entity collider, EdgeType collEdge)
@@ -83,5 +86,6 @@ public class ShellHandlingSystem extends EnemyHandlingSystem
 	private void stop(Entity shell)
 	{
 		velocityMapper.get(shell).setX(0);
+		SoundSystem.pushSound(SoundSystem.POP_SOUND, shell);
 	}
 }

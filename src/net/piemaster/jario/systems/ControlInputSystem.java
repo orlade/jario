@@ -84,6 +84,7 @@ public class ControlInputSystem extends EntityProcessingSystem
 			{
 				velocity.setY(-jump.getJumpFactor());
 				physical.setJumping(true);
+				SoundSystem.pushSound(SoundSystem.JUMP_SOUND, e);
 			}
 
 			// Movement
@@ -110,6 +111,7 @@ public class ControlInputSystem extends EntityProcessingSystem
 				}
 				transformMapper.get(fireball).setFacingRight(transform.isFacingRight());
 				fireball.refresh();
+				SoundSystem.pushSound(SoundSystem.LASER_SOUND, e);
 			}
 			
 			// DEBUG: Invulnerability
