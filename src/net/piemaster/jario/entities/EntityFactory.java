@@ -116,6 +116,7 @@ public class EntityFactory
 		block.addComponent(new Collisions());
 		block.addComponent(new ItemDispenser(type, number, duration));
 		block.addComponent(new Audible());
+		block.addComponent(new Timer());
 
 		return block;
 	}

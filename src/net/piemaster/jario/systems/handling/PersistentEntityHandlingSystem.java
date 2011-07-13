@@ -95,7 +95,7 @@ public abstract class PersistentEntityHandlingSystem extends EntityHandlingSyste
 	/**
 	 * Register one entity as passing through another.
 	 */
-	public void registerPassing(int passer, int passable)
+	public static void registerPassing(int passer, int passable)
 	{
 		if (!passing.containsKey(passable))
 		{
@@ -115,7 +115,7 @@ public abstract class PersistentEntityHandlingSystem extends EntityHandlingSyste
 	 *            can manually handle being hit, and delay the passing unregistration so the enemy
 	 *            doesn't notice the collision.
 	 */
-	public void unregisterPassing(Integer passer, Integer passable, boolean delay)
+	public static void unregisterPassing(Integer passer, Integer passable, boolean delay)
 	{
 		if (delay)
 		{
@@ -141,7 +141,7 @@ public abstract class PersistentEntityHandlingSystem extends EntityHandlingSyste
 	/**
 	 * Unregister one entity's state of passing through the other.
 	 */
-	public void unregisterPassing(Integer passer, Integer passable)
+	public static void unregisterPassing(Integer passer, Integer passable)
 	{
 		unregisterPassing(passer, passable, false);
 	}
@@ -153,7 +153,7 @@ public abstract class PersistentEntityHandlingSystem extends EntityHandlingSyste
 	 * @param e
 	 *            The entity to remove passers of.
 	 */
-	private void handleDelayedUnregistration(Entity e)
+	private static void handleDelayedUnregistration(Entity e)
 	{
 		Integer passable = e.getId();
 		if (delayedUnregistry.containsKey(passable))
@@ -169,7 +169,7 @@ public abstract class PersistentEntityHandlingSystem extends EntityHandlingSyste
 	/**
 	 * Is the given passer currently passing through the given passable?
 	 */
-	public boolean isPassing(Integer passer, Integer passable)
+	public static boolean isPassing(Integer passer, Integer passable)
 	{
 		return (passing.get(passable) != null && passing.get(passable).contains(passer));
 	}

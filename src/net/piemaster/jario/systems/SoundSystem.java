@@ -30,20 +30,23 @@ public class SoundSystem extends EntityProcessingSystem
 	public static final Sound WINNER_SOUND = SoundLoader.loadSound("sounds/winner.ogg");
 	public static final Sound STAR_MUSIC = SoundLoader.loadSound("sounds/star_music.ogg");
 	public static final Sound BLOCK_BREAK_SOUND = SoundLoader.loadSound("sounds/block_break.ogg");
-	
+	public static final Sound NYAN_START = SoundLoader.loadSound("sounds/nyan_start.ogg");
+
 	private static ComponentMapper<Audible> audibleMapper;
 	private static Map<Integer, List<String>> stopLoopMap;
+
+	private static Sound currentMusic;
 
 	public SoundSystem()
 	{
 		super(Audible.class);
 	}
-	
+
 	@Override
 	protected void initialize()
 	{
 		super.initialize();
-		
+
 		audibleMapper = new ComponentMapper<Audible>(Audible.class, world);
 		stopLoopMap = new HashMap<Integer, List<String>>();
 	}
@@ -52,21 +55,21 @@ public class SoundSystem extends EntityProcessingSystem
 	protected void process(Entity e)
 	{
 		Audible audible = audibleMapper.get(e);
-		for(Sound s : audible.getSounds())
+		for (Sound s : audible.getSounds())
 		{
 			s.play();
 		}
-		for(Sound s : audible.getLoops())
+		for (Sound s : audible.getLoops())
 		{
-			if(!s.playing())
+			if (!s.playing())
 			{
 				s.loop();
 			}
 		}
-		if(stopLoopMap.containsKey(e.getId()))
+		if (stopLoopMap.containsKey(e.getId()))
 		{
 			List<String> stopKeys = stopLoopMap.get(e.getId());
-			for(String key : stopKeys)
+			for (String key : stopKeys)
 			{
 				audible.stopLoop(key);
 			}
@@ -78,31 +81,61 @@ public class SoundSystem extends EntityProcessingSystem
 	public static void pushSound(Sound sound, Entity e)
 	{
 		Audible audible = audibleMapper.get(e);
-		if(audible != null)
+		if (audible != null)
 		{
 			audible.pushSound(sound);
 		}
 	}
 
+	public static void setMusic(Sound sound)
+	{
+		if (currentMusic != null)
+		{
+			currentMusic.stop();
+		}
+		currentMusic = sound;
+		currentMusic.loop();
+	}
+
+	public static void pauseMusic()
+	{
+		if (currentMusic != null && currentMusic.playing())
+			currentMusic.stop();
+	}
+
+	public static void stopMusic()
+	{
+		if (currentMusic != null && currentMusic.playing())
+		{
+			currentMusic.stop();
+			currentMusic = null;
+		}
+	}
+
+	public static void resumeMusic()
+	{
+		if (currentMusic != null && !currentMusic.playing())
+			currentMusic.loop();
+	}
+
 	public static void pushLoop(String key, Sound sound, Entity e)
 	{
 		Audible audible = audibleMapper.get(e);
-		if(audible != null)
+		if (audible != null)
 		{
 			audible.pushLoop(key, sound);
 		}
 	}
-	
+
 	public static void stopLoop(Integer entId, String key)
 	{
-		if(!stopLoopMap.containsKey(entId))
+		if (!stopLoopMap.containsKey(entId))
 		{
 			stopLoopMap.put(entId, new ArrayList<String>());
 		}
 		stopLoopMap.get(entId).add(key);
 	}
-	
-	
+
 	@Override
 	protected boolean checkProcessing()
 	{

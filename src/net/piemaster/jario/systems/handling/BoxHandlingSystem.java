@@ -58,7 +58,7 @@ public class BoxHandlingSystem extends EmptyHandlingSystem
 					d.setOutVelocityX(0.2f);
 					SoundSystem.pushSound(SoundSystem.ITEM_WOOP_SOUND, box);
 					break;
-					
+
 				default:
 					Log.warn("Unknown item type: " + holder.getType());
 					return;
@@ -67,7 +67,9 @@ public class BoxHandlingSystem extends EmptyHandlingSystem
 
 				// Set the item as dispensing
 				item.addComponent(d);
-				meshMapper.get(item).setActive(false);
+				// Set the item as passing through the box
+				registerPassing(item.getId(), box.getId());
+
 				spatialMapper.get(item).pushLoadedCallback(new Runnable()
 				{
 					@Override

@@ -2,6 +2,7 @@ package net.piemaster.jario.states;
 
 import net.piemaster.jario.Jario;
 import net.piemaster.jario.loader.ImageLoader;
+import net.piemaster.jario.systems.SoundSystem;
 
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.GameContainer;
@@ -59,6 +60,7 @@ public class MainMenuState extends BasicGameState
 		super.enter(container, game);
 		
 		container.getInput().resetInputTransform();
+		SoundSystem.setMusic(SoundSystem.NYAN_START);
 	}
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException
@@ -106,6 +108,7 @@ public class MainMenuState extends BasicGameState
 
 	protected void playGame()
 	{
+		SoundSystem.pauseMusic();
 		sbg.enterState(Jario.GAMEPLAYSTATE);
 	}
 

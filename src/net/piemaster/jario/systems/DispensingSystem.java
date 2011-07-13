@@ -1,6 +1,5 @@
 package net.piemaster.jario.systems;
 
-import net.piemaster.jario.components.CollisionMesh;
 import net.piemaster.jario.components.Dispensing;
 import net.piemaster.jario.components.Physical;
 import net.piemaster.jario.components.Velocity;
@@ -32,7 +31,6 @@ public class DispensingSystem extends EntityProcessingSystem
 		{
 			e.getComponent(Physical.class).setHasGravity(true);
 			e.getComponent(Velocity.class).setBoth(d.getOutVelocityX(), d.getOutVelocityY());
-			e.getComponent(CollisionMesh.class).setActive(true);
 			e.removeComponent(d);
 			e.refresh();
 		}

@@ -162,6 +162,8 @@ public class GameplayState extends BasicGameState
 		// Load the map
 		lvlBuilder = new LevelBuilder(world);
 		lvlBuilder.initialize();
+		
+		// Start the music
 	}
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException
