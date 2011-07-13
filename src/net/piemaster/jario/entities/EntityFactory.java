@@ -160,6 +160,7 @@ public class EntityFactory
 		para.addComponent(new SpatialForm("Shell"));
 		para.addComponent(new CollisionMesh(x, y, 0, 0));
 		para.addComponent(new Collisions());
+		para.addComponent(new Health(1));
 		para.addComponent(new Globals());
 		para.addComponent(new Weapon());
 		para.addComponent(new Shell());

@@ -48,8 +48,8 @@ block 2720 144 32 32
 block 2752 144 32 32
 block 2784 144 32 32
 
-goomba 2520 112
-goomba 2608 220
+goomba 2510 196
+goomba 2608 114
 
 block 2816 144 32 32
 block 2848 144 32 32
@@ -72,6 +72,31 @@ itembox 3488 144 32 32 MUSHROOM
 koopa 3382 368
 
 block 3776 272 32 32
+
+block 3872 144 32 32
+block 3904 144 32 32
+block 3936 144 32 32
+
+
+block 4096 144 32 32
+itembox 4128 144 32 32
+itembox 4160 144 32 32
+block 4192 144 32 32
+
+block 4128 272 32 32
+block 4160 272 32 32
+
+block 5216 336 64 64
+
+block 5376 272 32 32
+block 5408 272 32 32
+itembox 5440 272 32 32
+block 5472 272 32 32
+
+goomba 5542 368
+goomba 5588 368
+
+block 5728 336 64 64
 
 goomba 3950 368
 goomba 3994 368

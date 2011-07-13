@@ -25,6 +25,7 @@ public class SoundSystem extends EntityProcessingSystem
 	public static final Sound SLIDE_POP_SOUND = SoundLoader.loadSound("sounds/slide_pop.wav");
 	public static final Sound LASER_SOUND = SoundLoader.loadSound("sounds/laser.wav");
 	public static final Sound ITEM_WOOP_SOUND = SoundLoader.loadSound("sounds/item_woop.ogg");
+	public static final Sound QUIET_CLICK_SOUND = SoundLoader.loadSound("sounds/quiet_click.wav");
 	public static final Sound FAIL_SOUND = SoundLoader.loadSound("sounds/fail.ogg");
 	public static final Sound WINNER_SOUND = SoundLoader.loadSound("sounds/winner.ogg");
 	public static final Sound STAR_MUSIC = SoundLoader.loadSound("sounds/star_music.ogg");

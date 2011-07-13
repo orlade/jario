@@ -1,6 +1,8 @@
 package net.piemaster.jario.systems.handling;
 
 import net.piemaster.jario.components.Collisions;
+import net.piemaster.jario.components.Invulnerable;
+import net.piemaster.jario.components.Recovering;
 import net.piemaster.jario.components.Shell;
 import net.piemaster.jario.components.Velocity;
 import net.piemaster.jario.systems.CollisionSystem.EdgeType;
@@ -30,12 +32,33 @@ public class ShellHandlingSystem extends EnemyHandlingSystem
 	@Override
 	protected void handlePlayerCollision(Entity shell, Entity player, EdgeType edge)
 	{
-		Velocity vel = velocityMapper.get(shell);
-
-		if (vel.getX() == 0)
-			kick(shell, player, edge);
-		else if (edge == EdgeType.EDGE_TOP)
-			stop(shell);
+		if(player.getComponent(Recovering.class) != null)
+			return;
+		
+		Invulnerable invuln = player.getComponent(Invulnerable.class);
+		if(invuln != null)
+		{
+			if(!invuln.isDeadly())
+				return;
+			else
+			{
+				// Let the HealthSystem do the generic death stuff
+				healthMapper.get(shell).addDamage(1);
+				velocityMapper.get(shell).setY(-0.3f);
+				EdgeType sideEdge = determineSideEdge(shell, player, edge);
+				velocityMapper.get(shell).setX(0.1f * (sideEdge == EdgeType.EDGE_LEFT ? 1 : -1));
+				SoundSystem.pushSound(SoundSystem.POP_SOUND, shell);
+			}
+		}
+		else
+		{
+			Velocity vel = velocityMapper.get(shell);
+			
+			if (vel.getX() == 0)
+				kick(shell, player, edge);
+			else if (edge == EdgeType.EDGE_TOP)
+				stop(shell);
+		}
 	}
 
 	@Override
@@ -55,6 +78,17 @@ public class ShellHandlingSystem extends EnemyHandlingSystem
 				kick(shell, edge);
 		}
 	}
+	
+	@Override
+	protected void handleTerrainCollision(Entity shell, Entity terrain, EdgeType edge)
+	{
+		super.handleTerrainCollision(shell, terrain, edge);
+		
+		if(edge == EdgeType.EDGE_LEFT || edge == EdgeType.EDGE_RIGHT)
+		{
+			SoundSystem.pushSound(SoundSystem.QUIET_CLICK_SOUND, shell);
+		}
+	}
 
 	// -------------------------------------------------------------------------
 
@@ -72,15 +106,23 @@ public class ShellHandlingSystem extends EnemyHandlingSystem
 	{
 		placeEntityOnOther(shell, collider, reverseEdge(collEdge));
 
+		kick(shell, determineSideEdge(shell, collider, collEdge));
+	}
+	
+	private EdgeType determineSideEdge(Entity shell, Entity collider, EdgeType collEdge)
+	{
 		if (collEdge == EdgeType.EDGE_TOP || collEdge == EdgeType.EDGE_BOTTOM)
 		{
 			float cMid = transformMapper.get(collider).getX()
 					+ spatialMapper.get(collider).getWidth() / 2;
 			float sMid = transformMapper.get(shell).getX() + spatialMapper.get(shell).getWidth()
 					/ 2;
-			collEdge = (cMid < sMid) ? EdgeType.EDGE_LEFT : EdgeType.EDGE_RIGHT;
+			return (cMid < sMid) ? EdgeType.EDGE_LEFT : EdgeType.EDGE_RIGHT;
 		}
-		kick(shell, collEdge);
+		else
+		{
+			return collEdge;
+		}
 	}
 
 	private void stop(Entity shell)
