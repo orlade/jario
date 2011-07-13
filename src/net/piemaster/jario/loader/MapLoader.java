@@ -89,10 +89,14 @@ public class MapLoader
 			w = Integer.parseInt(scanner.next());
 			h = Integer.parseInt(scanner.next());
 		}
-		
+
 		if(type.equals("block"))
 		{
 			e = EntityFactory.createBlock(world, x, y, w, h);
+		}
+		else if(type.equals("terrain"))
+		{
+			e = EntityFactory.createTerrain(world, x, y, w, h);
 		}
 		else if(type.equals("platform"))
 		{
@@ -105,6 +109,10 @@ public class MapLoader
 		else if(type.equals("parakoopa"))
 		{
 			e = EntityFactory.createParakoopa(world, x, y);
+		}
+		else if(type.equals("koopa"))
+		{
+			e = EntityFactory.createKoopa(world, x, y);
 		}
 		else if(type.equals("itembox"))
 		{

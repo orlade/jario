@@ -18,6 +18,7 @@ import net.piemaster.jario.systems.RecoverySystem;
 import net.piemaster.jario.systems.RespawnSystem;
 import net.piemaster.jario.systems.SoundSystem;
 import net.piemaster.jario.systems.TimerSystem;
+import net.piemaster.jario.systems.handling.BlockHandlingSystem;
 import net.piemaster.jario.systems.handling.BoxHandlingSystem;
 import net.piemaster.jario.systems.handling.CoinHandlingSystem;
 import net.piemaster.jario.systems.handling.EnemyHandlingSystem;
@@ -75,6 +76,7 @@ public class GameplayState extends BasicGameState
 	private EntitySystem coinHandlingSystem;
 	private EntitySystem shellHandlingSystem;
 	private EntitySystem weaponHandlingSystem;
+	private EntitySystem blockHandlingSystem;
 	private EntitySystem boxHandlingSystem;
 	private EntitySystem semiTerrainHandlingSystem;
 
@@ -139,6 +141,7 @@ public class GameplayState extends BasicGameState
 		coinHandlingSystem = systemManager.setSystem(new CoinHandlingSystem());
 		weaponHandlingSystem = systemManager.setSystem(new WeaponHandlingSystem());
 		boxHandlingSystem = systemManager.setSystem(new BoxHandlingSystem());
+		blockHandlingSystem = systemManager.setSystem(new BlockHandlingSystem());
 		semiTerrainHandlingSystem = systemManager.setSystem(new SemiTerrainHandlingSystem());
 
 		boundarySystem = systemManager.setSystem(new BoundarySystem(0, 0, 6768, 450));
@@ -188,6 +191,7 @@ public class GameplayState extends BasicGameState
 		weaponHandlingSystem.process();
 		
 		semiTerrainHandlingSystem.process();
+		blockHandlingSystem.process();
 		boxHandlingSystem.process();
 		
 		parakoopaHandlingSystem.process();

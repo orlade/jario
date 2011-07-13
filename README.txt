@@ -51,15 +51,15 @@
  	3. TODO
    ---------
  	
- - Add breakable blocks
- - Add semi-passable blocks
+ - [Add breakable blocks]
+ - [Add semi-passable blocks]
  - Add moving blocks
- - Add more level geometry
+ - [Add more level geometry]
  - Add high scores
  - [Add invulnerability stars]
  - Add [level end], more levels and transitions
- - Add more efficient (paged) level scrolling, enemy suspension
- - Implement some kind of collision memory for greater accuracy
+ - [Add more efficient (paged) level scrolling, enemy suspension]
+ - [Implement some kind of collision memory for greater accuracy]
  - Fix reset/add New Game option
  - So much else...
  
@@ -90,3 +90,4 @@
   - Winner - http://www.freesound.org/samplesViewSingle.php?id=33108
   - Star music - http://www.freesound.org/samplesViewSingle.php?id=94274
   - Quiet click - http://www.freesound.org/samplesViewSingle.php?id=407
+  - Block break - http://www.freesound.org/samplesViewSingle.php?id=18178

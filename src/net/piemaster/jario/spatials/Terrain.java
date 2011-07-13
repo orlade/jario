@@ -11,14 +11,14 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.World;
 
-public class Block extends Spatial
+public class Terrain extends Spatial
 {
 	private Transform transform;
 	private Polygon polygon;
 	private int width;
 	private int height;
 
-	public Block(World world, Entity owner, int width, int height)
+	public Terrain(World world, Entity owner, int width, int height)
 	{
 		super(world, owner);
 

@@ -13,6 +13,7 @@ import net.piemaster.jario.components.Health;
 import net.piemaster.jario.components.InputMovement;
 import net.piemaster.jario.components.Item;
 import net.piemaster.jario.components.Item.ItemType;
+import net.piemaster.jario.components.Breakable;
 import net.piemaster.jario.components.ItemDispenser;
 import net.piemaster.jario.components.Jumping;
 import net.piemaster.jario.components.Meta;
@@ -61,13 +62,27 @@ public class EntityFactory
 		return player;
 	}
 
+	public static Entity createTerrain(World world, float x, float y, int width, int height)
+	{
+		Entity block = world.createEntity();
+		block.setGroup(EntityType.TERRAIN.toString());
+		block.addComponent(new Transform(x, y));
+		block.addComponent(new SpatialForm("Terrain", width, height));
+		block.addComponent(new CollisionMesh(x, y, width, height));
+
+		return block;
+	}
+
 	public static Entity createBlock(World world, float x, float y, int width, int height)
 	{
 		Entity block = world.createEntity();
 		block.setGroup(EntityType.TERRAIN.toString());
 		block.addComponent(new Transform(x, y));
-		block.addComponent(new SpatialForm("Block", width, height));
-		block.addComponent(new CollisionMesh(x, y, width, height));
+		block.addComponent(new SpatialForm("Block"));
+		block.addComponent(new CollisionMesh(x, y, 0, 0));
+		block.addComponent(new Collisions());
+		block.addComponent(new Breakable());
+		block.addComponent(new Audible());
 
 		return block;
 	}
@@ -149,6 +164,28 @@ public class EntityFactory
 		return para;
 	}
 
+	public static Entity createKoopa(World world, float x, float y)
+	{
+		float koopaAccel = -0.001f;
+
+		Entity para = world.createEntity();
+		para.setGroup(EntityType.ENEMY.toString());
+		para.addComponent(new Transform(x, y));
+		para.addComponent(new Velocity(0, 0));
+		para.addComponent(new Acceleration(koopaAccel, 0, true));
+		para.addComponent(new Physical(true, true));
+		para.addComponent(new SpatialForm("Parakoopa", ""));
+		para.addComponent(new CollisionMesh(x, y, 0, 0));
+		para.addComponent(new Collisions());
+		para.addComponent(new Health(1));
+		para.addComponent(new Globals());
+		para.addComponent(new Enemy());
+		para.addComponent(new Parakoopa());
+		para.addComponent(new Audible());
+
+		return para;
+	}
+
 	public static Entity createShell(World world, float x, float y)
 	{
 		Entity para = world.createEntity();
@@ -160,7 +197,6 @@ public class EntityFactory
 		para.addComponent(new SpatialForm("Shell"));
 		para.addComponent(new CollisionMesh(x, y, 0, 0));
 		para.addComponent(new Collisions());
-		para.addComponent(new Health(1));
 		para.addComponent(new Globals());
 		para.addComponent(new Weapon());
 		para.addComponent(new Shell());

@@ -1,6 +1,7 @@
 package net.piemaster.jario.systems.handling;
 
 import net.piemaster.jario.components.Collisions;
+import net.piemaster.jario.components.Health;
 import net.piemaster.jario.components.Invulnerable;
 import net.piemaster.jario.components.Recovering;
 import net.piemaster.jario.components.Shell;
@@ -43,7 +44,8 @@ public class ShellHandlingSystem extends EnemyHandlingSystem
 			else
 			{
 				// Let the HealthSystem do the generic death stuff
-				healthMapper.get(shell).addDamage(1);
+				shell.addComponent(new Health(0f));
+				shell.refresh();
 				velocityMapper.get(shell).setY(-0.3f);
 				EdgeType sideEdge = determineSideEdge(shell, player, edge);
 				velocityMapper.get(shell).setX(0.1f * (sideEdge == EdgeType.EDGE_LEFT ? 1 : -1));

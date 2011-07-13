@@ -29,6 +29,7 @@ public class SoundSystem extends EntityProcessingSystem
 	public static final Sound FAIL_SOUND = SoundLoader.loadSound("sounds/fail.ogg");
 	public static final Sound WINNER_SOUND = SoundLoader.loadSound("sounds/winner.ogg");
 	public static final Sound STAR_MUSIC = SoundLoader.loadSound("sounds/star_music.ogg");
+	public static final Sound BLOCK_BREAK_SOUND = SoundLoader.loadSound("sounds/block_break.ogg");
 	
 	private static ComponentMapper<Audible> audibleMapper;
 	private static Map<Integer, List<String>> stopLoopMap;

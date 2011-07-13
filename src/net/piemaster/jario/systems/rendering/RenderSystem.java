@@ -4,6 +4,7 @@ import net.piemaster.jario.components.CollisionMesh;
 import net.piemaster.jario.components.Item.ItemType;
 import net.piemaster.jario.components.SpatialForm;
 import net.piemaster.jario.spatials.Block;
+import net.piemaster.jario.spatials.Terrain;
 import net.piemaster.jario.spatials.Coin;
 import net.piemaster.jario.spatials.Fireball;
 import net.piemaster.jario.spatials.Flower;
@@ -145,9 +146,13 @@ public class RenderSystem extends EntityProcessingSystem
 		}
 		else if ("Block".equalsIgnoreCase(spatialFormFile))
 		{
+			return setupGenericSpatialEntity(e, new Block(world, e));
+		}
+		else if ("Terrain".equalsIgnoreCase(spatialFormFile))
+		{
 			int width = (int) e.getComponent(SpatialForm.class).getWidth();
 			int height = (int) e.getComponent(SpatialForm.class).getHeight();
-			return new Block(world, e, width, height);
+			return new Terrain(world, e, width, height);
 		}
 		else if ("Platform".equalsIgnoreCase(spatialFormFile))
 		{
