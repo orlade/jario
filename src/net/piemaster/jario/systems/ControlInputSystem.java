@@ -117,7 +117,7 @@ public class ControlInputSystem extends EntityProcessingSystem
 			// DEBUG: Invulnerability
 			if (input.isKeyPressed(Input.KEY_I))
 			{
-				InvulnerabilityHandler.setTemporaryInvulnerability(world, e, 2000, true);
+				InvulnerabilityHandler.setTemporaryInvulnerability(world, e, 2000, true, true);
 			}
 			// DEBUG: Move
 			if (input.isKeyPressed(Input.KEY_L))

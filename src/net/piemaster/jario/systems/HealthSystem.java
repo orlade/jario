@@ -2,6 +2,7 @@ package net.piemaster.jario.systems;
 
 import net.piemaster.jario.components.CollisionMesh;
 import net.piemaster.jario.components.Health;
+import net.piemaster.jario.components.Invulnerable;
 import net.piemaster.jario.components.Physical;
 
 import com.artemis.ComponentMapper;
@@ -33,6 +34,12 @@ public class HealthSystem extends EntityProcessingSystem
 			e.getComponent(Physical.class).setGrounded(false);
 			e.getComponent(Physical.class).setHasFriction(false);
 			e.getComponent(CollisionMesh.class).setActive(false);
+
+			Invulnerable invuln = e.getComponent(Invulnerable.class);
+			if(invuln != null)
+			{
+				e.removeComponent(invuln);
+			}
 		}
 
 	}

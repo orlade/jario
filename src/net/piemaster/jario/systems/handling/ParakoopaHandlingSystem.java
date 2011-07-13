@@ -27,12 +27,11 @@ public class ParakoopaHandlingSystem extends EnemyHandlingSystem
 		{
 			physicalMapper.get(e).setBouncyVertical(false);
 			spatialMapper.get(e).setCurrentState("");
-//			e.removeComponent(ComponentTypeManager.getTypeFor(Parakoopa.class));
-//			e.addComponent(new Koopa());
-//			e.refresh();
 		}
+		
 		// If dead, convert to shell
-		if(!health.isAlive())
+		// Note: Don't convert to shell if health < 0
+		if(health.getHealth() == 0)
 		{
 			world.deleteEntity(e);
 			Transform t = transformMapper.get(e);

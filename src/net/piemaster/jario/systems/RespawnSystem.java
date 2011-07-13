@@ -48,7 +48,6 @@ public class RespawnSystem extends EntityProcessingSystem
 				transformMapper.get(e).setLocation(respawn.getRespawnX(), respawn.getRespawnY());
 				transformMapper.get(e).setRotation(0);
 				healthMapper.get(e).resetHealth();
-				healthMapper.get(e).setInvulnerable(false);
 				spatialMapper.get(e).setVisible(true);
 				e.getComponent(Physical.class).setHasFriction(true);
 
@@ -70,10 +69,11 @@ public class RespawnSystem extends EntityProcessingSystem
 			{
 				respawn.resetTimer();
 				respawn.setActive(true);
-				
+
 				if(e == world.getTagManager().getEntity("PLAYER"))
 				{
 					SoundSystem.pushSound(SoundSystem.FAIL_SOUND, e);
+					SoundSystem.stopLoop(e.getId(), "star_music");
 				}
 			}
 		}

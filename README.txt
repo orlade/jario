@@ -88,3 +88,4 @@
   - Item woop - http://www.freesound.org/samplesViewSingle.php?id=31881
   - Fail - http://www.freesound.org/samplesViewSingle.php?id=31879
   - Winner - http://www.freesound.org/samplesViewSingle.php?id=33108
+  - Star music - http://www.freesound.org/samplesViewSingle.php?id=94274

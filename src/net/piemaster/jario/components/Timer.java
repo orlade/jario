@@ -49,6 +49,7 @@ public class Timer extends Component
 		return triggerMap.entrySet();
 	}
 
+	// TODO Maybe make a (static?) method of TimerSystem
 	public void registerTrigger(int delay, String trigger)
 	{
 		int key = time + delay;
@@ -70,6 +71,7 @@ public class Timer extends Component
 	 * @param trigger
 	 *            The trigger string to erase.
 	 */
+	// TODO Maybe make a (static?) method of TimerSystem
 	public void unregisterTrigger(String trigger)
 	{
 		ArrayList<Integer> popKeys = new ArrayList<Integer>();

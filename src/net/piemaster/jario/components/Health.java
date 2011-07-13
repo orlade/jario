@@ -6,7 +6,6 @@ public class Health extends Component
 {
 	private float health;
 	private float maximumHealth;
-	private boolean invulnerable;
 
 	public Health(float health)
 	{
@@ -34,12 +33,7 @@ public class Health extends Component
 	 */
 	public void addDamage(int damage)
 	{
-		if(!invulnerable || damage < 0)
-		{
-			health -= damage;
-			if (health < 0)
-				health = 0;
-		}
+		health -= damage;
 	}
 
 	public void resetHealth()
@@ -55,15 +49,5 @@ public class Health extends Component
 	public boolean isAlive()
 	{
 		return health > 0;
-	}
-
-	public boolean isInvulnerable()
-	{
-		return invulnerable;
-	}
-
-	public void setInvulnerable(boolean invulnerable)
-	{
-		this.invulnerable = invulnerable;
 	}
 }
