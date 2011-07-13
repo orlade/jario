@@ -2,6 +2,8 @@ package net.piemaster.jario.states;
 
 import net.piemaster.jario.Jario;
 import net.piemaster.jario.loader.ImageLoader;
+import net.piemaster.jario.scores.LocalSimpleHighScores;
+import net.piemaster.jario.scores.SimpleHighScores;
 import net.piemaster.jario.systems.SoundSystem;
 
 import org.lwjgl.input.Keyboard;
@@ -22,11 +24,14 @@ public class MainMenuState extends BasicGameState
 
 	private GameContainer gc;
 	private StateBasedGame sbg;
-
+	private SimpleHighScores scores;
+	
 	private int playX;
 	private int playY;
 	private int exitX;
 	private int exitY;
+	
+	private int highScore;
 
 	public MainMenuState(int stateID)
 	{
@@ -52,6 +57,8 @@ public class MainMenuState extends BasicGameState
 		playY = 200;
 		exitX = gc.getWidth() - 150;
 		exitY = gc.getHeight() - 60;
+		
+		scores = new LocalSimpleHighScores();
 	}
 	
 	@Override
@@ -61,6 +68,14 @@ public class MainMenuState extends BasicGameState
 		
 		container.getInput().resetInputTransform();
 		SoundSystem.setMusic(SoundSystem.NYAN_START);
+		highScore = scores.getHighScore();
+	}
+	
+	@Override
+	public void leave(GameContainer container, StateBasedGame game) throws SlickException
+	{
+		super.leave(container, game);
+		SoundSystem.stopMusic();
 	}
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException
@@ -72,6 +87,8 @@ public class MainMenuState extends BasicGameState
 		backgroundImage.draw(0, 0);
 		playImage.draw(playX, playY);
 		exitImage.draw(exitX, exitY);
+		
+		g.drawString("High score: "+highScore, 32, gc.getHeight() - 32);
 	}
 
 	@Override

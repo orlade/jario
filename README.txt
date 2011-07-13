@@ -51,17 +51,11 @@
  	3. TODO
    ---------
  	
- - [Add breakable blocks]
- - [Add semi-passable blocks]
  - Add moving blocks
- - [Add more level geometry]
  - Add high scores
- - [Add invulnerability stars]
  - Add [level end], more levels and transitions
- - [Add more efficient (paged) level scrolling, enemy suspension]
- - [Implement some kind of collision memory for greater accuracy]
  - Fix reset/add New Game option
- - So much else...
+ - A couple other things, I guess
  
  
  	4. ACKNOWLEDGEMENTS
