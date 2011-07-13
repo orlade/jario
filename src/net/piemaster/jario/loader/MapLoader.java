@@ -1,6 +1,8 @@
 package net.piemaster.jario.loader;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import net.piemaster.jario.components.Item.ItemType;
@@ -8,6 +10,7 @@ import net.piemaster.jario.entities.EntityFactory;
 
 import org.newdawn.slick.util.Log;
 
+import com.artemis.Entity;
 import com.artemis.World;
 
 public class MapLoader
@@ -15,10 +18,13 @@ public class MapLoader
 	private static final char IGNORE_CHAR = '#';
 
 	private World world;
+	
+	private List<Entity> contents;
 
 	public MapLoader(World world)
 	{
 		this.world = world;
+		contents = new ArrayList<Entity>();
 	}
 
 	/**
@@ -28,7 +34,7 @@ public class MapLoader
 	 *            The path to the map file.
 	 * @throws FileNotFoundException
 	 */
-	public void buildMap(String mapFile) throws FileNotFoundException
+	public List<Entity> buildMap(String mapFile) throws FileNotFoundException
 	{
 		Scanner scanner = new Scanner(getClass().getResourceAsStream(mapFile));
 		try
@@ -37,6 +43,7 @@ public class MapLoader
 			{
 				processLine(scanner.nextLine());
 			}
+			return contents;
 		}
 		finally
 		{
@@ -52,6 +59,8 @@ public class MapLoader
 	 */
 	private void processLine(String line)
 	{
+		Entity e = null;
+		
 		// Remove anything following a hash
 		int index = line.indexOf(IGNORE_CHAR);
 		if (index != -1)
@@ -83,19 +92,19 @@ public class MapLoader
 		
 		if(type.equals("block"))
 		{
-			EntityFactory.createBlock(world, x, y, w, h).refresh();
+			e = EntityFactory.createBlock(world, x, y, w, h);
 		}
 		else if(type.equals("platform"))
 		{
-			EntityFactory.createPlatform(world, x, y, w, h).refresh();
+			e = EntityFactory.createPlatform(world, x, y, w, h);
 		}
 		else if(type.equals("goomba"))
 		{
-			EntityFactory.createGoomba(world, x, y).refresh();
+			e = EntityFactory.createGoomba(world, x, y);
 		}
 		else if(type.equals("parakoopa"))
 		{
-			EntityFactory.createParakoopa(world, x, y).refresh();
+			e = EntityFactory.createParakoopa(world, x, y);
 		}
 		else if(type.equals("itembox"))
 		{
@@ -110,23 +119,30 @@ public class MapLoader
 			if(scanner.hasNext())
 				duration = Integer.parseInt(scanner.next());
 			
-			EntityFactory.createItemBox(world, x, y, itemType, num, duration).refresh();
+			e = EntityFactory.createItemBox(world, x, y, itemType, num, duration);
 		}
 		else if(type.equals("player"))
 		{
-			EntityFactory.createPlayer(world, x, y).refresh();
+			e = EntityFactory.createPlayer(world, x, y);
 		}
 		else if(type.equals("start"))
 		{
-			EntityFactory.createStartPoint(world, x, y).refresh();
+			e = EntityFactory.createStartPoint(world, x, y);
 		}
 		else if(type.equals("end"))
 		{
-			EntityFactory.createEndPoint(world, x, y).refresh();
+			e = EntityFactory.createEndPoint(world, x, y);
 		}
 		else
 		{
 			Log.warn("MAP LOADER: Cannot create entity, unknown type: '"+type+"'");
 		}
+		
+		// Add the entity to the list of contents
+		if(e != null)
+		{
+			contents.add(e);
+		}
 	}
+	
 }

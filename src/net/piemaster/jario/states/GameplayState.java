@@ -1,9 +1,7 @@
 package net.piemaster.jario.states;
 
-import java.io.FileNotFoundException;
-
 import net.piemaster.jario.Jario;
-import net.piemaster.jario.loader.MapLoader;
+import net.piemaster.jario.loader.LevelBuilder;
 import net.piemaster.jario.systems.BoundarySystem;
 import net.piemaster.jario.systems.CameraSystem;
 import net.piemaster.jario.systems.CollisionMeshSystem;
@@ -92,6 +90,7 @@ public class GameplayState extends BasicGameState
 
 	private EntitySystem boundarySystem;
 	private EntitySystem cameraSystem;
+	private LevelBuilder lvlBuilder;
 	
 	private boolean debug = false;
 
@@ -158,15 +157,8 @@ public class GameplayState extends BasicGameState
 		systemManager.initializeAll();
 
 		// Load the map
-		MapLoader loader = new MapLoader(world);
-		try
-		{
-			loader.buildMap("/levels/level_1.map");
-		}
-		catch (FileNotFoundException e)
-		{
-			e.printStackTrace();
-		}
+		lvlBuilder = new LevelBuilder(world);
+		lvlBuilder.initialize();
 	}
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException
@@ -174,6 +166,9 @@ public class GameplayState extends BasicGameState
 		world.loopStart();
 
 		world.setDelta(delta);
+		
+		// Build any new level contents
+		lvlBuilder.update();
 		
 		// Handle input
 		controlSystem.process();
